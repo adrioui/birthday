@@ -18,7 +18,7 @@ export const SnapButton = forwardRef<HTMLButtonElement, SnapButtonProps>(
         <div
           className={`
             size-24 rounded-full 
-            bg-gradient-to-b from-hot-pink to-[#be0072] 
+            bg-gradient-to-b from-[#FF0099] to-[#be0072] 
             shadow-[0_8px_0_#83004f,0_15px_20px_rgba(0,0,0,0.3)] 
             border-4 border-white/20 
             flex items-center justify-center 

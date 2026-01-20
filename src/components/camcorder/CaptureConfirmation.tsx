@@ -59,21 +59,21 @@ export function CaptureConfirmation({
       role="status"
       aria-live="polite"
     >
-      <div className="flex items-center gap-3 bg-deep-black border-2 border-lime rounded-xl p-3 shadow-[4px_4px_0_#CCFF00]">
-        <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-white/20 flex-shrink-0">
+      <div className="flex items-center gap-3 bg-deep-black/90 backdrop-blur-sm border-2 border-[#CCFF00] rounded-none shadow-[4px_4px_0_#CCFF00] p-3 ring-2 ring-black/50">
+        <div className="w-16 h-16 rounded-none border-2 border-white/20 flex-shrink-0 bg-black">
           <img 
             src={imageUrl} 
             alt="Captured photo" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover pixelated"
           />
         </div>
         
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="text-lime text-2xl">✓</span>
-            <span className="font-pixel text-2xl text-white tracking-wider">SAVED!</span>
+            <span className="text-[#CCFF00] text-2xl drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]">✓</span>
+            <span className="font-pixel text-2xl text-white tracking-wider drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]">SAVED!</span>
           </div>
-          <span className="font-display text-xs text-white/60 uppercase tracking-wider">
+          <span className="font-pixel text-[10px] text-white/80 uppercase tracking-widest mt-1">
             Tap to dismiss
           </span>
         </div>

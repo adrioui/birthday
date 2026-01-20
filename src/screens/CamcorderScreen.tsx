@@ -98,33 +98,39 @@ export function CamcorderScreen() {
         />
         
         {cameraReady && (
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-4 left-4 bg-deep-black/70 px-3 py-1 rounded font-pixel text-red-500 text-lg animate-pulse">
+          <div className="absolute inset-0 pointer-events-none z-10">
+            {/* Scanlines */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 background-size-[100%_2px,3px_100%] pointer-events-none" />
+            
+            <div className="absolute top-4 left-4 bg-deep-black/70 px-3 py-1 rounded-sm font-pixel text-[#FF0099] text-lg animate-pulse border border-[#FF0099]/30">
               ● REC
             </div>
-            <div className="absolute top-4 right-4 font-pixel text-white text-sm bg-deep-black/70 px-2 py-1 rounded">
+            <div className="absolute top-4 right-4 font-pixel text-[#CCFF00] text-sm bg-deep-black/70 px-2 py-1 rounded-sm border border-[#CCFF00]/30 shadow-[0_0_10px_rgba(204,255,0,0.2)]">
               {new Date().toLocaleTimeString()}
             </div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-50">
-              <div className="w-16 h-16 border-2 border-white rounded-lg" />
-              <div className="absolute w-1 h-1 bg-white rounded-full" />
-              <div className="absolute w-8 h-0.5 bg-white/50" />
-              <div className="absolute w-0.5 h-8 bg-white/50" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-40">
+              <div className="w-16 h-16 border-2 border-white/50 rounded-lg" />
+              <div className="absolute w-1 h-1 bg-white/50 rounded-full" />
+              <div className="absolute w-12 h-0.5 bg-white/30" />
+              <div className="absolute w-0.5 h-12 bg-white/30" />
             </div>
           </div>
         )}
 
         {!cameraReady && !cameraError && (
           <div className="absolute inset-0 flex items-center justify-center bg-deep-black">
-            <div className="font-pixel text-white">Initializing camera...</div>
+            <div className="font-pixel text-[#CCFF00] animate-pulse">Initializing camera...</div>
           </div>
         )}
       </div>
 
-      <div className="relative z-50 w-full p-6 pb-12 bg-gradient-to-t from-periwinkle-dark/90 via-periwinkle-dark/50 to-transparent flex flex-col items-center justify-center gap-6">
+      <div className="relative z-50 w-full p-6 pb-12 bg-[#C3C7CB] border-t-4 border-white/20 flex flex-col items-center justify-center gap-6 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
+        {/* Chrome Bar aesthetics */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50" />
+        
         <div className="flex items-center justify-center gap-8 w-full">
-          <button className="text-deep-black opacity-60 hover:opacity-100 transition-all">
-            <span className="material-symbols-outlined text-4xl">collections</span>
+          <button className="group relative w-14 h-14 rounded-full bg-gradient-to-b from-[#E0E0E0] to-[#BDBDBD] border-2 border-white/40 shadow-[0_4px_0_#9e9e9e] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center">
+             <span className="material-symbols-outlined text-2xl text-deep-black group-hover:scale-110 transition-transform">collections</span>
           </button>
           
           <SnapButton 
@@ -132,8 +138,8 @@ export function CamcorderScreen() {
             disabled={isCapturing || showFlash || !cameraReady}
           />
           
-          <button className="text-deep-black opacity-60 hover:opacity-100 transition-all">
-            <span className="material-symbols-outlined text-4xl">cached</span>
+          <button className="group relative w-14 h-14 rounded-full bg-gradient-to-b from-[#E0E0E0] to-[#BDBDBD] border-2 border-white/40 shadow-[0_4px_0_#9e9e9e] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center">
+            <span className="material-symbols-outlined text-2xl text-deep-black group-hover:rotate-180 transition-transform duration-500">cached</span>
           </button>
         </div>
       </div>
