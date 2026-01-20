@@ -1,0 +1,63 @@
+{
+  "style_name": "Y2K Cyber-Pop & Neo-Brutalist Hybrid",
+  "version": "2.0.0",
+  "pillars": {
+    "texture": "Mixed-media: CRT scanlines, 16-bit pixelation, glossy 3D chrome, and gritty paper halftone",
+    "iconography": "Teen-Tech gadgets (flip phones, camcorders, headphones) + Retro OS UI elements",
+    "composition": "Sticker-bomb collage, overlapping layers, and cascading system windows"
+  },
+  "color_palette": {
+    "primary": {
+      "lime_green": "#CCFF00",
+      "hot_pink": "#FF0099",
+      "periwinkle": "#CCCCFF"
+    },
+    "system": {
+      "win95_grey": "#C3C7CB",
+      "hyperlink_blue": "#0000FF",
+      "terminal_green": "#33FF33"
+    },
+    "accents": {
+      "silver_chrome": "linear-gradient(135deg, #E0E0E0, #BDBDBD, #FFFFFF)",
+      "deep_black": "#000000"
+    }
+  },
+  "typography": {
+    "headlines": {
+      "style": "Glossy 3D / Liquid Chrome",
+      "font_family": "Bubble-style, inflated sans",
+      "effect": "High-reflectivity gradients"
+    },
+    "subtext": {
+      "style": "Retro Digital",
+      "font_family": "VCR OSD Mono, MS Sans Serif",
+      "characteristics": "All-caps, aliased, bitmap-style"
+    },
+    "accents": {
+      "style": "Brutalist / Sporty",
+      "font_family": "Heavy Geometric Sans",
+      "characteristics": "Stretched, wide kerning, heavy outlines"
+    }
+  },
+  "ui_components": {
+    "buttons": {
+      "primary": "Glossy 3D 'Pill' or 'Bubble' shapes with high-contrast shadows",
+      "system": "Retro inset/outset bevel grey blocks",
+      "interaction": "Bouncy GSAP transitions and scale-up on hover/tap"
+    },
+    "containers": {
+      "windows": "Windows 95 style with title bars and 'X' buttons",
+      "cards": "Polaroid-style frames or trading card borders with thick black strokes",
+      "overlays": "Translucent glassmorphism with pixelated artifacts"
+    }
+  },
+  "animation_guidelines": {
+    "motion_style": "Chaotic yet intentional",
+    "key_effects": [
+      "Cascading pop-ins",
+      "Glitch transitions",
+      "Floating 3D object rotation",
+      "Staggered text reveals"
+    ]
+  }
+}
