@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cake Sweeper Game</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&amp;family=VT323&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b2ff00",
+                        "win-gray": "#c0c0c0",
+                        "win-blue": "#000080",
+                        "win-dark": "#808080",
+                        "background-light": "#f1f1f4",
+                        "background-dark": "#131315",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "pixel": ["'VT323'", "monospace"],
+                    },
+                    boxShadow: {
+                        'win-outset': 'inset 1px 1px #fff, inset -1px -1px #000, inset 2px 2px #dfdfdf, inset -2px -2px #808080',
+                        'win-inset': 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px #000, inset -2px -2px #dfdfdf',
+                        'win-flat': 'inset 1px 1px #808080, inset -1px -1px #dfdfdf',
+                    },
+                    backgroundImage: {
+                        'grain': "url('https://www.transparenttextures.com/patterns/stardust.png')", 
+                    }
+                },
+            },
+        }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24
+    }.pixel-text {
+    image-rendering: pixelated
+    }
+.paper-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDKeZWk3o-xLmNz5t04Ss5NIODko6LetuveoYYAwN9QpAymRJBtk7buCAb1yaJyiw2z9zuhUCp5HP72eNyiB_FM23Ta8_-p5jr0rL1a5hi06QWxqcEx_yhAL6u1f4HReqEPEzQqSmp29ucizn8kR1zWwJx5ULNdKHh2Qjof6Xxi4ia1ZmQi6Ek_FUoXWjX3iqMIs8adAf8sEBIGV5M1b042MaDPI0cqLbjhifW9AKh55MXPuPeW75j_haV_x6lJI3kEuiS2Cj5OT23J)
+    }
+.graffiti-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+    animation: draw 2s ease forwards
+    }
+@keyframes draw {
+    from {
+        stroke-dashoffset: 1000;
+        } to {
+        stroke-dashoffset: 0;
+        }
+    }
+.glitch-anim {
+    animation: glitch 1s infinite
+    }
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+        } 20% {
+        transform: translate(-2px, 2px);
+        } 40% {
+        transform: translate(-2px, -2px);
+        } 60% {
+        transform: translate(2px, 2px);
+        } 80% {
+        transform: translate(2px, -2px);
+        } 100% {
+        transform: translate(0);
+        }
+    }::-webkit-scrollbar {
+    width: 16px;
+    background: #dfdfdf
+    }
+::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    box-shadow: inset 1px 1px #fff, inset -1px -1px #000
+    }</style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display antialiased overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="relative flex h-full min-h-screen w-full flex-col bg-[#e0e0e0] overflow-hidden">
+<div class="absolute inset-0 bg-[#e6e6fa] opacity-80 z-0"></div> 
+<div class="absolute inset-0 paper-texture opacity-20 mix-blend-multiply z-0 pointer-events-none"></div>
+<div class="absolute inset-0 bg-grain opacity-40 mix-blend-overlay z-0 pointer-events-none"></div>
+<div class="absolute top-20 left-4 w-16 h-16 opacity-80 z-0 animate-pulse">
+<svg class="w-full h-full text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.8)]" fill="none" viewBox="0 0 24 24">
+<path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor" stroke="white" stroke-width="0.5"></path>
+</svg>
+</div>
+<div class="absolute bottom-40 right-8 w-24 h-24 opacity-70 z-0 animate-[spin_8s_linear_infinite]">
+<svg class="w-full h-full text-cyan-300 drop-shadow-[0_0_15px_rgba(103,232,249,0.8)]" fill="none" viewBox="0 0 24 24">
+<path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="absolute top-[15%] right-[-20px] w-48 h-48 z-0 pointer-events-none opacity-90 transform rotate-12">
+<svg class="w-full h-full" viewBox="0 0 200 200">
+<path class="graffiti-path drop-shadow-md" d="M20,100 C50,80 80,150 120,50 C140,20 180,100 160,150" fill="none" stroke="#b2ff00" stroke-linecap="round" stroke-width="8"></path>
+</svg>
+</div>
+<div class="absolute bottom-[20%] left-[-30px] w-64 h-64 z-0 pointer-events-none opacity-80 transform -rotate-6">
+<svg class="w-full h-full" viewBox="0 0 200 200">
+<path class="drop-shadow-lg graffiti-path" d="M10,180 Q50,10 90,180 T170,180" fill="none" stroke="#b2ff00" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" style="animation-delay: 0.5s"></path>
+</svg>
+</div>
+<div class="relative z-50 flex items-center justify-between p-4 pt-6">
+<button class="flex size-10 items-center justify-center rounded-none bg-win-gray shadow-win-outset active:shadow-win-inset text-black hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+</button>
+<div class="px-4 py-1 bg-win-gray shadow-win-inset border border-white/10">
+<span class="text-black font-pixel text-xl tracking-widest">Card 3/3</span>
+</div>
+<button class="flex size-10 items-center justify-center rounded-none bg-win-gray shadow-win-outset active:shadow-win-inset text-black hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-sm">more_horiz</span>
+</button>
+</div>
+<main class="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-sm mx-auto px-4">
+<div class="w-full bg-win-gray p-1 shadow-win-outset relative">
+<div class="flex items-center justify-between bg-gradient-to-r from-win-blue to-[#1084d0] px-2 py-1 mb-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xs">cake</span>
+<span class="text-white font-pixel text-lg leading-none tracking-wide pt-1">CAKE_SWEEPER.EXE</span>
+</div>
+<div class="flex gap-1">
+<button class="size-5 bg-win-gray shadow-win-outset flex items-center justify-center active:shadow-win-inset">
+<span class="text-black font-sans text-xs font-bold leading-none mb-1">_</span>
+</button>
+<button class="size-5 bg-win-gray shadow-win-outset flex items-center justify-center active:shadow-win-inset">
+<span class="text-black font-sans text-xs font-bold leading-none">×</span>
+</button>
+</div>
+</div>
+<div class="flex gap-4 px-2 pb-2 text-black font-sans text-xs underline decoration-1 underline-offset-2">
+<span class="cursor-pointer hover:bg-win-blue hover:text-white px-1">Game</span>
+<span class="cursor-pointer hover:bg-win-blue hover:text-white px-1">Help</span>
+</div>
+<div class="border-t-2 border-l-2 border-win-dark border-b-2 border-r-2 border-white p-3">
+<div class="flex justify-between items-center bg-win-gray shadow-win-inset p-2 mb-3 border-2 border-b-white border-r-white border-t-win-dark border-l-win-dark">
+<div class="bg-black text-red-600 font-pixel text-3xl px-1 border border-win-dark shadow-[inset_1px_1px_4px_rgba(0,0,0,0.5)] leading-none">
+                        023
+                    </div>
+<button class="size-10 bg-win-gray shadow-win-outset active:shadow-win-inset flex items-center justify-center border border-transparent active:border-win-dark">
+<span class="material-symbols-outlined text-yellow-500 drop-shadow-[1px_1px_0_rgba(0,0,0,1)]">sentiment_satisfied</span>
+</button>
+<div class="bg-black text-red-600 font-pixel text-3xl px-1 border border-win-dark shadow-[inset_1px_1px_4px_rgba(0,0,0,0.5)] leading-none">
+                        004
+                    </div>
+</div>
+<div class="bg-win-gray shadow-win-inset border-2 border-b-white border-r-white border-t-win-dark border-l-win-dark p-0.5">
+<div class="grid grid-cols-6 gap-0.5 bg-win-dark">
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-green-700 text-2xl font-bold">2</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="material-symbols-outlined text-pink-500 text-lg">cake</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-green-700 text-2xl font-bold">2</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-green-700 text-2xl font-bold">2</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-red-700 text-2xl font-bold">3</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="material-symbols-outlined text-pink-500 text-lg">cake</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-red-600 shadow-win-inset flex items-center justify-center glitch-anim overflow-hidden relative">
+<div class="absolute inset-0 bg-primary mix-blend-screen opacity-50 animate-pulse"></div>
+<span class="material-symbols-outlined text-yellow-300 text-xl relative z-10">local_fire_department</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="material-symbols-outlined text-purple-600 text-lg">flag</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-green-700 text-2xl font-bold">2</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="font-pixel text-blue-700 text-2xl font-bold">1</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-outset hover:bg-white/10 cursor-pointer"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center">
+<span class="material-symbols-outlined text-pink-500 text-lg">cake</span>
+</div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center"></div>
+<div class="aspect-square bg-win-gray shadow-win-flat flex items-center justify-center"></div>
+</div>
+</div>
+</div>
+<div class="mt-1 flex justify-between text-xs text-black/70 font-sans">
+<span>Loading textures...</span>
+<span>v3.0</span>
+</div>
+</div>
+<div class="absolute -right-4 top-[60%] bg-[#ffffcc] border-2 border-black p-2 shadow-[4px_4px_0_rgba(0,0,0,1)] rotate-12 z-50 animate-bounce">
+<p class="font-pixel text-red-600 text-xl uppercase tracking-widest">Oops!</p>
+</div>
+</main>
+<div class="relative z-50 w-full p-6 pb-10">
+<button class="group relative w-full overflow-hidden rounded-none bg-primary border-2 border-black shadow-[4px_4px_0_#000] h-14 flex items-center justify-center transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:translate-x-1 active:translate-y-1 active:shadow-none">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-20"></div>
+<div class="flex items-center gap-3 relative z-10">
+<span class="material-symbols-outlined text-black font-bold">refresh</span>
+<span class="text-black text-xl font-bold font-pixel uppercase tracking-wider pt-1">REBOOT SYSTEM</span>
+</div>
+</button>
+<p class="text-center text-black/60 text-[10px] font-bold mt-4 font-display uppercase tracking-[0.2em]">
+            Warning: Touching candles causes confetti
+        </p>
+</div>
+</div>
+
+</body></html>

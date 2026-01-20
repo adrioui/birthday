@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Y2K Charm Collection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&amp;family=VT323&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b2ff00", // Lime green
+                        "background-light": "#f1f1f4",
+                        "background-dark": "#131315",
+                        "periwinkle-light": "#dce8ff",
+                        "periwinkle-dark": "#8c9eff",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "pixel": ["'VT323'", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    backgroundImage: {
+                        'grid-pattern': "url('https://placeholder.pics/svg/20x20/888888/0000')", 
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24
+        }.sticker-shadow {
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2)
+        }
+        .sticker-shadow-hard {
+            box-shadow: 6px 6px 0 #131315
+        }
+        .paper-texture {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDisJwDXRs_8sFn4agEYQh5LUCGPeSDu_XfIgdv99GMnwbt20eRtBDoagHm5qpWG3sYFadwZYEn8W3JSH31aTaYQbdco4PDeeiTIMD4l5KCbL0zTRX_pf1wAVtB0_CF3qWUnX_ujnKKPDweB4IMJ9YJ8sDmsKeNUS_0FuNjY5HBCx6sCh9KpJkY5uSkHHDckGrd7RE0iPo4Uu_926w-U31eBLiVXzd5fG_w5jY6B0lD0N7VFp5IEIfj5dxtbl-7A0cDm5mQ5mxXD7km')
+        }
+        .chrome-text {
+            background: linear-gradient(to bottom, #fff 0%, #d1d1d1 50%, #787878 51%, #f2f2f2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3))
+        }
+        .chrome-bg {
+            background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #a0a0a0 51%, #e0e0e0 100%);
+        }
+        .pixel-pattern {
+            background-image: radial-gradient(#b2ff00 15%, transparent 16%), radial-gradient(#b2ff00 15%, transparent 16%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display antialiased overflow-x-hidden">
+<div class="relative flex h-full min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-[#dce8ff] via-[#abc1ff] to-[#8c9eff] z-0"></div>
+<div class="absolute inset-0 paper-texture opacity-30 mix-blend-overlay z-0 pointer-events-none"></div>
+<div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:40px_40px] z-0 pointer-events-none"></div>
+<div class="relative z-50 flex items-center justify-between p-4 pt-6">
+<button class="flex size-10 items-center justify-center rounded-full bg-white/40 backdrop-blur-sm border-2 border-white/60 text-[#131315] hover:bg-white/60 transition-colors shadow-sm">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="px-4 py-1 rounded-full bg-[#131315]/10 backdrop-blur-md border border-white/20 mb-1">
+<span class="text-[#131315] text-[10px] font-black uppercase tracking-widest">Card 3/3</span>
+</div>
+<h1 class="font-display font-black text-xl tracking-tight text-[#131315] italic">WALLET</h1>
+</div>
+<button class="flex size-10 items-center justify-center rounded-full bg-primary backdrop-blur-sm border-2 border-[#131315] text-[#131315] hover:bg-[#99db00] transition-colors sticker-shadow-hard">
+<span class="material-symbols-outlined">wallet</span>
+</button>
+</div>
+<main class="relative z-10 flex-1 flex flex-col w-full max-w-md mx-auto px-4 py-2">
+<div class="relative w-full h-32 mb-4 flex items-center justify-center z-20">
+<div class="absolute inset-0 flex items-center justify-center">
+<h2 class="chrome-text text-6xl font-black italic transform -rotate-2 text-center leading-[0.8]">
+                        CHARM<br/>COLLECTION
+                    </h2>
+</div>
+<span class="absolute top-2 right-10 text-4xl text-white animate-bounce">✦</span>
+<span class="absolute bottom-2 left-10 text-3xl text-primary animate-pulse">✦</span>
+</div>
+<div class="relative flex-1 w-full mt-4">
+<div class="absolute top-0 left-2 z-30 transform -rotate-6 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer">
+<div class="w-40 bg-white rounded-xl border-[3px] border-[#b2ff00] p-1.5 sticker-shadow-hard">
+<div class="bg-gradient-to-b from-gray-100 to-gray-300 rounded-lg h-32 flex items-center justify-center border border-black/10 overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+<span class="material-symbols-outlined text-8xl text-gray-400 drop-shadow-md chrome-text">star</span>
+</div>
+<div class="mt-2 px-1">
+<h3 class="font-display font-black uppercase text-lg leading-none text-[#131315]">Super Star</h3>
+<div class="mt-1 bg-[#131315] p-1 rounded-sm">
+<p class="font-pixel text-[10px] leading-tight text-primary text-center uppercase tracking-wider">
+                                    PWR: Main Character Energy
+                                </p>
+</div>
+</div>
+</div>
+<div class="absolute -top-3 left-10 w-8 h-4 bg-white/40 backdrop-blur-sm transform -rotate-45 shadow-sm border border-white/20"></div>
+</div>
+<div class="absolute top-12 right-0 z-20 transform rotate-3 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer">
+<div class="w-36 bg-white rounded-xl border-[3px] border-[#b2ff00] p-1.5 sticker-shadow-hard">
+<div class="bg-[#131315] rounded-lg h-28 flex items-center justify-center border border-black/10 relative overflow-hidden">
+<div class="absolute inset-0 pixel-pattern opacity-20"></div>
+<span class="material-symbols-outlined text-7xl text-red-500 animate-pulse" style="font-feature-settings: 'ss01'">favorite</span>
+</div>
+<div class="mt-2 px-1">
+<h3 class="font-display font-black uppercase text-lg leading-none text-[#131315]">8-Bit Love</h3>
+<div class="mt-1 border border-[#131315] p-1 rounded-sm bg-gray-50">
+<p class="font-pixel text-[10px] leading-tight text-[#131315] text-center uppercase tracking-wider">
+                                    PWR: +1 Extra Life
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute top-64 left-6 z-40 transform rotate-[-3deg] transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer">
+<div class="w-44 bg-white rounded-xl border-[3px] border-[#b2ff00] p-2 sticker-shadow-hard">
+<div class="bg-pink-100 rounded-lg h-32 flex items-center justify-center border border-black/10 relative">
+<div class="w-20 h-24 bg-pink-400 rounded-[40%] border-4 border-white shadow-lg flex flex-col items-center pt-3 relative">
+<div class="w-12 h-10 bg-[#131315] border-2 border-gray-400 rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl animate-bounce">pets</span>
+</div>
+<div class="flex gap-1 mt-2">
+<div class="size-2 bg-yellow-300 rounded-full border border-black/20"></div>
+<div class="size-2 bg-yellow-300 rounded-full border border-black/20"></div>
+<div class="size-2 bg-yellow-300 rounded-full border border-black/20"></div>
+</div>
+<div class="absolute -top-4 right-4 w-1 h-4 bg-gray-300 border border-gray-400"></div>
+<div class="absolute -top-6 right-3 size-3 rounded-full border-2 border-gray-400"></div>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<h3 class="font-display font-black uppercase text-xl leading-none text-[#131315]">Digi-Pet</h3>
+<span class="font-pixel bg-primary px-1 text-xs font-bold border border-black">Lvl 99</span>
+</div>
+<p class="mt-1 font-pixel text-xs text-gray-500 text-center border-t border-dashed border-gray-300 pt-1">
+                            PWR: Always Hungry
+                        </p>
+</div>
+</div>
+<div class="absolute top-52 right-[-10px] z-10 transform rotate-12 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer scale-90 opacity-90">
+<div class="w-32 bg-white rounded-xl border-[3px] border-[#b2ff00] p-1.5 shadow-lg">
+<div class="bg-blue-50 rounded-lg h-24 overflow-hidden border border-black/10 relative flex items-center justify-center">
+<img class="w-[120%] h-[120%] object-contain mix-blend-multiply" data-alt="Tangled wired headphones style image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_ywuomxwouWfFUC2_sxAtb9C-kZnDzVpJrAlnXBi_GIZ4Fckm2uVzB6KolJgkKPmmy9tMlqs7Qdm-BS2weXgnt1KLnQKfHEMMyqtk-TYUr_UHkbmEJgeJws6s9K_D3Vb38naT9XSMy7H4sM4q2XWyPnz3ku6p9Z-t51buQ93KAeCp9BlvoGnqMYpjPPc2JxScpmanAJDNaqRJcx6Koq6sCOE_MJb1N6Lq73Z3Sw7bYJH83rM0XiUDQNDrpD0q-Oc1mJeGAjNaTwxZ"/>
+</div>
+<div class="mt-2 px-1 text-center">
+<h3 class="font-display font-bold uppercase text-sm leading-none text-[#131315]">Sonic Boom</h3>
+<p class="font-pixel text-[10px] text-gray-400 mt-0.5">PWR: Mute Haters</p>
+</div>
+</div>
+</div>
+<div class="absolute top-40 left-1/2 -translate-x-1/2 z-0 opacity-40">
+<span class="material-symbols-outlined text-[10rem] text-white rotate-12">bolt</span>
+</div>
+</div>
+</main>
+<div class="relative z-50 w-full px-6 pb-8 pt-4 bg-gradient-to-t from-[#8c9eff] via-[#dce8ff] to-transparent">
+<div class="flex justify-between items-end mb-4 px-2">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-[#131315]/60 mb-1">Total Value</p>
+<div class="flex items-baseline gap-1">
+<span class="font-pixel text-4xl text-[#131315]">500</span>
+<span class="font-display text-sm font-bold text-primary bg-[#131315] px-1 rounded-sm">PTS</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-[#131315]/60 mb-1">Collection</p>
+<p class="font-pixel text-xl text-[#131315]">4/10</p>
+</div>
+</div>
+<button class="group relative w-full overflow-hidden rounded-xl bg-[#131315] text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_#b2ff00] active:translate-y-1 active:shadow-none">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10"></div>
+<div class="flex items-center gap-3 relative z-10">
+<span class="material-symbols-outlined text-primary animate-pulse">redeem</span>
+<span class="text-white text-xl font-bold font-display uppercase tracking-wider">Redeem Gift</span>
+</div>
+</button>
+<p class="text-center text-[#131315]/50 text-[10px] font-bold mt-3 font-display uppercase tracking-widest">Tap a charm to reveal power</p>
+</div>
+</div>
+
+</body></html>
