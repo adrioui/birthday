@@ -15,7 +15,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
   const isAnimating = useRef(false)
 
   useEffect(() => {
-    if (!cardRef.current || isAnimating.current) return
+    if (!cardRef.current) return
 
     isAnimating.current = true
 
