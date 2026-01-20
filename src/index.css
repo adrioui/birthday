@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&family=VT323&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-lime: #CCFF00;
+  --color-hot-pink: #FF0099;
+  --color-periwinkle: #CCCCFF;
+  --color-periwinkle-light: #dce8ff;
+  --color-periwinkle-dark: #8c9eff;
+  --color-system-grey: #C3C7CB;
+  --color-deep-black: #131315;
+  
+  --font-family-display: "Space Grotesk", sans-serif;
+  --font-family-pixel: "VT323", monospace;
+}
+
+/* Utility classes */
+.font-display {
+  font-family: var(--font-family-display);
+}
+
+.font-pixel {
+  font-family: var(--font-family-pixel);
+}
+
+/* Chrome/Glossy text effect */
+.chrome-text {
+  background: linear-gradient(to bottom, #fff 0%, #d1d1d1 50%, #787878 51%, #f2f2f2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Sticker shadow utilities */
+.sticker-shadow {
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.sticker-shadow-hard {
+  box-shadow: 6px 6px 0 #131315;
+}
+
+/* Phone charm swing animation */
+@keyframes swing {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+body {
+  font-family: var(--font-family-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Halftone pattern overlay */
+.halftone-pattern {
+  background-image: radial-gradient(#131315 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Charm card focus styles */
+.charm-card-focus:focus-visible {
+  outline: 3px solid #CCFF00;
+  outline-offset: 2px;
+}
+
+/* Grid line pattern overlay */
+.grid-lines-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
