@@ -11,7 +11,12 @@ export function FlashOverlay({ trigger, onComplete }: FlashOverlayProps) {
   const hasAnimated = useRef(false)
 
   useEffect(() => {
-    if (!trigger || hasAnimated.current || !flashRef.current) return
+    if (!trigger) {
+      hasAnimated.current = false
+      return
+    }
+    
+    if (hasAnimated.current || !flashRef.current) return
     
     hasAnimated.current = true
 

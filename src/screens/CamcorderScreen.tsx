@@ -112,77 +112,39 @@ export function CamcorderScreen() {
 
         {/* OSD Layer */}
         {cameraReady && (
-          <div className="absolute inset-0 pointer-events-none p-4 flex flex-col justify-between z-20">
-            {/* Top Bar */}
-            <div className="flex justify-between items-start font-pixel text-xl tracking-widest text-white drop-shadow-md">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_red]" />
-                  <span className="text-red-500">REC</span>
-                </div>
-                <span className="text-sm opacity-80">SP 1:04:22</span>
-              </div>
-              
-              <div className="flex flex-col items-end gap-1">
-                <div className="flex items-center gap-1">
-                  <span className={batteryLevel < 20 ? 'text-red-500 animate-pulse' : 'text-lime'}>
-                    BAT
-                  </span>
-                  <div className="w-8 h-4 border-2 border-white/80 p-0.5 flex">
-                    <div 
-                      className={`h-full ${batteryLevel < 20 ? 'bg-red-500' : 'bg-lime'}`} 
-                      style={{ width: `${batteryLevel}%` }} 
-                    />
-                  </div>
-                </div>
-                <span className="text-sm opacity-80">
-                  {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
+          <div className="absolute inset-0 pointer-events-none z-10">
+            {/* Scanlines */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 background-size-[100%_2px,3px_100%] pointer-events-none" />
+            
+            <div className="absolute top-4 left-4 bg-deep-black/70 px-3 py-1 rounded-sm font-pixel text-[#FF0099] text-lg animate-pulse border border-[#FF0099]/30">
+              ● REC
             </div>
-
-            {/* Center Crosshair */}
+            <div className="absolute top-4 right-4 font-pixel text-[#CCFF00] text-sm bg-deep-black/70 px-2 py-1 rounded-sm border border-[#CCFF00]/30 shadow-[0_0_10px_rgba(204,255,0,0.2)]">
+              {new Date().toLocaleTimeString()}
+            </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-40">
-              <div className="w-12 h-12 border border-white/50" />
-              <div className="absolute w-20 h-[1px] bg-white/50" />
-              <div className="absolute w-[1px] h-20 bg-white/50" />
-            </div>
-
-            {/* Bottom Info */}
-            <div className="flex justify-between items-end font-pixel text-sm text-white/80">
-              <div>
-                 [W] ---------|--------- [T]
-              </div>
-              <div>
-                xF2.4
-              </div>
+              <div className="w-16 h-16 border-2 border-white/50 rounded-lg" />
+              <div className="absolute w-1 h-1 bg-white/50 rounded-full" />
+              <div className="absolute w-12 h-0.5 bg-white/30" />
+              <div className="absolute w-0.5 h-12 bg-white/30" />
             </div>
           </div>
         )}
 
         {!cameraReady && !cameraError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-deep-black z-30">
-            <div className="font-pixel text-white text-xl animate-pulse">INITIALIZING...</div>
+          <div className="absolute inset-0 flex items-center justify-center bg-deep-black">
+            <div className="font-pixel text-[#CCFF00] animate-pulse">Initializing camera...</div>
           </div>
         )}
       </div>
 
-      {/* Controls Area */}
-      <div className="relative z-30 w-full flex-1 min-h-[160px] bg-gradient-to-t from-periwinkle-dark/90 via-periwinkle-dark/50 to-deep-black flex flex-col items-center justify-center gap-6 pb-8">
+      <div className="relative z-50 w-full p-6 pb-12 bg-[#C3C7CB] border-t-4 border-white/20 flex flex-col items-center justify-center gap-6 shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
+        {/* Chrome Bar aesthetics */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50" />
         
-        {/* Decorative Tape Deck Lines */}
-        <div className="w-full h-4 border-y border-white/10 mb-2 flex items-center justify-center gap-1 overflow-hidden opacity-30">
-          {[...Array(20)].map((_, i) => (
-             <div key={i} className="w-0.5 h-full bg-white/20 rotate-12" />
-          ))}
-        </div>
-
-        <div className="flex items-center justify-center gap-10 w-full px-8">
-          <button className="text-white/70 hover:text-white hover:scale-110 transition-all flex flex-col items-center gap-1">
-            <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-2xl">collections</span>
-            </div>
-            <span className="font-pixel text-xs tracking-wider">GALLERY</span>
+        <div className="flex items-center justify-center gap-8 w-full">
+          <button className="group relative w-14 h-14 rounded-full bg-gradient-to-b from-[#E0E0E0] to-[#BDBDBD] border-2 border-white/40 shadow-[0_4px_0_#9e9e9e] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center">
+             <span className="material-symbols-outlined text-2xl text-deep-black group-hover:scale-110 transition-transform">collections</span>
           </button>
           
           <SnapButton 
@@ -190,11 +152,8 @@ export function CamcorderScreen() {
             disabled={isCapturing || showFlash || !cameraReady}
           />
           
-          <button className="text-white/70 hover:text-white hover:scale-110 transition-all flex flex-col items-center gap-1">
-            <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-2xl">flip_camera_ios</span>
-            </div>
-            <span className="font-pixel text-xs tracking-wider">FLIP</span>
+          <button className="group relative w-14 h-14 rounded-full bg-gradient-to-b from-[#E0E0E0] to-[#BDBDBD] border-2 border-white/40 shadow-[0_4px_0_#9e9e9e] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center">
+            <span className="material-symbols-outlined text-2xl text-deep-black group-hover:rotate-180 transition-transform duration-500">cached</span>
           </button>
         </div>
       </div>
