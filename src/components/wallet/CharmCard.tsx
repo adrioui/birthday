@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
-import { trackEvent } from '../../lib/telemetry'
 import { type Charm } from '../../types/charm'
+import { trackEvent } from '../../lib/telemetry'
 
 interface CharmCardProps {
   charm: Charm
@@ -15,7 +15,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
   const isAnimating = useRef(false)
 
   useEffect(() => {
-    if (!cardRef.current) return
+    if (!cardRef.current || isAnimating.current) return
 
     isAnimating.current = true
 
@@ -67,12 +67,14 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
           className="absolute inset-0 w-full bg-white rounded-xl border-[3px] border-lime p-1.5 sticker-shadow-hard"
           style={{ backfaceVisibility: 'hidden' }}
         >
-          <div
+          <div 
             className={`rounded-lg h-28 flex items-center justify-center border border-black/10 overflow-hidden relative ${!isCustomBg ? iconBgColor : ''}`}
             style={isCustomBg ? { backgroundColor: charm.iconBgColor } : undefined}
           >
-            <span
-              className={`material-symbols-outlined text-7xl ${iconColor}`}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            
+            <span 
+              className={`material-symbols-outlined text-7xl chrome-text ${iconColor}`}
               style={charm.iconColor?.startsWith('#') ? { color: charm.iconColor } : undefined}
             >
               {charm.icon}

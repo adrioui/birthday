@@ -2,12 +2,12 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 
 interface TransitionState {
   isTransitioning: boolean
-  transitionType: 'phone-to-sms' | null
+  transitionType: 'phone-to-sms' | 'gift-to-camcorder' | null
   phoneScreenRect: DOMRect | null
 }
 
 interface TransitionContextValue extends TransitionState {
-  startTransition: (type: 'phone-to-sms', rect: DOMRect) => void
+  startTransition: (type: 'phone-to-sms' | 'gift-to-camcorder', rect: DOMRect) => void
   endTransition: () => void
 }
 
@@ -21,7 +21,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     phoneScreenRect: null,
   })
 
-  const startTransition = useCallback((type: 'phone-to-sms', rect: DOMRect) => {
+  const startTransition = useCallback((type: 'phone-to-sms' | 'gift-to-camcorder', rect: DOMRect) => {
     setState({ isTransitioning: true, transitionType: type, phoneScreenRect: rect })
   }, [])
 

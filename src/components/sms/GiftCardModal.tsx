@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
-import { useNavigate } from '@tanstack/react-router'
 import { Confetti } from '../effects/Confetti'
 import { useAudio } from '../../hooks/useAudio'
+import { useTransition } from '../../context/TransitionContext'
 
 interface GiftCardModalProps {
   onClose: () => void
@@ -10,11 +10,12 @@ interface GiftCardModalProps {
 
 export function GiftCardModal({ onClose }: GiftCardModalProps) {
   const { playGiftRevealSound } = useAudio()
-  const navigate = useNavigate()
+  const { startTransition } = useTransition()
   const backdropRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const wrappedRef = useRef<HTMLDivElement>(null)
   const revealedRef = useRef<HTMLDivElement>(null)
+  const captureButtonRef = useRef<HTMLButtonElement>(null)
   const [isRevealed, setIsRevealed] = useState(false)
 
   useEffect(() => {
@@ -91,7 +92,10 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   }
 
   const handleCaptureClick = () => {
-    navigate({ to: '/camcorder' })
+    if (captureButtonRef.current) {
+      const rect = captureButtonRef.current.getBoundingClientRect()
+      startTransition('gift-to-camcorder', rect)
+    }
   }
 
   return (
@@ -167,6 +171,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
               Enjoy your special day!
             </div>
             <button
+              ref={captureButtonRef}
               onClick={handleCaptureClick}
               className="mt-4 w-full px-4 py-3 bg-hot-pink border-2 border-deep-black rounded-lg font-display font-bold text-white uppercase tracking-wider shadow-[4px_4px_0px_#131315] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#131315] active:translate-y-0 active:shadow-[2px_2px_0px_#131315] transition-all flex items-center justify-center gap-2"
             >

@@ -8,7 +8,7 @@ import { useCharmFlip } from '../hooks/useCharmFlip'
 
 export function WalletScreen() {
   const { charms, totalPoints } = useCharms()
-  const { isFlipped, handleFlip } = useCharmFlip()
+  const { handleFlip, isFlipped } = useCharmFlip()
   const hasCharms = charms.length > 0
 
   return (

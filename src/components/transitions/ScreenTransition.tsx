@@ -3,16 +3,30 @@ import { gsap } from 'gsap'
 import { useTransition } from '../../context/TransitionContext'
 import { useNavigate } from '@tanstack/react-router'
 
-export function PhoneToSMSTransition() {
+const transitionConfig = {
+  'phone-to-sms': {
+    to: '/sms',
+    color: '#131315',
+    text: 'CONNECTING...',
+  },
+  'gift-to-camcorder': {
+    to: '/camcorder',
+    color: '#1a1a1a',
+    text: 'LOADING CAMERA...',
+  },
+}
+
+export function ScreenTransition() {
   const { isTransitioning, transitionType, phoneScreenRect, endTransition } = useTransition()
   const overlayRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isTransitioning || transitionType !== 'phone-to-sms' || !phoneScreenRect || !overlayRef.current) {
+    if (!isTransitioning || !transitionType || !phoneScreenRect || !overlayRef.current) {
       return
     }
 
+    const config = transitionConfig[transitionType]
     const overlay = overlayRef.current
 
     gsap.set(overlay, {
@@ -21,7 +35,7 @@ export function PhoneToSMSTransition() {
       top: phoneScreenRect.top,
       width: phoneScreenRect.width,
       height: phoneScreenRect.height,
-      backgroundColor: '#131315',
+      backgroundColor: config.color,
       borderRadius: '0.5rem',
       zIndex: 100,
       opacity: 1,
@@ -29,7 +43,7 @@ export function PhoneToSMSTransition() {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        navigate({ to: '/sms' })
+        navigate({ to: config.to })
         setTimeout(() => {
           gsap.to(overlay, {
             opacity: 0,
@@ -55,9 +69,11 @@ export function PhoneToSMSTransition() {
     }
   }, [isTransitioning, transitionType, phoneScreenRect, navigate, endTransition])
 
-  if (!isTransitioning || transitionType !== 'phone-to-sms') {
+  if (!isTransitioning || !transitionType) {
     return null
   }
+
+  const config = transitionConfig[transitionType]
 
   return (
     <div
@@ -67,7 +83,7 @@ export function PhoneToSMSTransition() {
     >
       <div className="flex h-full w-full items-center justify-center">
         <div className="font-pixel text-lime text-xl animate-pulse">
-          CONNECTING...
+          {config.text}
         </div>
       </div>
     </div>

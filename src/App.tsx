@@ -5,7 +5,8 @@ import { NoiseOverlay } from './components/overlays/NoiseOverlay'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import { TransitionProvider } from './context/TransitionContext'
 import { CharmProvider } from './context/CharmContext'
-import { PhoneToSMSTransition } from './components/transitions/PhoneToSMSTransition'
+import { ScreenTransition } from './components/transitions/ScreenTransition'
+import { CharmModalManager } from './components/wallet/CharmModalManager'
 import './index.css'
 
 function App() {
@@ -27,7 +28,10 @@ function App() {
           </main>
 
           {/* Transition overlay */}
-          <PhoneToSMSTransition />
+          <ScreenTransition />
+          
+          {/* Charm Unlock Modal */}
+          <CharmModalManager />
         </div>
         </CharmProvider>
       </TransitionProvider>

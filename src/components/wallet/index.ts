@@ -1,2 +1,5 @@
 export { CharmCard } from './CharmCard'
-export type { Charm } from '../../types/charm'
+export { WalletHeader } from './WalletHeader'
+export { WalletFooter } from './WalletFooter'
+export { WalletEmptyState } from './WalletEmptyState'
+export { CharmUnlockModal } from './CharmUnlockModal'
