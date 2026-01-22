@@ -1,19 +1,10 @@
-import { createRouter, createRootRoute, createRoute, Outlet } from '@tanstack/react-router'
+import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router'
 import { FlipPhoneScreen } from './screens/FlipPhoneScreen'
 import { SMSThreadScreen } from './screens/SMSThreadScreen'
 import { CamcorderScreen } from './screens/CamcorderScreen'
 import { WalletScreen } from './screens/WalletScreen'
 import { CharmCardTestScreen } from './screens/CharmCardTestScreen'
-import { AppLayout } from './components/AppLayout'
-
-function RootRoute() {
-  return (
-    <>
-      <Outlet />
-      <AppLayout />
-    </>
-  )
-}
+import { RootRoute } from './components/RootRoute'
 
 const rootRoute = createRootRoute({
   component: RootRoute,
