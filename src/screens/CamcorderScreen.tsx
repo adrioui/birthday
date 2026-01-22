@@ -13,7 +13,7 @@ export function CamcorderScreen() {
   const { videoRef, state, error, startCamera } = useCamera({ facingMode: 'user' })
   const { captureFrame, isCapturing } = useCapture()
   const { playShutterSound } = useAudio()
-  const { addCharm } = useCharms()
+  const { addCharm, addBonusPoints } = useCharms()
   const [showFlash, setShowFlash] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [capturedImageUrl, setCapturedImageUrl] = useState<string | null>(null)
@@ -33,6 +33,7 @@ export function CamcorderScreen() {
     if (result) {
       setCapturedImageUrl(result.dataUrl)
       trackEvent('snap_taken')
+      addBonusPoints(25, 'snap-capture')
 
       // Unlock "Digi-Pet" charm (id: digi-pet)
       const charm = PLACEHOLDER_CHARMS.find(c => c.id === 'digi-pet')
@@ -40,7 +41,7 @@ export function CamcorderScreen() {
         addCharm(charm)
       }
     }
-  }, [isCapturing, showFlash, playShutterSound, captureFrame, videoRef, addCharm])
+  }, [isCapturing, showFlash, playShutterSound, captureFrame, videoRef, addCharm, addBonusPoints])
 
   const handleFlashComplete = useCallback(() => {
     setShowFlash(false)
