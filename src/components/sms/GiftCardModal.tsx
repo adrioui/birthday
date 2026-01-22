@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { Confetti } from '../effects/Confetti'
 import { useAudio } from '../../hooks/useAudio'
 import { useTransition } from '../../context/TransitionContext'
+import { useCharms } from '../../context/CharmContext'
 
 interface GiftCardModalProps {
   onClose: () => void
@@ -11,6 +12,7 @@ interface GiftCardModalProps {
 export function GiftCardModal({ onClose }: GiftCardModalProps) {
   const { playGiftRevealSound } = useAudio()
   const { startTransition } = useTransition()
+  const { addBonusPoints } = useCharms()
   const backdropRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const wrappedRef = useRef<HTMLDivElement>(null)
@@ -37,6 +39,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
     setIsRevealed(true)
     playGiftRevealSound()
+    addBonusPoints(50, 'gift-card-reveal')
 
     const tl = gsap.timeline()
 
