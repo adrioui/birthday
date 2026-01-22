@@ -1,155 +1,189 @@
-import { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react'
-import { type Charm } from '../types/charm'
-import { getValidatedCharms, getItem, setItem, removeItem } from '../lib/storage'
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from 'react';
+import { type Charm } from '../types/charm';
+import { getValidatedCharms, getItem, setItem, removeItem } from '../lib/storage';
 
 /* eslint-disable react-refresh/only-export-components */
 
 interface CharmContextValue {
-  charms: Charm[]
-  bonusPoints: number
-  totalPoints: number
-  newlyUnlockedCharm: Charm | null
-  isRedeemed: boolean
-  addCharm: (charm: Charm) => void
-  removeCharm: (id: string) => void
-  clearCharms: () => void
-  addBonusPoints: (amount: number, reason: string) => void
-  dismissUnlockModal: () => void
-  setRedeemed: (redeemed: boolean) => void
+  charms: Charm[];
+  bonusPoints: number;
+  totalPoints: number;
+  newlyUnlockedCharm: Charm | null;
+  isRedeemed: boolean;
+  addCharm: (charm: Charm) => void;
+  removeCharm: (id: string) => void;
+  clearCharms: () => void;
+  resetAll: () => void;
+  addBonusPoints: (amount: number, reason: string) => void;
+  dismissUnlockModal: () => void;
+  setRedeemed: (redeemed: boolean) => void;
 }
 
-const CharmContext = createContext<CharmContextValue | null>(null)
+const CharmContext = createContext<CharmContextValue | null>(null);
 
 interface CharmProviderProps {
-  children: ReactNode
-  initialCharms?: Charm[]
+  children: ReactNode;
+  initialCharms?: Charm[];
 }
 
-const STORAGE_KEY = 'birthday-os-charms'
+const STORAGE_KEY = 'birthday-os-charms';
 
-const BONUS_POINTS_KEY = 'birthday-os-bonus-points'
-const REDEEMED_KEY = 'birthday-redeemed'
-const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses'
+const BONUS_POINTS_KEY = 'birthday-os-bonus-points';
+const REDEEMED_KEY = 'birthday-redeemed';
+const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses';
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
-    return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms)
-  })
-  
+    return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms);
+  });
+
   const [bonusPoints, setBonusPoints] = useState<number>(() => {
-    return getItem<number>(BONUS_POINTS_KEY, 0)
-  })
-  
-  const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null)
-  
+    return getItem<number>(BONUS_POINTS_KEY, 0);
+  });
+
+  const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null);
+
   const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
-    return getItem<boolean>(REDEEMED_KEY, false)
-  })
-  
+    return getItem<boolean>(REDEEMED_KEY, false);
+  });
+
   const [awardedReasons, setAwardedReasons] = useState<Set<string>>(() => {
-    const stored = getItem<string[]>(AWARDED_REASONS_KEY, [])
-    return new Set(stored)
-  })
+    const stored = getItem<string[]>(AWARDED_REASONS_KEY, []);
+    return new Set(stored);
+  });
 
-  const previousCharmIds = useRef(new Set<string>())
+  const previousCharmIds = useRef(new Set<string>());
 
-  const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
-  const totalPoints = charmPoints + bonusPoints
+  const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0);
+  const totalPoints = charmPoints + bonusPoints;
 
   // Persist to localStorage whenever charms change
   useEffect(() => {
-    setItem(STORAGE_KEY, charms)
-  }, [charms])
+    setItem(STORAGE_KEY, charms);
+  }, [charms]);
 
   // Persist bonusPoints to localStorage
   useEffect(() => {
-    setItem(BONUS_POINTS_KEY, bonusPoints)
-  }, [bonusPoints])
+    setItem(BONUS_POINTS_KEY, bonusPoints);
+  }, [bonusPoints]);
 
   // Persist isRedeemed to localStorage
   useEffect(() => {
-    setItem(REDEEMED_KEY, isRedeemed)
-  }, [isRedeemed])
+    setItem(REDEEMED_KEY, isRedeemed);
+  }, [isRedeemed]);
 
   // Set newly unlocked charm when a new charm is added
   useEffect(() => {
-    const currentCharmIds = new Set(charms.map(c => c.id))
-    const newCharm = charms.find(c => !previousCharmIds.current.has(c.id))
+    const currentCharmIds = new Set(charms.map((c) => c.id));
+    const newCharm = charms.find((c) => !previousCharmIds.current.has(c.id));
 
     if (newCharm) {
-      setNewlyUnlockedCharm(newCharm)
+      setNewlyUnlockedCharm(newCharm);
     }
 
-    previousCharmIds.current = currentCharmIds
-  }, [charms])
+    previousCharmIds.current = currentCharmIds;
+  }, [charms]);
 
   const addCharm = useCallback((charm: Charm) => {
-    setCharms(prev => {
-      if (prev.some(c => c.id === charm.id)) return prev
-      return [...prev, charm]
-    })
-  }, [])
+    setCharms((prev) => {
+      if (prev.some((c) => c.id === charm.id)) return prev;
+      return [...prev, charm];
+    });
+  }, []);
 
   const removeCharm = useCallback((id: string) => {
-    setCharms(prev => prev.filter(c => c.id !== id))
-  }, [])
+    setCharms((prev) => prev.filter((c) => c.id !== id));
+  }, []);
 
   const clearCharms = useCallback(() => {
-    setCharms([])
-    removeItem(STORAGE_KEY)
-  }, [])
+    setCharms([]);
+    removeItem(STORAGE_KEY);
+  }, []);
+
+  const resetAll = useCallback(() => {
+    setCharms([]);
+    setBonusPoints(0);
+    setIsRedeemed(false);
+    setAwardedReasons(new Set());
+    removeItem(STORAGE_KEY);
+    removeItem(BONUS_POINTS_KEY);
+    removeItem(REDEEMED_KEY);
+    removeItem(AWARDED_REASONS_KEY);
+  }, []);
 
   const addBonusPoints = useCallback((amount: number, reason: string) => {
-    setAwardedReasons(prev => {
+    setAwardedReasons((prev) => {
       if (prev.has(reason)) {
-        console.debug(`Bonus points already awarded for: ${reason}`)
-        return prev
+        console.debug(`Bonus points already awarded for: ${reason}`);
+        return prev;
       }
-      const updated = new Set(prev)
-      updated.add(reason)
-      setBonusPoints(p => p + amount)
-      console.debug(`Bonus points awarded: +${amount} (${reason})`)
-      return updated
-    })
-  }, [])
+      const updated = new Set(prev);
+      updated.add(reason);
+      setBonusPoints((p) => p + amount);
+      console.debug(`Bonus points awarded: +${amount} (${reason})`);
+      return updated;
+    });
+  }, []);
 
   useEffect(() => {
-    setItem(AWARDED_REASONS_KEY, Array.from(awardedReasons))
-  }, [awardedReasons])
+    setItem(AWARDED_REASONS_KEY, Array.from(awardedReasons));
+  }, [awardedReasons]);
 
   const dismissUnlockModal = useCallback(() => {
-    setNewlyUnlockedCharm(null)
-  }, [])
+    setNewlyUnlockedCharm(null);
+  }, []);
 
   const setRedeemed = useCallback((redeemed: boolean) => {
-    setIsRedeemed(redeemed)
-  }, [])
+    setIsRedeemed(redeemed);
+  }, []);
 
-  const value = useMemo(() => ({ 
-    charms, 
-    bonusPoints,
-    totalPoints, 
-    newlyUnlockedCharm,
-    isRedeemed,
-    addCharm, 
-    removeCharm, 
-    clearCharms,
-    addBonusPoints,
-    dismissUnlockModal,
-    setRedeemed
-  }), [charms, bonusPoints, totalPoints, newlyUnlockedCharm, isRedeemed, addCharm, removeCharm, clearCharms, addBonusPoints, dismissUnlockModal, setRedeemed])
+  const value = useMemo(
+    () => ({
+      charms,
+      bonusPoints,
+      totalPoints,
+      newlyUnlockedCharm,
+      isRedeemed,
+      addCharm,
+      removeCharm,
+      clearCharms,
+      resetAll,
+      addBonusPoints,
+      dismissUnlockModal,
+      setRedeemed,
+    }),
+    [
+      charms,
+      bonusPoints,
+      totalPoints,
+      newlyUnlockedCharm,
+      isRedeemed,
+      addCharm,
+      removeCharm,
+      clearCharms,
+      resetAll,
+      addBonusPoints,
+      dismissUnlockModal,
+      setRedeemed,
+    ]
+  );
 
-  return (
-    <CharmContext.Provider value={value}>
-      {children}
-    </CharmContext.Provider>
-  )
+  return <CharmContext.Provider value={value}>{children}</CharmContext.Provider>;
 }
 
 export function useCharms() {
-  const context = useContext(CharmContext)
+  const context = useContext(CharmContext);
   if (!context) {
-    throw new Error('useCharms must be used within CharmProvider')
+    throw new Error('useCharms must be used within CharmProvider');
   }
-  return context
+  return context;
 }

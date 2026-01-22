@@ -1,12 +1,14 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useProgress } from '../context/useProgress';
+import { useCharms } from '../context/CharmContext';
 import { Confetti } from '../components/effects/Confetti';
 import { useNavigate } from '@tanstack/react-router';
 
-type ScreenState = 'loading' | 'celebration' | 'error';
+type ScreenState = 'loading' | 'celebration' | 'resetting' | 'error';
 
 export function CelebrationScreen() {
   const { milestones, resetProgress } = useProgress();
+  const { resetAll } = useCharms();
   const navigate = useNavigate();
   const [screenState, setScreenState] = useState<ScreenState>('loading');
   const [showConfetti, setShowConfetti] = useState(false);
@@ -24,9 +26,16 @@ export function CelebrationScreen() {
   const completedCount = completedMilestones.length;
 
   const handleRestart = useCallback(() => {
-    resetProgress();
-    navigate({ to: '/' });
-  }, [resetProgress, navigate]);
+    setScreenState('resetting');
+    try {
+      resetProgress();
+      resetAll();
+      navigate({ to: '/' });
+    } catch (e) {
+      console.error('Reset failed:', e);
+      setScreenState('error');
+    }
+  }, [resetProgress, resetAll, navigate]);
 
   if (screenState === 'loading') {
     return (
@@ -38,19 +47,23 @@ export function CelebrationScreen() {
     );
   }
 
+  if (screenState === 'resetting') {
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center">
+        <div className="animate-pulse text-2xl font-display font-bold text-deep-black">
+          RESETTING SYSTEM…
+        </div>
+      </div>
+    );
+  }
+
   if (screenState === 'error') {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center px-6">
         <h1 className="text-4xl font-display font-bold text-deep-black mb-4">Oops!</h1>
         <p className="text-lg text-deep-black/70 mb-8 text-center">
-          Something went wrong with the celebration.
+          Reset failed. Please refresh the page manually.
         </p>
-        <button
-          onClick={handleRestart}
-          className="bg-lime hover:bg-[#b8e600] active:scale-95 px-8 py-3 rounded-lg font-display font-bold text-deep-black transition-all shadow-[4px_4px_0px_#131315]"
-        >
-          Restart
-        </button>
       </div>
     );
   }
