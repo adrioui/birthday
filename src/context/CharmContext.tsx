@@ -5,11 +5,13 @@ import { type Charm } from '../types/charm'
 
 interface CharmContextValue {
   charms: Charm[]
+  bonusPoints: number
   totalPoints: number
   newlyUnlockedCharm: Charm | null
   addCharm: (charm: Charm) => void
   removeCharm: (id: string) => void
   clearCharms: () => void
+  addBonusPoints: (amount: number, reason: string) => void
   dismissUnlockModal: () => void
 }
 
@@ -21,6 +23,8 @@ interface CharmProviderProps {
 }
 
 const STORAGE_KEY = 'birthday-os-charms'
+
+const BONUS_POINTS_KEY = 'birthday-os-bonus-points'
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
@@ -35,14 +39,25 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     return initialCharms
   })
   
+  const [bonusPoints, setBonusPoints] = useState<number>(() => {
+    const saved = localStorage.getItem(BONUS_POINTS_KEY)
+    return saved ? parseInt(saved, 10) : 0
+  })
+  
   const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null)
 
-  const totalPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
+  const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
+  const totalPoints = charmPoints + bonusPoints
 
   // Persist to localStorage whenever charms change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(charms))
   }, [charms])
+
+  // Persist bonusPoints to localStorage
+  useEffect(() => {
+    localStorage.setItem(BONUS_POINTS_KEY, bonusPoints.toString())
+  }, [bonusPoints])
 
   const addCharm = useCallback((charm: Charm) => {
     setCharms(prev => {
@@ -64,6 +79,12 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     localStorage.removeItem(STORAGE_KEY)
   }, [])
 
+  const addBonusPoints = useCallback((amount: number, reason: string) => {
+    setBonusPoints(prev => prev + amount)
+    // Log for debugging
+    console.debug(`Bonus points awarded: +${amount} (${reason})`)
+  }, [])
+
   const dismissUnlockModal = useCallback(() => {
     setNewlyUnlockedCharm(null)
   }, [])
@@ -71,11 +92,13 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   return (
     <CharmContext.Provider value={{ 
       charms, 
+      bonusPoints,
       totalPoints, 
       newlyUnlockedCharm, 
       addCharm, 
       removeCharm, 
       clearCharms,
+      addBonusPoints,
       dismissUnlockModal 
     }}>
       {children}

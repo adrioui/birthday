@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { useNavigate } from '@tanstack/react-router'
 import { type Charm } from '../../types/charm'
 import { CharmCard } from './CharmCard'
 import { useCharmFlip } from '../../hooks/useCharmFlip'
@@ -16,6 +17,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { handleFlip, isFlipped } = useCharmFlip()
   const { playGiftRevealSound } = useAudio()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!backdropRef.current || !containerRef.current) return
@@ -36,6 +38,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
   const handleClose = () => {
     if (!backdropRef.current || !containerRef.current) {
       onDismiss()
+      navigate({ to: '/wallet' })
       return
     }
 
@@ -50,7 +53,10 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
     gsap.to(backdropRef.current, {
       opacity: 0,
       duration: 0.3,
-      onComplete: onDismiss
+      onComplete: () => {
+        onDismiss()
+        navigate({ to: '/wallet' })
+      }
     })
   }
 

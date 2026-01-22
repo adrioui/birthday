@@ -53,12 +53,16 @@ export function FlipPhone() {
   const handlePickUp = useCallback(async () => {
     if (isAnimating) return
 
+    console.log('[FlipPhone] handlePickUp called, isAnimating:', isAnimating)
     await playConnectionSound()
     trackEvent('flip_call_answered')
 
     if (screenRef.current) {
       const rect = screenRef.current.getBoundingClientRect()
+      console.log('[FlipPhone] calling startTransition with rect:', rect)
       startTransition('phone-to-sms', rect)
+    } else {
+      console.log('[FlipPhone] screenRef.current is null!')
     }
   }, [isAnimating, playConnectionSound, startTransition])
 
@@ -104,8 +108,8 @@ export function FlipPhone() {
             <div className="relative z-0 flex h-full flex-col justify-between p-3 font-pixel">
               {/* Status Bar */}
               <div className="flex w-full justify-between text-xs tracking-widest text-lime/70">
-                <span>NO SIGNAL</span>
-                <span>BAT: 12%</span>
+                <span>GADA SINYAL</span>
+                <span>12%</span>
               </div>
 
               {/* Main Content */}
@@ -139,7 +143,7 @@ export function FlipPhone() {
 
           {/* Brand Logo */}
           <div className="mt-2 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
-            MOTOR-TECH
+            HENPON AYAYAY
           </div>
         </div>
 

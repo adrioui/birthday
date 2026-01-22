@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 interface WalletFooterProps {
   totalPoints: number
   collectedCount: number
@@ -5,6 +7,14 @@ interface WalletFooterProps {
 }
 
 export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFooterProps) {
+  const handleRedeem = useCallback(() => {
+    if (totalPoints > 0) {
+      // TODO: Implement redeem flow
+      console.log('[Wallet] Redeem button clicked with', totalPoints, 'points')
+      alert(`🎁 Redeem ${totalPoints} points for a gift!\n\n(FR-012: Coming soon)`)
+    }
+  }, [totalPoints])
+
   return (
     <div className="relative z-50 w-full px-6 pb-8 pt-4 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
       <div className="flex justify-between items-end mb-4 px-2">
@@ -30,6 +40,7 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
       </div>
 
       <button
+        onClick={handleRedeem}
         className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_#CCFF00] active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={totalPoints === 0}
         aria-label="Redeem gift"
