@@ -5,6 +5,7 @@ import { CamcorderScreen } from './screens/CamcorderScreen'
 import { WalletScreen } from './screens/WalletScreen'
 import { CharmCardTestScreen } from './screens/CharmCardTestScreen'
 import { CDMixMakerScreen } from './screens/CDMixMakerScreen'
+import { CakeSweeperScreen } from './screens/CakeSweeperScreen'
 import { RootRoute } from './components/RootRoute'
 
 const rootRoute = createRootRoute({
@@ -47,7 +48,13 @@ const cdMixMakerRoute = createRoute({
   component: CDMixMakerScreen,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute, cdMixMakerRoute])
+const cakeSweeperRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/cake-sweeper',
+  component: CakeSweeperScreen,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute, cdMixMakerRoute, cakeSweeperRoute])
 
 export const router = createRouter({ routeTree })
 
