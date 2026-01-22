@@ -12,7 +12,7 @@ export function CaptureConfirmation({
   onDismiss,
   autoDismissMs = 2000 
 }: CaptureConfirmationProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLButtonElement>(null)
   const timerRef = useRef<number | null>(null)
   const openTweenRef = useRef<gsap.core.Tween | null>(null)
   const closeTweenRef = useRef<gsap.core.Tween | null>(null)
@@ -64,12 +64,12 @@ export function CaptureConfirmation({
   }, [autoDismissMs, handleDismiss])
 
   return (
-    <div
+    <button
       ref={containerRef}
       className="fixed bottom-32 left-1/2 -translate-x-1/2 z-[90] cursor-pointer"
       onClick={handleDismiss}
-      role="status"
       aria-live="polite"
+      type="button"
     >
       <div className="flex items-center gap-3 bg-deep-black/90 backdrop-blur-sm border-2 border-[#CCFF00] rounded-none shadow-[4px_4px_0_#CCFF00] p-3 ring-2 ring-black/50">
         <div className="w-16 h-16 rounded-none border-2 border-white/20 flex-shrink-0 bg-black">
@@ -90,6 +90,6 @@ export function CaptureConfirmation({
           </span>
         </div>
       </div>
-    </div>
+    </button>
   )
 }

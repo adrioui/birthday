@@ -60,20 +60,13 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
   const isCustomBg = charm.iconBgColor?.startsWith('#')
 
   return (
-    <div
+    <button
       className={`relative cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-50 active:scale-95 charm-card-focus ${className}`}
       style={{ perspective: '1000px' }}
       onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          handleClick()
-        }
-      }}
-      tabIndex={0}
-      role="button"
       aria-pressed={isFlipped}
       aria-label={`${charm.name} charm card. ${isFlipped ? 'Showing power: ' + charm.power : 'Tap to reveal power'}`}
+      type="button"
     >
       <div
         ref={cardRef}
@@ -143,6 +136,6 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
           </div>
         </div>
       </div>
-    </div>
+    </button>
   )
 }

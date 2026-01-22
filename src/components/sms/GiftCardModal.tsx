@@ -147,9 +147,11 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
         </div>
 
         {/* Gift Area */}
-        <div
-          className="relative h-48 flex items-center justify-center cursor-pointer"
+        <button
+          className="relative h-48 w-full flex items-center justify-center cursor-pointer"
           onClick={handleReveal}
+          type="button"
+          aria-label={isRevealed ? 'Gift revealed' : 'Tap to unwrap your gift'}
         >
           {/* Wrapped Gift */}
           <div
@@ -202,7 +204,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
               Capture the Moment!
             </button>
           </div>
-        </div>
+        </button>
 
         {/* Close Button */}
         <button
