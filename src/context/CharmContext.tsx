@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react'
 import { type Charm } from '../types/charm'
 import { getItem, setItem, removeItem } from '../lib/storage'
 
@@ -115,20 +115,22 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     setIsRedeemed(redeemed)
   }, [])
 
+  const value = useMemo(() => ({ 
+    charms, 
+    bonusPoints,
+    totalPoints, 
+    newlyUnlockedCharm,
+    isRedeemed,
+    addCharm, 
+    removeCharm, 
+    clearCharms,
+    addBonusPoints,
+    dismissUnlockModal,
+    setRedeemed
+  }), [charms, bonusPoints, totalPoints, newlyUnlockedCharm, isRedeemed, addCharm, removeCharm, clearCharms, addBonusPoints, dismissUnlockModal, setRedeemed])
+
   return (
-    <CharmContext.Provider value={{ 
-      charms, 
-      bonusPoints,
-      totalPoints, 
-      newlyUnlockedCharm,
-      isRedeemed,
-      addCharm, 
-      removeCharm, 
-      clearCharms,
-      addBonusPoints,
-      dismissUnlockModal,
-      setRedeemed
-    }}>
+    <CharmContext.Provider value={value}>
       {children}
     </CharmContext.Provider>
   )
