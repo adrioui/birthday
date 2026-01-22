@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
 import { type Charm } from '../types/charm'
+import { getItem, setItem, removeItem } from '../lib/storage'
 
 /* eslint-disable react-refresh/only-export-components */
 
@@ -31,26 +32,17 @@ const REDEEMED_KEY = 'birthday-redeemed'
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) {
-      try {
-        return JSON.parse(saved)
-      } catch (e) {
-        console.error('Failed to parse saved charms', e)
-      }
-    }
-    return initialCharms
+    return getItem<Charm[]>(STORAGE_KEY, initialCharms)
   })
   
   const [bonusPoints, setBonusPoints] = useState<number>(() => {
-    const saved = localStorage.getItem(BONUS_POINTS_KEY)
-    return saved ? parseInt(saved, 10) : 0
+    return getItem<number>(BONUS_POINTS_KEY, 0)
   })
   
   const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null)
   
   const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
-    return localStorage.getItem(REDEEMED_KEY) === 'true'
+    return getItem<boolean>(REDEEMED_KEY, false)
   })
 
   const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
@@ -58,17 +50,17 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   // Persist to localStorage whenever charms change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(charms))
+    setItem(STORAGE_KEY, charms)
   }, [charms])
 
   // Persist bonusPoints to localStorage
   useEffect(() => {
-    localStorage.setItem(BONUS_POINTS_KEY, bonusPoints.toString())
+    setItem(BONUS_POINTS_KEY, bonusPoints)
   }, [bonusPoints])
 
   // Persist isRedeemed to localStorage
   useEffect(() => {
-    localStorage.setItem(REDEEMED_KEY, isRedeemed.toString())
+    setItem(REDEEMED_KEY, isRedeemed)
   }, [isRedeemed])
 
   const addCharm = useCallback((charm: Charm) => {
@@ -88,7 +80,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   const clearCharms = useCallback(() => {
     setCharms([])
-    localStorage.removeItem(STORAGE_KEY)
+    removeItem(STORAGE_KEY)
   }, [])
 
   const addBonusPoints = useCallback((amount: number, reason: string) => {
