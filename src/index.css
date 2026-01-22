@@ -96,6 +96,19 @@ body {
   background-size: 16px 16px;
 }
 
+/* Text background plate for overlay readability */
+.text-bg-plate {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.text-bg-plate-dark {
+  background: rgba(19, 19, 21, 0.85);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
 /* Charm card focus styles */
 .charm-card-focus:focus-visible {
   outline: 3px solid #CCFF00;

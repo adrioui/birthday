@@ -67,7 +67,7 @@ export function CamcorderScreen() {
         >
           <ArrowBackIcon className="w-5 h-5" />
         </button>
-        <div className="px-4 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+        <div className="text-bg-plate-dark px-4 py-1 rounded-full border border-white/20">
           <span className="text-white text-xs font-bold uppercase tracking-widest">
             Filter: Y2K CAM
           </span>
@@ -91,8 +91,10 @@ export function CamcorderScreen() {
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-deep-black z-30">
                 <div className="text-center">
-                  <div className="font-pixel text-xl text-lime animate-pulse">
-                    INITIALIZING CAMERA...
+                  <div className="text-bg-plate-dark inline-block px-6 py-3 rounded-xl">
+                    <div className="font-pixel text-xl text-lime animate-pulse">
+                      INITIALIZING CAMERA...
+                    </div>
                   </div>
                 </div>
               </div>

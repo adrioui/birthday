@@ -27,10 +27,14 @@ export function SMSThreadScreen() {
     <div className="relative flex min-h-dvh flex-col items-center justify-center px-6 py-8 pb-0">
       {/* Floating Chrome Letters */}
       <div className="pointer-events-none absolute left-4 top-[8%] z-0 animate-bounce select-none">
-        <h1 className="chrome-text -rotate-12 transform text-8xl font-black italic opacity-80">H</h1>
+        <div className="text-bg-plate inline-block px-4 py-2 rounded-xl -rotate-12">
+          <h1 className="chrome-text transform text-8xl font-black italic opacity-90">H</h1>
+        </div>
       </div>
       <div className="pointer-events-none absolute right-4 top-[15%] z-0 select-none" style={{ animation: 'bounce 3.2s infinite' }}>
-        <h1 className="chrome-text rotate-6 transform text-8xl font-black italic opacity-80">B</h1>
+        <div className="text-bg-plate inline-block px-4 py-2 rounded-xl rotate-6">
+          <h1 className="chrome-text transform text-8xl font-black italic opacity-90">B</h1>
+        </div>
       </div>
 
       {/* Heart Stickers */}

@@ -17,9 +17,11 @@ export function WalletScreen() {
 
       <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-4 py-2">
         <div className="relative w-full h-28 mb-4 flex items-center justify-center">
-          <h2 className="chrome-text text-5xl sm:text-6xl font-black italic transform -rotate-2 text-center leading-tight">
-            CHARM<br />COLLECTION
-          </h2>
+          <div className="text-bg-plate inline-block px-6 py-3 rounded-xl">
+            <h2 className="chrome-text text-5xl sm:text-6xl font-black italic transform -rotate-2 text-center leading-tight">
+              CHARM<br />COLLECTION
+            </h2>
+          </div>
           <span className="absolute top-2 right-8 text-3xl text-white animate-bounce">✦</span>
           <span className="absolute bottom-2 left-8 text-2xl text-lime animate-pulse">✦</span>
         </div>

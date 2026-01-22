@@ -31,9 +31,11 @@ export function CakeSweeperScreen() {
     <div className="flex min-h-dvh flex-col bg-periwinkle-dark">
       <div className="flex-1 px-6 py-8">
         <div className="relative mb-8 flex items-center justify-center">
-          <h1 className="chrome-text text-6xl font-black italic transform -rotate-3">
-            CAKE SWEEPER
-          </h1>
+          <div className="text-bg-plate inline-block px-6 py-3 rounded-xl">
+            <h1 className="chrome-text text-6xl font-black italic transform -rotate-3">
+              CAKE SWEEPER
+            </h1>
+          </div>
           <span className="absolute -top-2 -right-4 text-4xl animate-bounce">🎂</span>
         </div>
 
