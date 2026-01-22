@@ -1,9 +1,12 @@
 import { useCallback, useRef } from 'react'
+import { useAudioState } from '../context/AudioContext'
 
 export function useAudio() {
   const audioContextRef = useRef<AudioContext | null>(null)
+  const { isMuted } = useAudioState()
 
   const playConnectionSound = useCallback(async () => {
+    if (isMuted) return
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new AudioContext()
@@ -48,9 +51,10 @@ export function useAudio() {
     } catch (error) {
       console.warn('Audio playback failed:', error)
     }
-  }, [])
+  }, [isMuted])
 
   const playGiftRevealSound = useCallback(async () => {
+    if (isMuted) return
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new AudioContext()
@@ -77,9 +81,10 @@ export function useAudio() {
     } catch (error) {
       console.warn('Audio playback failed:', error)
     }
-  }, [])
+  }, [isMuted])
 
   const playShutterSound = useCallback(async () => {
+    if (isMuted) return
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new AudioContext()
@@ -129,7 +134,7 @@ export function useAudio() {
     } catch (error) {
       console.warn('Audio playback failed:', error)
     }
-  }, [])
+  }, [isMuted])
 
   return { playConnectionSound, playGiftRevealSound, playShutterSound }
 }

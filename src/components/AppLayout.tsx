@@ -1,5 +1,6 @@
 import { ScreenTransition } from './transitions/ScreenTransition'
 import { CharmModalManager } from './wallet/CharmModalManager'
+import { SoundToggle } from './ui/SoundToggle'
 
 export function AppLayout() {
   return (
@@ -9,6 +10,9 @@ export function AppLayout() {
       
       {/* Charm Unlock Modal */}
       <CharmModalManager />
+
+      {/* Global sound control */}
+      <SoundToggle />
     </>
   )
 }
