@@ -19,19 +19,30 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   const revealedRef = useRef<HTMLDivElement>(null)
   const captureButtonRef = useRef<HTMLButtonElement>(null)
   const [isRevealed, setIsRevealed] = useState(false)
+  const openTlRef = useRef<gsap.core.Timeline | null>(null)
+  const revealTlRef = useRef<gsap.core.Timeline | null>(null)
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (!backdropRef.current || !cardRef.current) return
 
-    gsap.fromTo(backdropRef.current,
-      { opacity: 0 },
+    const tl = gsap.timeline()
+    tl.to(backdropRef.current,
       { opacity: 1, duration: 0.3 }
     )
 
-    gsap.fromTo(cardRef.current,
+    tl.fromTo(cardRef.current,
       { scale: 0.5, opacity: 0, y: 50 },
       { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }
     )
+
+    openTlRef.current = tl
+
+    return () => {
+      openTlRef.current?.kill()
+      revealTlRef.current?.kill()
+      closeTlRef.current?.kill()
+    }
   }, [])
 
   const handleReveal = () => {
@@ -40,6 +51,8 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
     setIsRevealed(true)
     playGiftRevealSound()
     addBonusPoints(50, 'gift-card-reveal')
+
+    revealTlRef.current?.kill()
 
     const tl = gsap.timeline()
 
@@ -72,6 +85,8 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
       { scale: 1, opacity: 1, rotation: 0, duration: 0.5, ease: 'back.out(1.7)' },
       '-=0.1'
     )
+
+    revealTlRef.current = tl
   }
 
   const handleClose = () => {
@@ -80,18 +95,23 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
       return
     }
 
-    gsap.to(cardRef.current, {
+    closeTlRef.current?.kill()
+
+    const tl = gsap.timeline()
+    tl.to(cardRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 30,
       duration: 0.3,
       ease: 'power2.in',
     })
-    gsap.to(backdropRef.current, {
+    tl.to(backdropRef.current, {
       opacity: 0,
       duration: 0.3,
       onComplete: onClose,
     })
+
+    closeTlRef.current = tl
   }
 
   const handleCaptureClick = () => {

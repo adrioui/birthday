@@ -50,6 +50,9 @@ export function ScreenShake({ trigger, intensity = 'medium', onComplete }: Scree
       ease: 'power1.out',
     })
 
+    return () => {
+      tl.kill()
+    }
   }, [trigger, intensity, onComplete])
 
   if (!trigger) return null

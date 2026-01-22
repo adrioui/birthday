@@ -79,6 +79,9 @@ export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
       delay: 0.3,
     })
 
+    return () => {
+      tl.kill()
+    }
   }, [trigger, onComplete])
 
   if (!trigger) return null

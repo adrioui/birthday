@@ -14,6 +14,8 @@ export function CaptureConfirmation({
 }: CaptureConfirmationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const timerRef = useRef<number | null>(null)
+  const openTweenRef = useRef<gsap.core.Tween | null>(null)
+  const closeTweenRef = useRef<gsap.core.Tween | null>(null)
 
   const handleDismiss = useCallback(() => {
     if (!containerRef.current) {
@@ -21,7 +23,9 @@ export function CaptureConfirmation({
       return
     }
 
-    gsap.to(containerRef.current, {
+    closeTweenRef.current?.kill()
+
+    const tween = gsap.to(containerRef.current, {
       y: 100,
       opacity: 0,
       scale: 0.8,
@@ -29,16 +33,22 @@ export function CaptureConfirmation({
       ease: 'power2.in',
       onComplete: onDismiss
     })
+
+    closeTweenRef.current = tween
   }, [onDismiss])
 
   useEffect(() => {
     if (!containerRef.current) return
 
-    gsap.fromTo(
+    openTweenRef.current?.kill()
+
+    const tween = gsap.fromTo(
       containerRef.current,
       { y: 100, opacity: 0, scale: 0.8 },
       { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }
     )
+
+    openTweenRef.current = tween
 
     timerRef.current = window.setTimeout(() => {
       handleDismiss()
@@ -48,6 +58,8 @@ export function CaptureConfirmation({
       if (timerRef.current) {
         clearTimeout(timerRef.current)
       }
+      openTweenRef.current?.kill()
+      closeTweenRef.current?.kill()
     }
   }, [autoDismissMs, handleDismiss])
 

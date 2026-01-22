@@ -34,6 +34,9 @@ export function FlashOverlay({ trigger, onComplete }: FlashOverlayProps) {
     tl.to(flashRef.current, { opacity: 1, duration: 0.05 })
     tl.to(flashRef.current, { opacity: 0, duration: 0.2, ease: 'power2.in' })
 
+    return () => {
+      tl.kill()
+    }
   }, [trigger, onComplete])
 
   if (!trigger) return null

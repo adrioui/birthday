@@ -57,6 +57,9 @@ export function GlitchOverlay({ trigger, duration = 0.5, onComplete }: GlitchOve
       ease: 'steps(2)',
     })
 
+    return () => {
+      tl.kill()
+    }
   }, [trigger, duration, onComplete])
 
   if (!trigger) return null

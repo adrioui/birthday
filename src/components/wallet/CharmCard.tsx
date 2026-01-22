@@ -16,13 +16,16 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
   const isAnimating = useRef(false)
   const hasAwardedBonus = useRef(false)
   const { addBonusPoints } = useCharms()
+  const tweenRef = useRef<gsap.core.Tween | null>(null)
 
   useEffect(() => {
     if (!cardRef.current || isAnimating.current) return
 
     isAnimating.current = true
 
-    gsap.to(cardRef.current, {
+    tweenRef.current?.kill()
+
+    const tween = gsap.to(cardRef.current, {
       rotateY: isFlipped ? 180 : 0,
       duration: 0.6,
       ease: 'power2.inOut',
@@ -31,6 +34,8 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
       },
     })
 
+    tweenRef.current = tween
+
     if (isFlipped) {
       trackEvent('charm_viewed', { charmId: charm.id, charmName: charm.name })
 
@@ -38,6 +43,10 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
         addBonusPoints(10, 'charm-inspect')
         hasAwardedBonus.current = true
       }
+    }
+
+    return () => {
+      tweenRef.current?.kill()
     }
   }, [isFlipped, charm.id, charm.name, addBonusPoints])
 

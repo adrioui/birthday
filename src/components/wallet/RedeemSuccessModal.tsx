@@ -17,6 +17,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
   const sparkle2Ref = useRef<HTMLDivElement>(null)
   const sparkle3Ref = useRef<HTMLDivElement>(null)
   const sparkle4Ref = useRef<HTMLDivElement>(null)
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -63,6 +64,10 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
       '-=0.2'
     )
 
+    return () => {
+      tl.kill()
+      closeTlRef.current?.kill()
+    }
   }, [isOpen])
 
   const handleClose = () => {
@@ -71,7 +76,10 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
       return
     }
 
-    gsap.to(containerRef.current, {
+    closeTlRef.current?.kill()
+
+    const tl = gsap.timeline()
+    tl.to(containerRef.current, {
       scale: 1.2,
       opacity: 0,
       rotation: 10,
@@ -79,11 +87,13 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
       ease: 'power2.in'
     })
 
-    gsap.to(backdropRef.current, {
+    tl.to(backdropRef.current, {
       opacity: 0,
       duration: 0.3,
       onComplete: onClose
     })
+
+    closeTlRef.current = tl
   }
 
   const handleBackdropClick = (e: React.MouseEvent) => {

@@ -18,6 +18,8 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
   const { handleFlip, isFlipped } = useCharmFlip()
   const { playGiftRevealSound } = useAudio()
   const navigate = useNavigate()
+  const openTlRef = useRef<gsap.core.Timeline | null>(null)
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (!backdropRef.current || !containerRef.current) return
@@ -27,12 +29,18 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
     const tl = gsap.timeline()
 
     tl.to(backdropRef.current, { opacity: 1, duration: 0.3 })
-    
+
     tl.fromTo(containerRef.current,
       { scale: 0.5, opacity: 0, rotation: -10 },
       { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.5)' }
     )
 
+    openTlRef.current = tl
+
+    return () => {
+      openTlRef.current?.kill()
+      closeTlRef.current?.kill()
+    }
   }, [playGiftRevealSound])
 
   const handleClose = () => {
@@ -42,7 +50,10 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
       return
     }
 
-    gsap.to(containerRef.current, {
+    closeTlRef.current?.kill()
+
+    const tl = gsap.timeline()
+    tl.to(containerRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 50,
@@ -50,7 +61,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
       ease: 'power2.in'
     })
 
-    gsap.to(backdropRef.current, {
+    tl.to(backdropRef.current, {
       opacity: 0,
       duration: 0.3,
       onComplete: () => {
@@ -58,6 +69,8 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
         navigate({ to: '/wallet' })
       }
     })
+
+    closeTlRef.current = tl
   }
 
   return (

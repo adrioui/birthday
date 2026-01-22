@@ -17,6 +17,7 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
   const confirmButtonRef = useRef<HTMLButtonElement>(null)
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
   const [showConfetti, setShowConfetti] = useState(false)
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -51,6 +52,10 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
       '-=0.2'
     )
 
+    return () => {
+      tl.kill()
+      closeTlRef.current?.kill()
+    }
   }, [isOpen])
 
   const handleConfirm = () => {
@@ -68,7 +73,10 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
       return
     }
 
-    gsap.to(containerRef.current, {
+    closeTlRef.current?.kill()
+
+    const tl = gsap.timeline()
+    tl.to(containerRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 30,
@@ -76,11 +84,13 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
       ease: 'power2.in'
     })
 
-    gsap.to(backdropRef.current, {
+    tl.to(backdropRef.current, {
       opacity: 0,
       duration: 0.3,
       onComplete: onCancel
     })
+
+    closeTlRef.current = tl
   }
 
   const handleBackdropClick = (e: React.MouseEvent) => {

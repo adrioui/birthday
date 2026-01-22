@@ -7,6 +7,7 @@ interface ConfettiProps {
 
 export function Confetti({ trigger }: ConfettiProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const tweensRef = useRef<gsap.core.Tween[]>([])
 
   useEffect(() => {
     if (!trigger || !containerRef.current) return
@@ -14,6 +15,7 @@ export function Confetti({ trigger }: ConfettiProps) {
     const container = containerRef.current
     const colors = ['#CCFF00', '#FF0099', '#CCCCFF', '#FFD700', '#FF6B6B']
     const confettiCount = 50
+    const tweens: gsap.core.Tween[] = []
 
     for (let i = 0; i < confettiCount; i++) {
       const confetti = document.createElement('div')
@@ -23,7 +25,7 @@ export function Confetti({ trigger }: ConfettiProps) {
       confetti.style.top = '-20px'
       container.appendChild(confetti)
 
-      gsap.to(confetti, {
+      const tween = gsap.to(confetti, {
         y: window.innerHeight + 50,
         x: (Math.random() - 0.5) * 200,
         rotation: Math.random() * 720,
@@ -32,6 +34,14 @@ export function Confetti({ trigger }: ConfettiProps) {
         ease: 'power1.out',
         onComplete: () => confetti.remove(),
       })
+      tweens.push(tween)
+    }
+
+    tweensRef.current = tweens
+
+    return () => {
+      tweens.forEach(tween => tween.kill())
+      tweensRef.current = []
     }
   }, [trigger])
 
