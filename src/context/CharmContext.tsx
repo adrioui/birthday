@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { type Charm } from '../types/charm'
-import { getItem, setItem, removeItem } from '../lib/storage'
+import { getValidatedCharms, getItem, setItem, removeItem } from '../lib/storage'
 
 /* eslint-disable react-refresh/only-export-components */
 
@@ -33,7 +33,7 @@ const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses'
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
-    return getItem<Charm[]>(STORAGE_KEY, initialCharms)
+    return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms)
   })
   
   const [bonusPoints, setBonusPoints] = useState<number>(() => {
