@@ -4,6 +4,8 @@ import { useCamera } from './useCamera'
 import {
   mockGetUserMediaSuccess,
   mockGetUserMediaDenied,
+  mockGetUserMediaNotFound,
+  mockGetUserMediaNotReadable,
   mockGetUserMediaUnsupported,
 } from '../test/mocks/mediaDevices'
 
@@ -41,6 +43,30 @@ describe('useCamera', () => {
 
     expect(result.current.state).toBe('denied')
     expect(result.current.error).toBe('Camera permission denied')
+  })
+
+  it('transitions to error when camera not found', async () => {
+    mockGetUserMediaNotFound()
+    const { result } = renderHook(() => useCamera())
+
+    await act(async () => {
+      await result.current.startCamera()
+    })
+
+    expect(result.current.state).toBe('error')
+    expect(result.current.error).toBe('No camera found')
+  })
+
+  it('transitions to error when camera in use', async () => {
+    mockGetUserMediaNotReadable()
+    const { result } = renderHook(() => useCamera())
+
+    await act(async () => {
+      await result.current.startCamera()
+    })
+
+    expect(result.current.state).toBe('error')
+    expect(result.current.error).toBe('Camera in use by another app')
   })
 
   it('handles unsupported browser', async () => {

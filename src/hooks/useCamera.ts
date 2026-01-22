@@ -66,13 +66,19 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
 
       setState('active')
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+      const errorName = err instanceof DOMException ? err.name : 'Error'
       
-      if (errorMessage.includes('Permission denied') || 
-          errorMessage.includes('NotAllowedError')) {
+      if (errorName === 'NotAllowedError') {
         setState('denied')
         setError('Camera permission denied')
+      } else if (errorName === 'NotFoundError') {
+        setState('error')
+        setError('No camera found')
+      } else if (errorName === 'NotReadableError') {
+        setState('error')
+        setError('Camera in use by another app')
       } else {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error'
         setState('error')
         setError(errorMessage)
       }

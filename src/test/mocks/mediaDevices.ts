@@ -15,11 +15,32 @@ export function mockGetUserMediaSuccess() {
 }
 
 export function mockGetUserMediaDenied() {
+  const error = new DOMException('Permission denied', 'NotAllowedError')
   Object.defineProperty(navigator, 'mediaDevices', {
     value: {
-      getUserMedia: vi.fn().mockRejectedValue(
-        new Error('Permission denied')
-      ),
+      getUserMedia: vi.fn().mockRejectedValue(error),
+    },
+    configurable: true,
+    writable: true,
+  })
+}
+
+export function mockGetUserMediaNotFound() {
+  const error = new DOMException('Camera not found', 'NotFoundError')
+  Object.defineProperty(navigator, 'mediaDevices', {
+    value: {
+      getUserMedia: vi.fn().mockRejectedValue(error),
+    },
+    configurable: true,
+    writable: true,
+  })
+}
+
+export function mockGetUserMediaNotReadable() {
+  const error = new DOMException('Camera in use', 'NotReadableError')
+  Object.defineProperty(navigator, 'mediaDevices', {
+    value: {
+      getUserMedia: vi.fn().mockRejectedValue(error),
     },
     configurable: true,
     writable: true,
