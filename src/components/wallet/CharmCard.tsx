@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { type Charm } from '../../types/charm'
 import { trackEvent } from '../../lib/telemetry'
+import { useCharms } from '../../context/CharmContext'
 
 interface CharmCardProps {
   charm: Charm
@@ -13,6 +14,8 @@ interface CharmCardProps {
 export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isAnimating = useRef(false)
+  const hasAwardedBonus = useRef(false)
+  const { addBonusPoints } = useCharms()
 
   useEffect(() => {
     if (!cardRef.current || isAnimating.current) return
@@ -30,8 +33,13 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
 
     if (isFlipped) {
       trackEvent('charm_viewed', { charmId: charm.id, charmName: charm.name })
+
+      if (!hasAwardedBonus.current) {
+        addBonusPoints(10, 'charm-inspect')
+        hasAwardedBonus.current = true
+      }
     }
-  }, [isFlipped, charm.id, charm.name])
+  }, [isFlipped, charm.id, charm.name, addBonusPoints])
 
   const handleClick = () => {
     if (isAnimating.current) return
