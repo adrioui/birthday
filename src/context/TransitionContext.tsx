@@ -22,6 +22,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   })
 
   const startTransition = useCallback((type: 'phone-to-sms' | 'gift-to-camcorder', rect: DOMRect) => {
+    console.log('[TransitionContext] startTransition called with:', { type, rect })
     setState({ isTransitioning: true, transitionType: type, phoneScreenRect: rect })
   }, [])
 

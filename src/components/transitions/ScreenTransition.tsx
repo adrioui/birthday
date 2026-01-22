@@ -22,10 +22,14 @@ export function ScreenTransition() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log('[ScreenTransition] useEffect triggered:', { isTransitioning, transitionType, phoneScreenRect: phoneScreenRect ? { left: phoneScreenRect.left, top: phoneScreenRect.top, width: phoneScreenRect.width, height: phoneScreenRect.height } : null })
+    
     if (!isTransitioning || !transitionType || !phoneScreenRect || !overlayRef.current) {
+      console.log('[ScreenTransition] exiting - conditions not met:', { isTransitioning, hasType: !!transitionType, hasRect: !!phoneScreenRect, hasRef: !!overlayRef.current })
       return
     }
 
+    console.log('[ScreenTransition] starting animation for:', transitionType)
     const config = transitionConfig[transitionType]
     const overlay = overlayRef.current
 
@@ -39,16 +43,21 @@ export function ScreenTransition() {
       borderRadius: '0.5rem',
       zIndex: 100,
       opacity: 1,
+      display: 'block',
     })
 
     const tl = gsap.timeline({
       onComplete: () => {
+        console.log('[ScreenTransition] animation complete, navigating to:', config.to)
         navigate({ to: config.to })
         setTimeout(() => {
           gsap.to(overlay, {
             opacity: 0,
             duration: 0.3,
-            onComplete: endTransition,
+            onComplete: () => {
+              console.log('[ScreenTransition] fade out complete, calling endTransition')
+              endTransition()
+            },
           })
         }, 100)
       }
