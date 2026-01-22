@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { type Charm } from '../../types/charm'
 import { trackEvent } from '../../lib/telemetry'
 import { useCharms } from '../../context/CharmContext'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface CharmCardProps {
   charm: Charm
@@ -12,6 +13,7 @@ interface CharmCardProps {
 }
 
 export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCardProps) {
+  const prefersReduced = useReducedMotion()
   const cardRef = useRef<HTMLDivElement>(null)
   const isAnimating = useRef(false)
   const hasAwardedBonus = useRef(false)
@@ -25,9 +27,11 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
 
     tweenRef.current?.kill()
 
+    const duration = prefersReduced ? 0 : 0.6
+
     const tween = gsap.to(cardRef.current, {
       rotateY: isFlipped ? 180 : 0,
-      duration: 0.6,
+      duration,
       ease: 'power2.inOut',
       onComplete: () => {
         isAnimating.current = false
@@ -48,7 +52,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
     return () => {
       tweenRef.current?.kill()
     }
-  }, [isFlipped, charm.id, charm.name, addBonusPoints])
+  }, [isFlipped, charm.id, charm.name, addBonusPoints, prefersReduced])
 
   const handleClick = () => {
     if (isAnimating.current) return

@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { Confetti } from '../effects/Confetti'
 import { useAudio } from '../../hooks/useAudio'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useTransition } from '../../context/TransitionContext'
 import { useCharms } from '../../context/CharmContext'
 
@@ -13,6 +14,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   const { playGiftRevealSound } = useAudio()
   const { startTransition } = useTransition()
   const { addBonusPoints } = useCharms()
+  const prefersReduced = useReducedMotion()
   const backdropRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const wrappedRef = useRef<HTMLDivElement>(null)
@@ -26,14 +28,17 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   useEffect(() => {
     if (!backdropRef.current || !cardRef.current) return
 
+    const duration = prefersReduced ? 0 : 0.3
+    const cardDuration = prefersReduced ? 0 : 0.5
+
     const tl = gsap.timeline()
     tl.to(backdropRef.current,
-      { opacity: 1, duration: 0.3 }
+      { opacity: 1, duration }
     )
 
     tl.fromTo(cardRef.current,
       { scale: 0.5, opacity: 0, y: 50 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }
+      { scale: 1, opacity: 1, y: 0, duration: cardDuration, ease: 'back.out(1.7)' }
     )
 
     openTlRef.current = tl
@@ -43,7 +48,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
       revealTlRef.current?.kill()
       closeTlRef.current?.kill()
     }
-  }, [])
+  }, [prefersReduced])
 
   const handleReveal = () => {
     if (isRevealed || !wrappedRef.current || !revealedRef.current) return
@@ -54,35 +59,40 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
     revealTlRef.current?.kill()
 
+    const shakeDuration = prefersReduced ? 0 : 0.1
+    const scaleDuration = prefersReduced ? 0 : 0.2
+    const fadeDuration = prefersReduced ? 0 : 0.3
+    const revealDuration = prefersReduced ? 0 : 0.5
+
     const tl = gsap.timeline()
 
     tl.to(wrappedRef.current, {
       rotation: -5,
-      duration: 0.1,
+      duration: shakeDuration,
     })
     tl.to(wrappedRef.current, {
       rotation: 5,
-      duration: 0.1,
+      duration: shakeDuration,
     })
     tl.to(wrappedRef.current, {
       rotation: -5,
-      duration: 0.1,
+      duration: shakeDuration,
     })
     tl.to(wrappedRef.current, {
       rotation: 0,
       scale: 1.2,
-      duration: 0.2,
+      duration: scaleDuration,
     })
 
     tl.to(wrappedRef.current, {
       scale: 0,
       opacity: 0,
-      duration: 0.3,
+      duration: fadeDuration,
       ease: 'power2.in',
     })
     tl.fromTo(revealedRef.current,
       { scale: 0, opacity: 0, rotation: -10 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 0.5, ease: 'back.out(1.7)' },
+      { scale: 1, opacity: 1, rotation: 0, duration: revealDuration, ease: 'back.out(1.7)' },
       '-=0.1'
     )
 
@@ -97,17 +107,19 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
     closeTlRef.current?.kill()
 
+    const duration = prefersReduced ? 0 : 0.3
+
     const tl = gsap.timeline()
     tl.to(cardRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 30,
-      duration: 0.3,
+      duration,
       ease: 'power2.in',
     })
     tl.to(backdropRef.current, {
       opacity: 0,
-      duration: 0.3,
+      duration,
       onComplete: onClose,
     })
 

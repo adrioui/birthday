@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { gsap } from 'gsap'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface CaptureConfirmationProps {
   imageUrl: string
@@ -7,11 +8,12 @@ interface CaptureConfirmationProps {
   autoDismissMs?: number
 }
 
-export function CaptureConfirmation({ 
-  imageUrl, 
+export function CaptureConfirmation({
+  imageUrl,
   onDismiss,
-  autoDismissMs = 2000 
+  autoDismissMs = 2000
 }: CaptureConfirmationProps) {
+  const prefersReduced = useReducedMotion()
   const containerRef = useRef<HTMLButtonElement>(null)
   const timerRef = useRef<number | null>(null)
   const openTweenRef = useRef<gsap.core.Tween | null>(null)
@@ -25,27 +27,31 @@ export function CaptureConfirmation({
 
     closeTweenRef.current?.kill()
 
+    const duration = prefersReduced ? 0 : 0.3
+
     const tween = gsap.to(containerRef.current, {
       y: 100,
       opacity: 0,
       scale: 0.8,
-      duration: 0.3,
+      duration,
       ease: 'power2.in',
       onComplete: onDismiss
     })
 
     closeTweenRef.current = tween
-  }, [onDismiss])
+  }, [onDismiss, prefersReduced])
 
   useEffect(() => {
     if (!containerRef.current) return
 
     openTweenRef.current?.kill()
 
+    const duration = prefersReduced ? 0 : 0.4
+
     const tween = gsap.fromTo(
       containerRef.current,
       { y: 100, opacity: 0, scale: 0.8 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }
+      { y: 0, opacity: 1, scale: 1, duration, ease: 'back.out(1.7)' }
     )
 
     openTweenRef.current = tween
@@ -61,7 +67,7 @@ export function CaptureConfirmation({
       openTweenRef.current?.kill()
       closeTweenRef.current?.kill()
     }
-  }, [autoDismissMs, handleDismiss])
+  }, [autoDismissMs, handleDismiss, prefersReduced])
 
   return (
     <button

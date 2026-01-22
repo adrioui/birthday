@@ -1,16 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface ConfettiProps {
   trigger: boolean
 }
 
 export function Confetti({ trigger }: ConfettiProps) {
+  const prefersReduced = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const tweensRef = useRef<gsap.core.Tween[]>([])
 
   useEffect(() => {
     if (!trigger || !containerRef.current) return
+    if (prefersReduced) return
 
     const container = containerRef.current
     const colors = ['#CCFF00', '#FF0099', '#CCCCFF', '#FFD700', '#FF6B6B']
@@ -43,7 +46,7 @@ export function Confetti({ trigger }: ConfettiProps) {
       tweens.forEach(tween => tween.kill())
       tweensRef.current = []
     }
-  }, [trigger])
+  }, [trigger, prefersReduced])
 
   return (
     <div
