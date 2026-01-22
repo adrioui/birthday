@@ -29,6 +29,7 @@ const STORAGE_KEY = 'birthday-os-charms'
 
 const BONUS_POINTS_KEY = 'birthday-os-bonus-points'
 const REDEEMED_KEY = 'birthday-redeemed'
+const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses'
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
@@ -43,6 +44,11 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   
   const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
     return getItem<boolean>(REDEEMED_KEY, false)
+  })
+  
+  const [awardedReasons, setAwardedReasons] = useState<Set<string>>(() => {
+    const stored = getItem<string[]>(AWARDED_REASONS_KEY, [])
+    return new Set(stored)
   })
 
   const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
@@ -84,10 +90,22 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   }, [])
 
   const addBonusPoints = useCallback((amount: number, reason: string) => {
-    setBonusPoints(prev => prev + amount)
-    // Log for debugging
-    console.debug(`Bonus points awarded: +${amount} (${reason})`)
+    setAwardedReasons(prev => {
+      if (prev.has(reason)) {
+        console.debug(`Bonus points already awarded for: ${reason}`)
+        return prev
+      }
+      const updated = new Set(prev)
+      updated.add(reason)
+      setBonusPoints(p => p + amount)
+      console.debug(`Bonus points awarded: +${amount} (${reason})`)
+      return updated
+    })
   }, [])
+
+  useEffect(() => {
+    setItem(AWARDED_REASONS_KEY, Array.from(awardedReasons))
+  }, [awardedReasons])
 
   const dismissUnlockModal = useCallback(() => {
     setNewlyUnlockedCharm(null)
