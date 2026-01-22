@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { useCamera } from '../hooks/useCamera'
 import { useCapture } from '../hooks/useCapture'
 import { useAudio } from '../hooks/useAudio'
@@ -11,6 +12,7 @@ import { SnapButton, FlashOverlay, CaptureConfirmation } from '../components/cam
 import { trackEvent } from '../lib/telemetry'
 
 export function CamcorderScreen() {
+  const navigate = useNavigate()
   const { videoRef, state, error, startCamera } = useCamera({ facingMode: 'user' })
   const { captureFrame, isCapturing } = useCapture()
   const { playShutterSound } = useAudio()
@@ -34,11 +36,11 @@ export function CamcorderScreen() {
     
     if (result) {
       setCapturedImageUrl(result.dataUrl)
+      localStorage.setItem('last-captured-photo', result.dataUrl)
       trackEvent('snap_taken')
       completeMilestone('photo-snapped')
       addBonusPoints(25, 'snap-capture')
 
-      // Unlock "Digi-Pet" charm (id: digi-pet)
       const charm = PLACEHOLDER_CHARMS.find(c => c.id === 'digi-pet')
       if (charm) {
         addCharm(charm)
@@ -138,10 +140,12 @@ export function CamcorderScreen() {
       <div className="relative z-50 w-full p-6 pb-12 bg-gradient-to-t from-periwinkle-dark/90 via-periwinkle-dark/50 to-transparent flex flex-col items-center justify-center gap-6">
         <div className="flex items-center justify-center gap-8 w-full">
           <button
-            className="modal-btn-focus text-deep-black opacity-60 hover:opacity-100 hover:rotate-12 transition-all"
-            aria-label="View gallery"
+            onClick={() => capturedImageUrl && navigate({ to: '/memory-snapshot' })}
+            disabled={!capturedImageUrl}
+            className="modal-btn-focus text-deep-black opacity-60 hover:opacity-100 hover:rotate-12 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Share memory"
           >
-            <CollectionsIcon className="w-8 h-8" />
+            <ShareIcon className="w-8 h-8" />
           </button>
 
           <SnapButton onClick={handleSnap} disabled={state !== 'active' || isCapturing || showFlash} />
@@ -183,10 +187,10 @@ function SettingsIcon({ className }: { className?: string }) {
   )
 }
 
-function CollectionsIcon({ className }: { className?: string }) {
+function ShareIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/>
+      <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
     </svg>
   )
 }
