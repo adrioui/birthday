@@ -129,6 +129,56 @@ describe('storage', () => {
       const invalidCharm = { ...testCharm, iconColor: {} as unknown as string }
       expect(validateCharm(invalidCharm)).toBe(false)
     })
+
+    it('returns false when iconBgColor is not a valid color', () => {
+      const invalidCharm = { ...testCharm, iconBgColor: 'javascript:alert(1)' }
+      expect(validateCharm(invalidCharm)).toBe(false)
+    })
+
+    it('returns false when iconColor is not a valid color', () => {
+      const invalidCharm = { ...testCharm, iconColor: 'invalid-color-name-xyz' }
+      expect(validateCharm(invalidCharm)).toBe(false)
+    })
+
+    it('returns true for valid hex colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: '#FFF', iconColor: '#123ABC' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for valid named colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: 'red', iconColor: 'blue' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for valid rgb colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: 'rgb(255, 0, 0)', iconColor: 'rgb(0, 255, 0)' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for valid rgba colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: 'rgba(255, 0, 0, 0.5)', iconColor: 'rgba(0, 255, 0, 1)' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for valid hsl colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: 'hsl(0, 100%, 50%)', iconColor: 'hsl(120, 100%, 50%)' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for valid hsla colors', () => {
+      const validCharm = { ...testCharm, iconBgColor: 'hsla(0, 100%, 50%, 0.5)', iconColor: 'hsla(120, 100%, 50%, 1)' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns true for empty color strings', () => {
+      const validCharm = { ...testCharm, iconBgColor: '', iconColor: ' ' }
+      expect(validateCharm(validCharm)).toBe(true)
+    })
+
+    it('returns false for color with expression', () => {
+      const invalidCharm = { ...testCharm, iconBgColor: 'expression(alert(1))' }
+      expect(validateCharm(invalidCharm)).toBe(false)
+    })
   })
 
   describe('getValidatedCharms', () => {
