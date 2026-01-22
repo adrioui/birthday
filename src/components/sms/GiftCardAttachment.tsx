@@ -7,7 +7,7 @@ export function GiftCardAttachment({ onClick, isUnlocked }: GiftCardAttachmentPr
   return (
     <button
       onClick={onClick}
-      className="mt-2 w-full bg-white border-2 border-deep-black/20 rounded-lg p-2 flex items-center gap-3 hover:bg-gray-50 transition-colors cursor-pointer"
+      className="gift-card-focus mt-2 w-full bg-white border-2 border-deep-black/20 rounded-lg p-2 flex items-center gap-3 hover:bg-gray-50 transition-colors cursor-pointer"
       aria-label="Open gift card"
     >
       <div className="bg-pink-100 p-2 rounded border border-pink-200">

@@ -59,7 +59,7 @@ export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTil
       <button
         onClick={handleClick}
         onContextMenu={handleRightClick}
-        className="w-8 h-8 flex items-center justify-center border-t-2 border-l-2 border-white/50 border-b-2 border-r-2 border-black/30 bg-[#C3C7CB] hover:bg-[#d4d8dc] active:border-t-2 active:border-l-2 active:border-b-2 active:border-r-2 transition-colors"
+        className="tile-focus w-8 h-8 flex items-center justify-center border-t-2 border-l-2 border-white/50 border-b-2 border-r-2 border-black/30 bg-[#C3C7CB] hover:bg-[#d4d8dc] active:border-t-2 active:border-l-2 active:border-b-2 active:border-r-2 transition-colors"
         aria-label={`Flagged tile at row ${tile.row + 1}, column ${tile.col + 1}`}
       >
         <span className="text-sm" role="img" aria-label="flag">🚩</span>
@@ -71,7 +71,7 @@ export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTil
     <button
       onClick={handleClick}
       onContextMenu={handleRightClick}
-      className="w-8 h-8 flex items-center justify-center border-t-2 border-l-2 border-white/50 border-b-2 border-r-2 border-black/30 bg-[#C3C7CB] hover:bg-[#d4d8dc] active:border-t-2 active:border-l-2 active:border-b-2 active:border-r-2 transition-colors"
+      className="tile-focus w-8 h-8 flex items-center justify-center border-t-2 border-l-2 border-white/50 border-b-2 border-r-2 border-black/30 bg-[#C3C7CB] hover:bg-[#d4d8dc] active:border-t-2 active:border-l-2 active:border-b-2 active:border-r-2 transition-colors"
       aria-label={`Tile at row ${tile.row + 1}, column ${tile.col + 1}, not revealed`}
     >
     </button>

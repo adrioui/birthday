@@ -61,8 +61,8 @@ export function CamcorderScreen() {
   return (
     <div className="relative flex min-h-dvh flex-col bg-deep-black overflow-hidden">
       <div className="relative z-50 flex items-center justify-between p-4 pt-6">
-        <button 
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white/40 transition-colors"
+        <button
+          className="modal-btn-focus flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white/40 transition-colors"
           aria-label="Go back"
         >
           <ArrowBackIcon className="w-5 h-5" />
@@ -72,8 +72,8 @@ export function CamcorderScreen() {
             Filter: Y2K CAM
           </span>
         </div>
-        <button 
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white/40 transition-colors"
+        <button
+          className="modal-btn-focus flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white/40 transition-colors"
           aria-label="Settings"
         >
           <SettingsIcon className="w-5 h-5" />
@@ -132,8 +132,8 @@ export function CamcorderScreen() {
 
       <div className="relative z-50 w-full p-6 pb-12 bg-gradient-to-t from-periwinkle-dark/90 via-periwinkle-dark/50 to-transparent flex flex-col items-center justify-center gap-6">
         <div className="flex items-center justify-center gap-8 w-full">
-          <button 
-            className="text-deep-black opacity-60 hover:opacity-100 hover:rotate-12 transition-all"
+          <button
+            className="modal-btn-focus text-deep-black opacity-60 hover:opacity-100 hover:rotate-12 transition-all"
             aria-label="View gallery"
           >
             <CollectionsIcon className="w-8 h-8" />
@@ -141,8 +141,8 @@ export function CamcorderScreen() {
 
           <SnapButton onClick={handleSnap} disabled={state !== 'active' || isCapturing || showFlash} />
 
-          <button 
-            className="text-deep-black opacity-60 hover:opacity-100 hover:-rotate-12 transition-all"
+          <button
+            className="modal-btn-focus text-deep-black opacity-60 hover:opacity-100 hover:-rotate-12 transition-all"
             aria-label="Switch camera"
           >
             <SwitchCameraIcon className="w-8 h-8" />

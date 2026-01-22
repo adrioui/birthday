@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { Confetti } from '../effects/Confetti'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 interface RedeemSuccessModalProps {
   isOpen: boolean
@@ -18,6 +19,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
   const sparkle3Ref = useRef<HTMLDivElement>(null)
   const sparkle4Ref = useRef<HTMLDivElement>(null)
   const closeTlRef = useRef<gsap.core.Timeline | null>(null)
+  const restoreFocus = useFocusTrap(isOpen, containerRef)
 
   useEffect(() => {
     if (!isOpen) return
@@ -71,6 +73,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
   }, [isOpen])
 
   const handleClose = () => {
+    restoreFocus()
     if (!backdropRef.current || !containerRef.current) {
       onClose()
       return
@@ -169,7 +172,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
         <button
           ref={buttonRef}
           onClick={handleClose}
-          className="w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#131315]"
+          className="modal-btn-focus w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#131315]"
         >
           Awesome!
         </button>

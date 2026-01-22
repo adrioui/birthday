@@ -6,6 +6,7 @@ import { CharmCard } from './CharmCard'
 import { useCharmFlip } from '../../hooks/useCharmFlip'
 import { Confetti } from '../effects/Confetti'
 import { useAudio } from '../../hooks/useAudio'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 interface CharmUnlockModalProps {
   charm: Charm
@@ -20,6 +21,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
   const navigate = useNavigate()
   const openTlRef = useRef<gsap.core.Timeline | null>(null)
   const closeTlRef = useRef<gsap.core.Timeline | null>(null)
+  const restoreFocus = useFocusTrap(true, containerRef)
 
   useEffect(() => {
     if (!backdropRef.current || !containerRef.current) return
@@ -44,6 +46,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
   }, [playGiftRevealSound])
 
   const handleClose = () => {
+    restoreFocus()
     if (!backdropRef.current || !containerRef.current) {
       onDismiss()
       navigate({ to: '/wallet' })
@@ -103,7 +106,7 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
 
         <button
           onClick={handleClose}
-          className="px-8 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all"
+          className="modal-btn-focus px-8 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all"
         >
           Awesome!
         </button>

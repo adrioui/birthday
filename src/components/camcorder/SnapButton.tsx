@@ -13,7 +13,7 @@ export const SnapButton = forwardRef<HTMLButtonElement, SnapButtonProps>(
         onClick={onClick}
         disabled={disabled}
         aria-label="Take a photo"
-        className="relative group cursor-pointer active:scale-95 transition-transform duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="snap-btn-focus relative group cursor-pointer active:scale-95 transition-transform duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <div
           className={`

@@ -5,6 +5,7 @@ import { useAudio } from '../../hooks/useAudio'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useTransition } from '../../context/TransitionContext'
 import { useCharms } from '../../context/CharmContext'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 interface GiftCardModalProps {
   onClose: () => void
@@ -24,6 +25,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   const openTlRef = useRef<gsap.core.Timeline | null>(null)
   const revealTlRef = useRef<gsap.core.Timeline | null>(null)
   const closeTlRef = useRef<gsap.core.Timeline | null>(null)
+  const restoreFocus = useFocusTrap(true, cardRef)
 
   useEffect(() => {
     if (!backdropRef.current || !cardRef.current) return
@@ -100,6 +102,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
   }
 
   const handleClose = () => {
+    restoreFocus()
     if (!backdropRef.current || !cardRef.current) {
       onClose()
       return
@@ -160,7 +163,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
         {/* Gift Area */}
         <button
-          className="relative h-48 w-full flex items-center justify-center cursor-pointer"
+          className="modal-btn-focus relative h-48 w-full flex items-center justify-center cursor-pointer"
           onClick={handleReveal}
           type="button"
           aria-label={isRevealed ? 'Gift revealed' : 'Tap to unwrap your gift'}
@@ -210,7 +213,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
             <button
               ref={captureButtonRef}
               onClick={handleCaptureClick}
-              className="mt-4 w-full px-4 py-3 bg-hot-pink border-2 border-deep-black rounded-lg font-display font-bold text-white uppercase tracking-wider shadow-[4px_4px_0px_#131315] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#131315] active:translate-y-0 active:shadow-[2px_2px_0px_#131315] transition-all flex items-center justify-center gap-2"
+              className="modal-btn-focus mt-4 w-full px-4 py-3 bg-hot-pink border-2 border-deep-black rounded-lg font-display font-bold text-white uppercase tracking-wider shadow-[4px_4px_0px_#131315] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#131315] active:translate-y-0 active:shadow-[2px_2px_0px_#131315] transition-all flex items-center justify-center gap-2"
             >
               <CameraIcon className="w-5 h-5" />
               Capture the Moment!
@@ -221,7 +224,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full border-2 border-deep-black text-deep-black hover:bg-gray-300 transition-colors font-bold"
+          className="modal-btn-focus absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full border-2 border-deep-black text-deep-black hover:bg-gray-300 transition-colors font-bold"
           aria-label="Close gift card"
         >
           ×

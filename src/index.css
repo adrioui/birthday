@@ -102,6 +102,43 @@ body {
   outline-offset: 2px;
 }
 
+/* Focus state for all interactive elements */
+button:focus-visible {
+  outline: 3px solid #CCFF00;
+  outline-offset: 2px;
+}
+
+/* Flip phone button focus state */
+.flip-btn-focus:focus-visible {
+  outline: 3px solid #CCFF00;
+  outline-offset: 3px;
+}
+
+/* Gift card focus state */
+.gift-card-focus:focus-visible {
+  outline: 3px solid #FF0099;
+  outline-offset: 2px;
+}
+
+/* Snap button focus state */
+.snap-btn-focus:focus-visible {
+  outline: 4px solid #CCFF00;
+  outline-offset: 3px;
+}
+
+/* Modal buttons focus state */
+.modal-btn-focus:focus-visible {
+  outline: 3px solid #CCFF00;
+  outline-offset: 2px;
+}
+
+/* Tile focus state for CakeSweeper */
+.tile-focus:focus-visible {
+  outline: 3px solid #CCFF00;
+  outline-offset: 1px;
+  outline-style: dashed;
+}
+
 /* Grid line pattern overlay */
 .grid-lines-pattern {
   background-image:

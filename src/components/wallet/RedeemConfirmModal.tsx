@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { Confetti } from '../effects/Confetti'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 interface RedeemConfirmModalProps {
   isOpen: boolean
@@ -18,6 +19,7 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
   const [showConfetti, setShowConfetti] = useState(false)
   const closeTlRef = useRef<gsap.core.Timeline | null>(null)
+  const restoreFocus = useFocusTrap(isOpen, containerRef)
 
   useEffect(() => {
     if (!isOpen) return
@@ -61,12 +63,14 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
   const handleConfirm = () => {
     setShowConfetti(true)
     setTimeout(() => {
+      restoreFocus()
       onConfirm()
     }, 500)
   }
 
   const handleCancel = () => {
     setShowConfetti(false)
+    restoreFocus()
 
     if (!backdropRef.current || !containerRef.current) {
       onCancel()
@@ -146,14 +150,14 @@ export function RedeemConfirmModal({ isOpen, totalPoints, onConfirm, onCancel }:
           <button
             ref={cancelButtonRef}
             onClick={handleCancel}
-            className="flex-1 px-4 py-3 bg-system-grey border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all"
+            className="modal-btn-focus flex-1 px-4 py-3 bg-system-grey border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all"
           >
             Cancel
           </button>
           <button
             ref={confirmButtonRef}
             onClick={handleConfirm}
-            className="flex-1 px-4 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#FF0099]"
+            className="modal-btn-focus flex-1 px-4 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#FF0099]"
           >
             Confirm
           </button>

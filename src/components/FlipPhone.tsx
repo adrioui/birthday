@@ -127,10 +127,10 @@ export function FlipPhone() {
 
               {/* Pick Up Button */}
               <div className="mt-2 flex w-full items-center justify-center gap-2">
-                <button 
+                <button
                   onClick={handlePickUp}
                   disabled={isAnimating}
-                  className="flex w-full items-center justify-center gap-1 rounded-sm bg-lime py-1 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 disabled:opacity-50"
+                  className="flip-btn-focus flex w-full items-center justify-center gap-1 rounded-sm bg-lime py-1 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 disabled:opacity-50"
                   style={{ boxShadow: '0 2px 0 rgba(255,255,255,0.4)' }}
                   aria-label="Pick up call"
                 >
