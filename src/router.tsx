@@ -7,6 +7,7 @@ import { CharmCardTestScreen } from './screens/CharmCardTestScreen'
 import { CDMixMakerScreen } from './screens/CDMixMakerScreen'
 import { CakeSweeperScreen } from './screens/CakeSweeperScreen'
 import { RootRoute } from './components/RootRoute'
+import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary'
 
 const rootRoute = createRootRoute({
   component: RootRoute,
@@ -15,43 +16,71 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: FlipPhoneScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <FlipPhoneScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const smsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/sms',
-  component: SMSThreadScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <SMSThreadScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const camcorderRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/camcorder',
-  component: CamcorderScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <CamcorderScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const walletRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/wallet',
-  component: WalletScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <WalletScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const charmCardTestRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/charm-card-test',
-  component: CharmCardTestScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <CharmCardTestScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const cdMixMakerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cd-mix-maker',
-  component: CDMixMakerScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <CDMixMakerScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const cakeSweeperRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cake-sweeper',
-  component: CakeSweeperScreen,
+  component: () => (
+    <RouteErrorBoundary>
+      <CakeSweeperScreen />
+    </RouteErrorBoundary>
+  ),
 })
 
 const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute, cdMixMakerRoute, cakeSweeperRoute])
