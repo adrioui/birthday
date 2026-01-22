@@ -20,6 +20,11 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
   const streamRef = useRef<MediaStream | null>(null)
   const [state, setState] = useState<CameraState>('idle')
   const [error, setError] = useState<string | null>(null)
+  const stateRef = useRef<CameraState>(state)
+
+  useEffect(() => {
+    stateRef.current = state
+  }, [state])
 
   const stopCamera = useCallback(() => {
     if (streamRef.current) {
@@ -33,7 +38,7 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
   }, [])
 
   const startCamera = useCallback(async () => {
-    if (state === 'active' || state === 'requesting') return
+    if (stateRef.current === 'active' || stateRef.current === 'requesting') return
 
     setState('requesting')
     setError(null)
@@ -72,7 +77,7 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
         setError(errorMessage)
       }
     }
-  }, [facingMode, state])
+  }, [facingMode])
 
   useEffect(() => {
     return () => {
