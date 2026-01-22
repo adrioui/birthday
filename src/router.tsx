@@ -4,6 +4,7 @@ import { SMSThreadScreen } from './screens/SMSThreadScreen'
 import { CamcorderScreen } from './screens/CamcorderScreen'
 import { WalletScreen } from './screens/WalletScreen'
 import { CharmCardTestScreen } from './screens/CharmCardTestScreen'
+import { CDMixMakerScreen } from './screens/CDMixMakerScreen'
 import { RootRoute } from './components/RootRoute'
 
 const rootRoute = createRootRoute({
@@ -40,7 +41,13 @@ const charmCardTestRoute = createRoute({
   component: CharmCardTestScreen,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute])
+const cdMixMakerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/cd-mix-maker',
+  component: CDMixMakerScreen,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute, cdMixMakerRoute])
 
 export const router = createRouter({ routeTree })
 
