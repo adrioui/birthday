@@ -8,11 +8,13 @@ interface CharmContextValue {
   bonusPoints: number
   totalPoints: number
   newlyUnlockedCharm: Charm | null
+  isRedeemed: boolean
   addCharm: (charm: Charm) => void
   removeCharm: (id: string) => void
   clearCharms: () => void
   addBonusPoints: (amount: number, reason: string) => void
   dismissUnlockModal: () => void
+  setRedeemed: (redeemed: boolean) => void
 }
 
 const CharmContext = createContext<CharmContextValue | null>(null)
@@ -25,6 +27,7 @@ interface CharmProviderProps {
 const STORAGE_KEY = 'birthday-os-charms'
 
 const BONUS_POINTS_KEY = 'birthday-os-bonus-points'
+const REDEEMED_KEY = 'birthday-redeemed'
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
@@ -45,6 +48,10 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   })
   
   const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null)
+  
+  const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
+    return localStorage.getItem(REDEEMED_KEY) === 'true'
+  })
 
   const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
   const totalPoints = charmPoints + bonusPoints
@@ -58,6 +65,11 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   useEffect(() => {
     localStorage.setItem(BONUS_POINTS_KEY, bonusPoints.toString())
   }, [bonusPoints])
+
+  // Persist isRedeemed to localStorage
+  useEffect(() => {
+    localStorage.setItem(REDEEMED_KEY, isRedeemed.toString())
+  }, [isRedeemed])
 
   const addCharm = useCallback((charm: Charm) => {
     setCharms(prev => {
@@ -89,17 +101,23 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     setNewlyUnlockedCharm(null)
   }, [])
 
+  const setRedeemed = useCallback((redeemed: boolean) => {
+    setIsRedeemed(redeemed)
+  }, [])
+
   return (
     <CharmContext.Provider value={{ 
       charms, 
       bonusPoints,
       totalPoints, 
-      newlyUnlockedCharm, 
+      newlyUnlockedCharm,
+      isRedeemed,
       addCharm, 
       removeCharm, 
       clearCharms,
       addBonusPoints,
-      dismissUnlockModal 
+      dismissUnlockModal,
+      setRedeemed
     }}>
       {children}
     </CharmContext.Provider>
