@@ -1,4 +1,7 @@
-import { useCallback } from 'react'
+import { useState, useCallback } from 'react'
+import { RedeemConfirmModal } from './RedeemConfirmModal'
+import { RedeemSuccessModal } from './RedeemSuccessModal'
+import { useCharms } from '../../context/CharmContext'
 
 interface WalletFooterProps {
   totalPoints: number
@@ -7,13 +10,28 @@ interface WalletFooterProps {
 }
 
 export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFooterProps) {
+  const { isRedeemed, setRedeemed } = useCharms()
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+
   const handleRedeem = useCallback(() => {
     if (totalPoints > 0) {
-      // TODO: Implement redeem flow
-      console.log('[Wallet] Redeem button clicked with', totalPoints, 'points')
-      alert(`🎁 Redeem ${totalPoints} points for a gift!\n\n(FR-012: Coming soon)`)
+      setShowConfirmModal(true)
     }
   }, [totalPoints])
+
+  const handleConfirmRedeem = () => {
+    setRedeemed(true)
+    setShowSuccessModal(true)
+  }
+
+  const handleCloseConfirm = () => {
+    setShowConfirmModal(false)
+  }
+
+  const handleCloseSuccess = () => {
+    setShowSuccessModal(false)
+  }
 
   return (
     <div className="relative z-50 w-full px-6 pb-8 pt-4 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
@@ -42,18 +60,30 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
       <button
         onClick={handleRedeem}
         className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_#CCFF00] active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={totalPoints === 0}
+        disabled={totalPoints === 0 || isRedeemed}
         aria-label="Redeem gift"
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
 
         <div className="flex items-center gap-3 relative z-10">
-          <span className="material-symbols-outlined text-lime animate-pulse">redeem</span>
+          <span className="material-symbols-outlined text-lime animate-pulse">{isRedeemed ? 'check_circle' : 'redeem'}</span>
           <span className="text-white text-xl font-bold font-display uppercase tracking-wider">
-            Redeem Gift
+            {isRedeemed ? 'Redeemed!' : 'Redeem Gift'}
           </span>
         </div>
       </button>
+
+      <RedeemConfirmModal
+        isOpen={showConfirmModal}
+        totalPoints={totalPoints}
+        onConfirm={handleConfirmRedeem}
+        onCancel={handleCloseConfirm}
+      />
+
+      <RedeemSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleCloseSuccess}
+      />
 
       <p className="text-center text-deep-black/50 text-[10px] font-bold mt-3 font-display uppercase tracking-widest">
         Tap a charm to reveal power
