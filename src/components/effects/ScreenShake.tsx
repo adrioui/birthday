@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface ScreenShakeProps {
   trigger: boolean
@@ -10,15 +11,21 @@ interface ScreenShakeProps {
 export function ScreenShake({ trigger, intensity = 'medium', onComplete }: ScreenShakeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const hasAnimated = useRef(false)
+  const prefersReduced = useReducedMotion()
 
   useEffect(() => {
     if (!trigger) {
       hasAnimated.current = false
       return
     }
-    
+
+    if (prefersReduced) {
+      onComplete?.()
+      return
+    }
+
     if (hasAnimated.current || !containerRef.current) return
-    
+
     hasAnimated.current = true
 
     const intensityConfig = {
@@ -53,9 +60,9 @@ export function ScreenShake({ trigger, intensity = 'medium', onComplete }: Scree
     return () => {
       tl.kill()
     }
-  }, [trigger, intensity, onComplete])
+  }, [trigger, intensity, onComplete, prefersReduced])
 
-  if (!trigger) return null
+  if (!trigger || prefersReduced) return null
 
   return (
     <div

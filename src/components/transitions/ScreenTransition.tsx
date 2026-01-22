@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useTransition } from '../../context/TransitionContext'
 import { useNavigate } from '@tanstack/react-router'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 const transitionConfig = {
   'phone-to-sms': {
@@ -20,10 +21,11 @@ export function ScreenTransition() {
   const { isTransitioning, transitionType, phoneScreenRect, endTransition } = useTransition()
   const overlayRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const prefersReduced = useReducedMotion()
 
   useEffect(() => {
     console.log('[ScreenTransition] useEffect triggered:', { isTransitioning, transitionType, phoneScreenRect: phoneScreenRect ? { left: phoneScreenRect.left, top: phoneScreenRect.top, width: phoneScreenRect.width, height: phoneScreenRect.height } : null })
-    
+
     if (!isTransitioning || !transitionType || !phoneScreenRect || !overlayRef.current) {
       console.log('[ScreenTransition] exiting - conditions not met:', { isTransitioning, hasType: !!transitionType, hasRect: !!phoneScreenRect, hasRef: !!overlayRef.current })
       return
@@ -32,6 +34,14 @@ export function ScreenTransition() {
     console.log('[ScreenTransition] starting animation for:', transitionType)
     const config = transitionConfig[transitionType]
     const overlay = overlayRef.current
+
+    if (prefersReduced) {
+      navigate({ to: config.to })
+      setTimeout(() => {
+        endTransition()
+      }, 50)
+      return
+    }
 
     gsap.set(overlay, {
       position: 'fixed',
@@ -76,7 +86,7 @@ export function ScreenTransition() {
     return () => {
       tl.kill()
     }
-  }, [isTransitioning, transitionType, phoneScreenRect, navigate, endTransition])
+  }, [isTransitioning, transitionType, phoneScreenRect, navigate, endTransition, prefersReduced])
 
   if (!isTransitioning || !transitionType) {
     return null
@@ -91,7 +101,7 @@ export function ScreenTransition() {
       aria-hidden="true"
     >
       <div className="flex h-full w-full items-center justify-center">
-        <div className="font-pixel text-lime text-xl animate-pulse">
+        <div className="font-pixel text-lime text-xl">
           {config.text}
         </div>
       </div>

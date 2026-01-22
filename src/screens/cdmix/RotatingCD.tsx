@@ -1,4 +1,5 @@
 import type { Track } from '../../types/track'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface RotatingCDProps {
   selectedTracks: Track[]
@@ -6,6 +7,7 @@ interface RotatingCDProps {
 }
 
 export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
+  const prefersReduced = useReducedMotion()
   const hasTracks = selectedTracks.length > 0
   const rotationSpeed = isBurning ? '2s' : '8s'
 
@@ -13,7 +15,7 @@ export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
     <div className="relative flex h-48 w-48 items-center justify-center">
       <div
         className={`relative h-full w-full rounded-full ${
-          hasTracks ? 'animate-spin' : ''
+          hasTracks && !prefersReduced ? 'animate-spin' : ''
         }`}
         style={{
           animationDuration: rotationSpeed,
@@ -71,7 +73,7 @@ export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
         </div>
       )}
 
-      {isBurning && (
+      {isBurning && !prefersReduced && (
         <div className="absolute inset-0 animate-pulse rounded-full border-2 border-lime shadow-[0_0_20px_rgba(204,255,0,0.5)]" />
       )}
     </div>

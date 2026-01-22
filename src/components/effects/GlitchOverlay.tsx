@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface GlitchOverlayProps {
   trigger: boolean
@@ -10,15 +11,21 @@ interface GlitchOverlayProps {
 export function GlitchOverlay({ trigger, duration = 0.5, onComplete }: GlitchOverlayProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const hasAnimated = useRef(false)
+  const prefersReduced = useReducedMotion()
 
   useEffect(() => {
     if (!trigger) {
       hasAnimated.current = false
       return
     }
-    
+
+    if (prefersReduced) {
+      onComplete?.()
+      return
+    }
+
     if (hasAnimated.current || !overlayRef.current) return
-    
+
     hasAnimated.current = true
 
     const overlay = overlayRef.current
@@ -60,9 +67,9 @@ export function GlitchOverlay({ trigger, duration = 0.5, onComplete }: GlitchOve
     return () => {
       tl.kill()
     }
-  }, [trigger, duration, onComplete])
+  }, [trigger, duration, onComplete, prefersReduced])
 
-  if (!trigger) return null
+  if (!trigger || prefersReduced) return null
 
   return (
     <div
