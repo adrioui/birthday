@@ -1,25 +1,38 @@
-import { useEffect, useRef } from 'react'
-import { useProgress } from '../../context/useProgress'
-import { gsap } from 'gsap'
-import type { Milestone } from '../../types/progress'
+import { useEffect, useRef } from 'react';
+import { useProgress } from '../../context/useProgress';
+import { gsap } from 'gsap';
+import type { Milestone } from '../../types/progress';
+import { useNavigate } from '@tanstack/react-router';
 
 export function SessionProgress() {
-  const { milestones } = useProgress()
-  const completedCount = milestones.filter((m: Milestone) => m.completed).length
-  const containerRef = useRef<HTMLDivElement>(null)
+  const { milestones } = useProgress();
+  const navigate = useNavigate();
+  const completedCount = milestones.filter((m: Milestone) => m.completed).length;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hasNavigated = useRef(false);
 
   useEffect(() => {
-    if (!containerRef.current || completedCount === 0) return
+    if (!containerRef.current || completedCount === 0) return;
 
     gsap.fromTo(
       containerRef.current,
       { opacity: 0, y: -10 },
       { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-    )
-  }, [completedCount])
+    );
+  }, [completedCount]);
+
+  useEffect(() => {
+    const allCompleted = completedCount === milestones.length;
+    if (allCompleted && !hasNavigated.current) {
+      hasNavigated.current = true;
+      setTimeout(() => {
+        navigate({ to: '/celebration' });
+      }, 500);
+    }
+  }, [completedCount, milestones.length, navigate]);
 
   if (completedCount === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -37,14 +50,12 @@ export function SessionProgress() {
           <div
             key={milestone.id}
             className={`w-2.5 h-2.5 rounded-sm transition-all ${
-              milestone.completed
-                ? 'bg-lime-400 shadow-[0_0_6px_rgba(204,255,0.6)]'
-                : 'bg-gray-300'
+              milestone.completed ? 'bg-lime-400 shadow-[0_0_6px_rgba(204,255,0.6)]' : 'bg-gray-300'
             }`}
             title={milestone.name}
           />
         ))}
       </div>
     </div>
-  )
+  );
 }

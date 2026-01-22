@@ -1,18 +1,19 @@
-import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router'
-import { FlipPhoneScreen } from './screens/FlipPhoneScreen'
-import { SMSThreadScreen } from './screens/SMSThreadScreen'
-import { CamcorderScreen } from './screens/CamcorderScreen'
-import { WalletScreen } from './screens/WalletScreen'
-import { CharmCardTestScreen } from './screens/CharmCardTestScreen'
-import { CDMixMakerScreen } from './screens/CDMixMakerScreen'
-import { CakeSweeperScreen } from './screens/CakeSweeperScreen'
-import { MemorySnapshotScreen } from './screens/MemorySnapshotScreen'
-import { RootRoute } from './components/RootRoute'
-import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary'
+import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router';
+import { FlipPhoneScreen } from './screens/FlipPhoneScreen';
+import { SMSThreadScreen } from './screens/SMSThreadScreen';
+import { CamcorderScreen } from './screens/CamcorderScreen';
+import { WalletScreen } from './screens/WalletScreen';
+import { CharmCardTestScreen } from './screens/CharmCardTestScreen';
+import { CDMixMakerScreen } from './screens/CDMixMakerScreen';
+import { CakeSweeperScreen } from './screens/CakeSweeperScreen';
+import { MemorySnapshotScreen } from './screens/MemorySnapshotScreen';
+import { CelebrationScreen } from './screens/CelebrationScreen';
+import { RootRoute } from './components/RootRoute';
+import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary';
 
 const rootRoute = createRootRoute({
   component: RootRoute,
-})
+});
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -22,7 +23,7 @@ const indexRoute = createRoute({
       <FlipPhoneScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const smsRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -32,7 +33,7 @@ const smsRoute = createRoute({
       <SMSThreadScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const camcorderRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -42,7 +43,7 @@ const camcorderRoute = createRoute({
       <CamcorderScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const walletRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -52,7 +53,7 @@ const walletRoute = createRoute({
       <WalletScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const charmCardTestRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -62,7 +63,7 @@ const charmCardTestRoute = createRoute({
       <CharmCardTestScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const cdMixMakerRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -72,7 +73,7 @@ const cdMixMakerRoute = createRoute({
       <CDMixMakerScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const cakeSweeperRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -82,7 +83,7 @@ const cakeSweeperRoute = createRoute({
       <CakeSweeperScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
 const memorySnapshotRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -92,14 +93,34 @@ const memorySnapshotRoute = createRoute({
       <MemorySnapshotScreen />
     </RouteErrorBoundary>
   ),
-})
+});
 
-const routeTree = rootRoute.addChildren([indexRoute, smsRoute, camcorderRoute, walletRoute, charmCardTestRoute, cdMixMakerRoute, cakeSweeperRoute, memorySnapshotRoute])
+const celebrationRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/celebration',
+  component: () => (
+    <RouteErrorBoundary>
+      <CelebrationScreen />
+    </RouteErrorBoundary>
+  ),
+});
 
-export const router = createRouter({ routeTree })
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  smsRoute,
+  camcorderRoute,
+  walletRoute,
+  charmCardTestRoute,
+  cdMixMakerRoute,
+  cakeSweeperRoute,
+  memorySnapshotRoute,
+  celebrationRoute,
+]);
+
+export const router = createRouter({ routeTree });
 
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: typeof router;
   }
 }
