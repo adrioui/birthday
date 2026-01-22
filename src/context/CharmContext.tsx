@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { type Charm } from '../types/charm'
 import { getItem, setItem, removeItem } from '../lib/storage'
 
@@ -51,6 +51,8 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     return new Set(stored)
   })
 
+  const previousCharmIds = useRef(new Set<string>())
+
   const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0)
   const totalPoints = charmPoints + bonusPoints
 
@@ -69,13 +71,21 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     setItem(REDEEMED_KEY, isRedeemed)
   }, [isRedeemed])
 
+  // Set newly unlocked charm when a new charm is added
+  useEffect(() => {
+    const currentCharmIds = new Set(charms.map(c => c.id))
+    const newCharm = charms.find(c => !previousCharmIds.current.has(c.id))
+
+    if (newCharm) {
+      setNewlyUnlockedCharm(newCharm)
+    }
+
+    previousCharmIds.current = currentCharmIds
+  }, [charms])
+
   const addCharm = useCallback((charm: Charm) => {
     setCharms(prev => {
-      // Check if already unlocked
       if (prev.some(c => c.id === charm.id)) return prev
-      
-      // If not unlocked, set as newly unlocked to trigger modal
-      setNewlyUnlockedCharm(charm)
       return [...prev, charm]
     })
   }, [])
