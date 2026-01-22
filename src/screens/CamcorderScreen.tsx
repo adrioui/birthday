@@ -3,6 +3,7 @@ import { useCamera } from '../hooks/useCamera'
 import { useCapture } from '../hooks/useCapture'
 import { useAudio } from '../hooks/useAudio'
 import { useCharms } from '../context/CharmContext'
+import { useProgress } from '../context/useProgress'
 import { PLACEHOLDER_CHARMS } from '../types/charm'
 import { ViewfinderOverlay } from '../components/camcorder/ViewfinderOverlay'
 import { CameraFallback } from '../components/camcorder/CameraFallback'
@@ -14,6 +15,7 @@ export function CamcorderScreen() {
   const { captureFrame, isCapturing } = useCapture()
   const { playShutterSound } = useAudio()
   const { addCharm, addBonusPoints } = useCharms()
+  const { completeMilestone } = useProgress()
   const [showFlash, setShowFlash] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [capturedImageUrl, setCapturedImageUrl] = useState<string | null>(null)
@@ -33,6 +35,7 @@ export function CamcorderScreen() {
     if (result) {
       setCapturedImageUrl(result.dataUrl)
       trackEvent('snap_taken')
+      completeMilestone('photo-snapped')
       addBonusPoints(25, 'snap-capture')
 
       // Unlock "Digi-Pet" charm (id: digi-pet)
@@ -41,7 +44,7 @@ export function CamcorderScreen() {
         addCharm(charm)
       }
     }
-  }, [isCapturing, showFlash, playShutterSound, captureFrame, videoRef, addCharm, addBonusPoints])
+  }, [isCapturing, showFlash, playShutterSound, captureFrame, videoRef, addCharm, addBonusPoints, completeMilestone])
 
   const handleFlashComplete = useCallback(() => {
     setShowFlash(false)

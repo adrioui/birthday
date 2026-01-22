@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useCharms } from '../context/CharmContext'
+import { useProgress } from '../context/useProgress'
 import { MAX_CHARMS } from '../types/charm'
 import { CharmCard } from '../components/wallet/CharmCard'
 import { WalletHeader } from '../components/wallet/WalletHeader'
@@ -9,7 +11,14 @@ import { useCharmFlip } from '../hooks/useCharmFlip'
 export function WalletScreen() {
   const { charms, totalPoints } = useCharms()
   const { handleFlip, isFlipped } = useCharmFlip()
+  const { completeMilestone } = useProgress()
   const hasCharms = charms.length > 0
+
+  useEffect(() => {
+    if (hasCharms) {
+      completeMilestone('charm-collected')
+    }
+  }, [hasCharms, completeMilestone])
 
   return (
     <div className="flex min-h-dvh flex-col">

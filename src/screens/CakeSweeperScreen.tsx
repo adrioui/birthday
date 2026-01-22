@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useProgress } from '../context/useProgress'
 import { ScreenShake } from '../components/effects/ScreenShake'
 import { GlitchOverlay } from '../components/effects/GlitchOverlay'
 import { SystemReboot } from '../components/effects/SystemReboot'
@@ -9,10 +10,13 @@ export function CakeSweeperScreen() {
   const [triggerShake, setTriggerShake] = useState(false)
   const [triggerGlitch, setTriggerGlitch] = useState(false)
   const [triggerReboot, setTriggerReboot] = useState(false)
+  const { completeMilestone } = useProgress()
+  const [milestoneCompleted, setMilestoneCompleted] = useState(false)
 
   useEffect(() => {
     return () => {
       setPreviousStatus('playing')
+      setMilestoneCompleted(false)
     }
   }, [])
 
@@ -23,6 +27,10 @@ export function CakeSweeperScreen() {
     }
     if (previousStatus === 'playing' && newStatus === 'won') {
       setTriggerReboot(true)
+    }
+    if ((newStatus === 'won' || newStatus === 'lost') && !milestoneCompleted) {
+      completeMilestone('game-played')
+      setMilestoneCompleted(true)
     }
     setPreviousStatus(newStatus)
   }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { tracks } from '../data/tracks'
 import type { Track, BurnProgress } from '../types/track'
+import { useProgress } from '../context/useProgress'
 import { RotatingCD } from './cdmix/RotatingCD'
 import { TrackSelector } from './cdmix/TrackSelector'
 import { PlaylistBuilder } from './cdmix/PlaylistBuilder'
@@ -12,6 +13,7 @@ export function CDMixMakerScreen() {
     stage: 'idle',
     progress: 0,
   })
+  const { completeMilestone } = useProgress()
 
   const toggleTrack = (track: Track) => {
     setSelectedTracks((prev) => {
@@ -37,6 +39,11 @@ export function CDMixMakerScreen() {
       currentTrack: 0,
       totalTracks: selectedTracks.length,
     })
+  }
+
+  const handleBurnComplete = () => {
+    completeMilestone('cd-burned')
+    setBurnProgress({ stage: 'idle', progress: 0 })
   }
 
   return (
@@ -82,9 +89,7 @@ export function CDMixMakerScreen() {
         ) : (
           <BurnProgressView
             progress={burnProgress}
-            onComplete={() =>
-              setBurnProgress({ stage: 'idle', progress: 0 })
-            }
+            onComplete={handleBurnComplete}
           />
         )}
       </div>

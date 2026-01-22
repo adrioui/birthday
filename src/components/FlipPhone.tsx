@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { useAudio } from '../hooks/useAudio'
 import { trackEvent } from '../lib/telemetry'
 import { useTransition } from '../context/TransitionContext'
+import { useProgress } from '../context/useProgress'
 
 export function FlipPhone() {
   const phoneRef = useRef<HTMLDivElement>(null)
@@ -11,6 +12,7 @@ export function FlipPhone() {
   const [isAnimating, setIsAnimating] = useState(true)
   const { playConnectionSound } = useAudio()
   const { startTransition } = useTransition()
+  const { completeMilestone } = useProgress()
 
   useEffect(() => {
     if (!topHalfRef.current || !phoneRef.current) return
@@ -56,6 +58,7 @@ export function FlipPhone() {
     console.log('[FlipPhone] handlePickUp called, isAnimating:', isAnimating)
     await playConnectionSound()
     trackEvent('flip_call_answered')
+    completeMilestone('call-answered')
 
     if (screenRef.current) {
       const rect = screenRef.current.getBoundingClientRect()
@@ -64,7 +67,7 @@ export function FlipPhone() {
     } else {
       console.log('[FlipPhone] screenRef.current is null!')
     }
-  }, [isAnimating, playConnectionSound, startTransition])
+  }, [isAnimating, playConnectionSound, startTransition, completeMilestone])
 
   return (
     <div 

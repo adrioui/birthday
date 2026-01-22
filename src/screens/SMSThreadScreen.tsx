@@ -6,15 +6,18 @@ import { HeartStickers } from '../components/sms/HeartStickers'
 import { GiftCardModal } from '../components/sms/GiftCardModal'
 import { smsMessages } from '../data/messages'
 import { trackEvent } from '../lib/telemetry'
+import { useProgress } from '../context/useProgress'
 
 export function SMSThreadScreen() {
   const [isGiftCardUnlocked, setIsGiftCardUnlocked] = useState(false)
   const [showGiftModal, setShowGiftModal] = useState(false)
+  const { completeMilestone } = useProgress()
 
   const handleGiftCardClick = () => {
     if (!isGiftCardUnlocked) {
       setIsGiftCardUnlocked(true)
       trackEvent('gift_revealed')
+      completeMilestone('gift-revealed')
     }
     setShowGiftModal(true)
   }
