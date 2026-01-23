@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useProgress } from '../context/useProgress';
+import { useProgress } from '../context';
 import { ScreenShake } from '../components/effects/ScreenShake';
 import { GlitchOverlay } from '../components/effects/GlitchOverlay';
 import { SystemReboot } from '../components/effects/SystemReboot';

@@ -1,9 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { ProgressProvider } from '../context/ProgressContext';
-import { useProgress } from '../context/useProgress';
-import { CharmProvider, useCharms } from '../context/CharmContext';
-import { AudioProvider, useAudioState } from '../context/AudioContext';
+import {
+  ProgressProvider,
+  useProgress,
+  CharmProvider,
+  useCharms,
+  AudioProvider,
+  useAudioState,
+} from '../context';
 import { testCharm, testCharm2 } from '../test/fixtures';
 import { DEFAULT_MILESTONES } from '../lib/progressConstants';
 

@@ -1,10 +1,12 @@
 import React, { type PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
-import { CharmProvider } from '../context/CharmContext';
-import { TransitionProvider } from '../context/TransitionContext';
-import { AudioProvider } from '../context/AudioContext';
-import { ProgressProvider } from '../context/ProgressContext';
-import { EasterEggProvider } from '../context/EasterEggContext';
+import {
+  CharmProvider,
+  TransitionProvider,
+  AudioProvider,
+  ProgressProvider,
+  EasterEggProvider,
+} from '../context';
 import { type Charm } from '../types';
 
 interface RenderOptions {

@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { useAudioState } from '../context/AudioContext';
+import { useAudioState } from '../context';
 
 export function useAudio() {
   const audioContextRef = useRef<AudioContext | null>(null);

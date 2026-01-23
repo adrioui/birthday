@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { useCharms } from '../context/CharmContext';
+import { useCharms } from '../context';
 import { useAudio } from '../hooks';
 import { STORAGE_KEYS } from '../lib/storageKeys';
 

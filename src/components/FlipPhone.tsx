@@ -2,8 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useAudio, useEasterEggTrigger, useReducedMotion } from '../hooks';
 import { trackEvent } from '../lib/telemetry';
-import { useTransition } from '../context/TransitionContext';
-import { useProgress } from '../context/useProgress';
+import { useTransition, useProgress } from '../context';
 
 export function FlipPhone() {
   const phoneRef = useRef<HTMLDivElement>(null);

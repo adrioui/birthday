@@ -9,7 +9,7 @@ import {
 import { CardBackground } from '../components/CardBackground';
 import { smsMessages } from '../data/messages';
 import { trackEvent } from '../lib/telemetry';
-import { useProgress } from '../context/useProgress';
+import { useProgress } from '../context';
 
 export function SMSThreadScreen() {
   const [isGiftCardUnlocked, setIsGiftCardUnlocked] = useState(false);

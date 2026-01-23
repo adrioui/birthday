@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useAudioState, AudioProvider } from '../context/AudioContext';
+import { useAudioState, AudioProvider } from '../context';
 import { useAudio } from './useAudio';
 import { mockAudioContext } from '../test/mocks/audioContext';
 import React from 'react';

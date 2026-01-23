@@ -1,8 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useCamera, useCapture, useAudio } from '../hooks';
-import { useCharms } from '../context/CharmContext';
-import { useProgress } from '../context/useProgress';
+import { useCharms, useProgress } from '../context';
 import { PLACEHOLDER_CHARMS } from '../types';
 import { ViewfinderOverlay } from '../components/camcorder/ViewfinderOverlay';
 import { CameraFallback } from '../components/camcorder/CameraFallback';

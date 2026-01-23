@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { EasterEggContext } from '../context/EasterEggContext';
+import { EasterEggContext } from '../context';
 
 export function useEasterEggs() {
   const context = useContext(EasterEggContext);

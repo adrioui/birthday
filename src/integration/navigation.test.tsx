@@ -23,13 +23,14 @@ import { SMSThreadScreen } from '../screens/SMSThreadScreen';
 import { CamcorderScreen } from '../screens/CamcorderScreen';
 import { WalletScreen } from '../screens/WalletScreen';
 import { ScreenTransition } from '../components/transitions/ScreenTransition';
-import { TransitionProvider, useTransition } from '../context/TransitionContext';
-
-// Update renderWithProviders to include AudioProvider
-import { AudioProvider } from '../context/AudioContext';
-import { CharmProvider } from '../context/CharmContext';
-import { ProgressProvider } from '../context/ProgressContext';
-import { EasterEggProvider } from '../context/EasterEggContext';
+import {
+  TransitionProvider,
+  useTransition,
+  AudioProvider,
+  CharmProvider,
+  ProgressProvider,
+  EasterEggProvider,
+} from '../context';
 
 function renderWithAllProviders(ui: React.ReactElement) {
   function Wrapper({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useProgress } from '../context/useProgress';
-import { useCharms } from '../context/CharmContext';
+import { useProgress, useCharms } from '../context';
 import { Confetti } from '../components/effects/Confetti';
 import { useNavigate } from '@tanstack/react-router';
 
