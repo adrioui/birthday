@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { SMSHeader } from '../components/sms/SMSHeader';
-import { MessageBubble } from '../components/sms/MessageBubble';
-import { SMSInputBar } from '../components/sms/SMSInputBar';
-import { HeartStickers } from '../components/sms/HeartStickers';
-import { GiftCardModal } from '../components/sms/GiftCardModal';
+import {
+  SMSHeader,
+  MessageBubble,
+  SMSInputBar,
+  HeartStickers,
+  GiftCardModal,
+} from '../components/sms';
 import { CardBackground } from '../components/CardBackground';
 import { smsMessages } from '../data/messages';
 import { trackEvent } from '../lib/telemetry';

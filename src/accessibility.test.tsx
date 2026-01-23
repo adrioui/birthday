@@ -8,7 +8,7 @@ import { SoundToggle } from './components/ui/SoundToggle';
 import { CharmUnlockModal } from './components/wallet/CharmUnlockModal';
 import { RedeemConfirmModal } from './components/wallet/RedeemConfirmModal';
 import { RedeemSuccessModal } from './components/wallet/RedeemSuccessModal';
-import { GiftCardModal } from './components/sms/GiftCardModal';
+import { GiftCardModal } from './components/sms';
 import { CharmCard } from './components/wallet/CharmCard';
 
 vi.mock('gsap', () => ({
