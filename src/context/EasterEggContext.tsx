@@ -1,6 +1,7 @@
 import { createContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
 import { EASTER_EGGS, type EasterEgg } from '../data/easterEggs';
 import type { EasterEggId } from '../data/easterEggs';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 interface EasterEggState {
   discoveredEggs: Set<EasterEggId>;
@@ -15,8 +16,6 @@ const EasterEggContext = createContext<EasterEggState | null>(null);
 
 export { EasterEggContext };
 
-const STORAGE_KEY = 'birthday-os-easter-eggs';
-
 interface EasterEggProviderProps {
   children: ReactNode;
 }
@@ -25,7 +24,7 @@ export function EasterEggProvider({ children }: EasterEggProviderProps) {
   const [discoveredEggs, setDiscoveredEggs] = useState<Set<EasterEggId>>(() => {
     if (typeof window === 'undefined') return new Set();
     try {
-      const item = localStorage.getItem(STORAGE_KEY);
+      const item = localStorage.getItem(STORAGE_KEYS.EASTER_EGGS);
       if (!item) return new Set();
       return new Set(JSON.parse(item));
     } catch {
@@ -39,7 +38,7 @@ export function EasterEggProvider({ children }: EasterEggProviderProps) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...discoveredEggs]));
+      localStorage.setItem(STORAGE_KEYS.EASTER_EGGS, JSON.stringify([...discoveredEggs]));
     } catch (error) {
       console.error('Failed to persist Easter egg discoveries:', error);
     }
