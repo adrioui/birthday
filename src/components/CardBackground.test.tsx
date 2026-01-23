@@ -43,7 +43,9 @@ describe('CardBackground', () => {
     );
 
     const gradientLayer = container.querySelector('.bg-gradient-to-br');
-    expect(gradientLayer).toHaveClass('from-yellow-50', 'via-orange-50', 'to-yellow-100');
+    expect(gradientLayer?.className).toContain('from-[#dce8ff]');
+    expect(gradientLayer?.className).toContain('via-[#abc1ff]');
+    expect(gradientLayer?.className).toContain('to-[#8c9eff]');
   });
 
   it('applies correct gradient for phone variant', () => {

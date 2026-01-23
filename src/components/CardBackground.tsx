@@ -10,7 +10,7 @@ export interface CardBackgroundProps {
 
 const gradientVariants: Record<CardBackgroundVariant, string> = {
   sms: 'bg-gradient-to-br from-pink-50 via-pink-100 to-white',
-  wallet: 'bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100',
+  wallet: 'bg-gradient-to-br from-[#dce8ff] via-[#abc1ff] to-[#8c9eff]',
   phone: 'bg-gradient-to-br from-gray-200 via-gray-100 to-gray-300',
   camcorder: 'bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50',
   cake: 'bg-gradient-to-br from-orange-50 via-red-50 to-pink-50',
