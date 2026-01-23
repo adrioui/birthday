@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useCakeSweeper } from '../../hooks/useCakeSweeper';
 import { type GameStatus } from '../../hooks/useCakeSweeper';
 import { CakeSweeperTile } from './CakeSweeperTile';
@@ -26,21 +26,44 @@ export function CakeSweeperGrid({
 }: CakeSweeperGridProps) {
   const { grid, status, revealTile, toggleFlag, restart } = useCakeSweeper(gridSize, candleCount);
 
-  const handleToggleFlag = (row: number, col: number) => {
-    toggleFlag(row, col);
-    if (onFlagToggle) {
-      onFlagToggle(grid, candleCount);
-    }
-  };
+  // Use refs to keep handlers stable and avoid re-renders of all tiles
+  const gridRef = useRef(grid);
+  const onFlagToggleRef = useRef(onFlagToggle);
+  const onTileRevealRef = useRef(onTileReveal);
 
-  const handleReveal = (row: number, col: number) => {
-    const tile = grid[row][col];
-    const wasHidden = tile.state === 'hidden';
-    revealTile(row, col);
-    if (wasHidden && onTileReveal) {
-      onTileReveal(tile.isCandle);
-    }
-  };
+  useEffect(() => {
+    gridRef.current = grid;
+  }, [grid]);
+
+  useEffect(() => {
+    onFlagToggleRef.current = onFlagToggle;
+  }, [onFlagToggle]);
+
+  useEffect(() => {
+    onTileRevealRef.current = onTileReveal;
+  }, [onTileReveal]);
+
+  const handleToggleFlag = useCallback(
+    (row: number, col: number) => {
+      toggleFlag(row, col);
+      if (onFlagToggleRef.current) {
+        onFlagToggleRef.current(gridRef.current, candleCount);
+      }
+    },
+    [toggleFlag, candleCount]
+  );
+
+  const handleReveal = useCallback(
+    (row: number, col: number) => {
+      const tile = gridRef.current[row][col];
+      const wasHidden = tile.state === 'hidden';
+      revealTile(row, col);
+      if (wasHidden && onTileRevealRef.current) {
+        onTileRevealRef.current(tile.isCandle);
+      }
+    },
+    [revealTile]
+  );
 
   const handleRestart = () => {
     restart();

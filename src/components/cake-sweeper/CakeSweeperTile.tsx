@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { type Tile as TileType } from '../../hooks/useCakeSweeper';
 
 interface CakeSweeperTileProps {
@@ -6,7 +7,7 @@ interface CakeSweeperTileProps {
   onToggleFlag: (row: number, col: number) => void;
 }
 
-export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTileProps) {
+const CakeSweeperTileComponent = ({ tile, onReveal, onToggleFlag }: CakeSweeperTileProps) => {
   const handleClick = () => {
     if (tile.state !== 'revealed') {
       onReveal(tile.row, tile.col);
@@ -116,4 +117,18 @@ export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTil
       aria-label={`Tile at row ${tile.row + 1}, column ${tile.col + 1}, not revealed`}
     ></button>
   );
-}
+};
+
+export const CakeSweeperTile = memo(CakeSweeperTileComponent, (prev, next) => {
+  return (
+    prev.onReveal === next.onReveal &&
+    prev.onToggleFlag === next.onToggleFlag &&
+    prev.tile.state === next.tile.state &&
+    prev.tile.row === next.tile.row &&
+    prev.tile.col === next.tile.col &&
+    prev.tile.isCandle === next.tile.isCandle &&
+    prev.tile.adjacentCandles === next.tile.adjacentCandles
+  );
+});
+
+CakeSweeperTile.displayName = 'CakeSweeperTile';
