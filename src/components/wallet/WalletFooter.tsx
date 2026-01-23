@@ -36,17 +36,6 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
   return (
     <div className="relative z-50 w-full px-4 pb-6 pt-4 sm:px-6 sm:pb-8 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
       <div className="flex justify-between items-end mb-4 px-2">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-deep-black/60 mb-1">
-            Total Value
-          </p>
-          <div className="flex items-baseline gap-1">
-            <span className="font-pixel text-4xl text-deep-black">{totalPoints}</span>
-            <span className="font-display text-sm font-bold text-lime bg-deep-black px-1 rounded-sm">
-              PTS
-            </span>
-          </div>
-        </div>
         <div className="text-right">
           <p className="text-[10px] font-bold uppercase tracking-widest text-deep-black/60 mb-1">
             Collection

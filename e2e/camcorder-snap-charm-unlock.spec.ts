@@ -43,4 +43,32 @@ test.describe('BirthdayOS - Camcorder Snap + Charm Unlock', () => {
 
     await expect(page.getByTestId('charm-card-digi-pet').first()).toBeVisible();
   });
+
+  test('does not show unlock modal for already collected charm', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'birthday-os-charms',
+        JSON.stringify([
+          {
+            id: 'digi-pet',
+            name: 'Digi-Pet',
+            icon: '🐣',
+            power: 'Digital Companion',
+            points: 50,
+          },
+        ])
+      );
+    });
+
+    await page.goto('/camcorder');
+    await page.getByTestId('snap-button').click();
+
+    await expect(page.getByTestId('capture-confirmation')).toBeVisible();
+    await expect(page.getByText('Awesome!')).toBeVisible();
+    await page.getByText('Awesome!').click();
+
+    await page.waitForURL(/\/wallet/);
+    await expect(page.getByTestId('charm-unlock-modal')).not.toBeVisible({ timeout: 2000 });
+  });
 });

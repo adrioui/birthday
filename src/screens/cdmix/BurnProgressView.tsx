@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import type { BurnProgress } from '../../types/track';
 
 interface BurnProgressViewProps {
@@ -12,6 +13,13 @@ export function BurnProgressView({
   onComplete,
   onProgressUpdate,
 }: BurnProgressViewProps) {
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    onComplete();
+    navigate({ to: '/cake-sweeper' });
+  };
+
   useEffect(() => {
     if (progress.stage === 'idle' || progress.stage === 'complete') {
       return;
@@ -97,10 +105,10 @@ export function BurnProgressView({
 
       {progress.stage === 'complete' && (
         <button
-          onClick={onComplete}
+          onClick={handleContinue}
           className="rounded-lg bg-lime px-8 py-4 text-xl font-black text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 sticker-shadow-hard"
         >
-          BURN ANOTHER CD
+          PLAY CAKE SWEEPER 🎂
         </button>
       )}
 

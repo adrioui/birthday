@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useCharms } from '../context/CharmContext';
 import { useProgress } from '../context/useProgress';
 import { MAX_CHARMS } from '../types/charm';
@@ -50,6 +50,7 @@ export function WalletScreen() {
   const { handleFlip, isFlipped } = useCharmFlip();
   const { completeMilestone } = useProgress();
   const hasCharms = charms.length > 0;
+  const [isLoading] = useState(false);
 
   useEffect(() => {
     if (hasCharms) {
@@ -88,7 +89,7 @@ export function WalletScreen() {
         <span className="material-symbols-outlined text-[10rem] text-white opacity-40">bolt</span>
       </Sticker>
 
-      <WalletHeader />
+      <WalletHeader totalPoints={totalPoints} isLoading={isLoading} />
 
       <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-4 py-6 sm:px-6 sm:py-8">
         <div className="relative w-full h-32 mb-4 flex items-center justify-center z-20">

@@ -9,7 +9,14 @@ import {
   type ReactNode,
 } from 'react';
 import { type Charm } from '../types/charm';
-import { getValidatedCharms, getItem, setItem, removeItem } from '../lib/storage';
+import {
+  getValidatedCharms,
+  setItem,
+  removeItem,
+  getSessionItem,
+  setSessionItem,
+  removeSessionItem,
+} from '../lib/storage';
 
 /* eslint-disable react-refresh/only-export-components */
 
@@ -43,22 +50,42 @@ const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses';
 
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
-    return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms);
+    try {
+      return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms);
+    } catch (error) {
+      console.error('Failed to load charms:', error);
+      return [];
+    }
   });
 
   const [bonusPoints, setBonusPoints] = useState<number>(() => {
-    return getItem<number>(BONUS_POINTS_KEY, 0);
+    try {
+      return getSessionItem<number>(BONUS_POINTS_KEY, 0);
+    } catch (error) {
+      console.error('Failed to load bonus points:', error);
+      return 0;
+    }
   });
 
   const [newlyUnlockedCharm, setNewlyUnlockedCharm] = useState<Charm | null>(null);
 
   const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
-    return getItem<boolean>(REDEEMED_KEY, false);
+    try {
+      return getSessionItem<boolean>(REDEEMED_KEY, false);
+    } catch (error) {
+      console.error('Failed to load redeemed state:', error);
+      return false;
+    }
   });
 
   const [awardedReasons, setAwardedReasons] = useState<Set<string>>(() => {
-    const stored = getItem<string[]>(AWARDED_REASONS_KEY, []);
-    return new Set(stored);
+    try {
+      const stored = getSessionItem<string[]>(AWARDED_REASONS_KEY, []);
+      return new Set(stored);
+    } catch (error) {
+      console.error('Failed to load awarded reasons:', error);
+      return new Set();
+    }
   });
 
   // Initialize with current charm IDs to prevent false-positive "new charm" detection on mount
@@ -73,14 +100,14 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     setItem(STORAGE_KEY, charms);
   }, [charms]);
 
-  // Persist bonusPoints to localStorage
+  // Persist bonusPoints to sessionStorage
   useEffect(() => {
-    setItem(BONUS_POINTS_KEY, bonusPoints);
+    setSessionItem(BONUS_POINTS_KEY, bonusPoints);
   }, [bonusPoints]);
 
-  // Persist isRedeemed to localStorage
+  // Persist isRedeemed to sessionStorage
   useEffect(() => {
-    setItem(REDEEMED_KEY, isRedeemed);
+    setSessionItem(REDEEMED_KEY, isRedeemed);
   }, [isRedeemed]);
 
   // Set newly unlocked charm when a new charm is added
@@ -112,32 +139,41 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   }, []);
 
   const resetAll = useCallback(() => {
-    setCharms([]);
-    setBonusPoints(0);
-    setIsRedeemed(false);
-    setAwardedReasons(new Set());
-    removeItem(STORAGE_KEY);
-    removeItem(BONUS_POINTS_KEY);
-    removeItem(REDEEMED_KEY);
-    removeItem(AWARDED_REASONS_KEY);
+    try {
+      setCharms([]);
+      setBonusPoints(0);
+      setIsRedeemed(false);
+      setAwardedReasons(new Set());
+      removeItem(STORAGE_KEY);
+      removeSessionItem(BONUS_POINTS_KEY);
+      removeSessionItem(REDEEMED_KEY);
+      removeSessionItem(AWARDED_REASONS_KEY);
+      console.log('Points counter reset due to storage failure');
+    } catch (error) {
+      console.error('Failed to reset:', error);
+    }
   }, []);
 
   const addBonusPoints = useCallback((amount: number, reason: string) => {
-    setAwardedReasons((prev) => {
-      if (prev.has(reason)) {
-        console.debug(`Bonus points already awarded for: ${reason}`);
-        return prev;
-      }
-      const updated = new Set(prev);
-      updated.add(reason);
-      setBonusPoints((p) => p + amount);
-      console.debug(`Bonus points awarded: +${amount} (${reason})`);
-      return updated;
-    });
+    try {
+      setAwardedReasons((prev) => {
+        if (prev.has(reason)) {
+          console.debug(`Bonus points already awarded for: ${reason}`);
+          return prev;
+        }
+        const updated = new Set(prev);
+        updated.add(reason);
+        setBonusPoints((p) => p + amount);
+        console.debug(`Bonus points awarded: +${amount} (${reason})`);
+        return updated;
+      });
+    } catch (error) {
+      console.error('Failed to add bonus points:', error);
+    }
   }, []);
 
   useEffect(() => {
-    setItem(AWARDED_REASONS_KEY, Array.from(awardedReasons));
+    setSessionItem(AWARDED_REASONS_KEY, Array.from(awardedReasons));
   }, [awardedReasons]);
 
   const dismissUnlockModal = useCallback(() => {

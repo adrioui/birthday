@@ -6,6 +6,7 @@ import { testCharm, testCharm2 } from '../test/fixtures';
 describe('CharmContext', () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
   });
 
   it('initializes with empty charms', () => {
@@ -75,6 +76,13 @@ describe('CharmContext', () => {
     expect(result.current.totalPoints).toBe(10);
   });
 
+  it('does not set newlyUnlockedCharm for charms loaded from storage', () => {
+    localStorage.setItem('birthday-os-charms', JSON.stringify([testCharm]));
+    const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
+    expect(result.current.charms).toHaveLength(1);
+    expect(result.current.newlyUnlockedCharm).toBeNull();
+  });
+
   it('handles corrupted localStorage gracefully', () => {
     localStorage.setItem('birthday-os-charms', 'invalid-json');
     const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
@@ -134,15 +142,15 @@ describe('CharmContext', () => {
       expect(result.current.bonusPoints).toBe(10);
     });
 
-    it('persists bonus points to localStorage', () => {
+    it('persists bonus points to sessionStorage', () => {
       const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
       act(() => result.current.addBonusPoints(25, 'test'));
-      const stored = JSON.parse(localStorage.getItem('birthday-os-bonus-points')!);
+      const stored = JSON.parse(sessionStorage.getItem('birthday-os-bonus-points')!);
       expect(stored).toBe(25);
     });
 
-    it('loads bonus points from localStorage on mount', () => {
-      localStorage.setItem('birthday-os-bonus-points', JSON.stringify(50));
+    it('loads bonus points from sessionStorage on mount', () => {
+      sessionStorage.setItem('birthday-os-bonus-points', JSON.stringify(50));
       const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
       expect(result.current.bonusPoints).toBe(50);
       expect(result.current.totalPoints).toBe(50);
@@ -152,11 +160,11 @@ describe('CharmContext', () => {
       const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
       act(() => result.current.setRedeemed(true));
       expect(result.current.isRedeemed).toBe(true);
-      expect(JSON.parse(localStorage.getItem('birthday-redeemed')!)).toBe(true);
+      expect(JSON.parse(sessionStorage.getItem('birthday-redeemed')!)).toBe(true);
     });
 
-    it('loads redeemed status from localStorage on mount', () => {
-      localStorage.setItem('birthday-redeemed', JSON.stringify(true));
+    it('loads redeemed status from sessionStorage on mount', () => {
+      sessionStorage.setItem('birthday-redeemed', JSON.stringify(true));
       const { result } = renderHook(() => useCharms(), { wrapper: CharmProvider });
       expect(result.current.isRedeemed).toBe(true);
     });

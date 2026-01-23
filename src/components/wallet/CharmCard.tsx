@@ -17,11 +17,18 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
   const cardRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
   const hasAwardedBonus = useRef(false);
+  const previousFlipped = useRef(isFlipped);
   const { addBonusPoints } = useCharms();
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    if (!cardRef.current || isAnimating.current) return;
+    if (!cardRef.current) return;
+
+    // Skip animation on initial mount - only animate when isFlipped actually changes
+    if (previousFlipped.current === isFlipped) return;
+    previousFlipped.current = isFlipped;
+
+    if (isAnimating.current) return;
 
     isAnimating.current = true;
 
@@ -44,7 +51,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
       trackEvent('charm_viewed', { charmId: charm.id, charmName: charm.name });
 
       if (!hasAwardedBonus.current) {
-        addBonusPoints(10, 'charm-inspect');
+        addBonusPoints(10, `charm-inspect-${charm.id}`);
         hasAwardedBonus.current = true;
       }
     }

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { gsap } from 'gsap';
 import { Confetti } from '../effects/Confetti';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
@@ -7,6 +8,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 interface RedeemSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onContinue?: () => void;
 }
 
 export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps) {
@@ -22,6 +24,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
   const closeTlRef = useRef<gsap.core.Timeline | null>(null);
   const restoreFocus = useFocusTrap(isOpen, containerRef);
   const prefersReduced = useReducedMotion();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -100,10 +103,11 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
     };
   }, [isOpen, prefersReduced]);
 
-  const handleClose = () => {
+  const handleContinue = () => {
     restoreFocus();
     if (!backdropRef.current || !containerRef.current) {
       onClose();
+      navigate({ to: '/cd-mix-maker' });
       return;
     }
 
@@ -121,7 +125,10 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
     tl.to(backdropRef.current, {
       opacity: 0,
       duration: prefersReduced ? 0 : 0.3,
-      onComplete: onClose,
+      onComplete: () => {
+        onClose();
+        navigate({ to: '/cd-mix-maker' });
+      },
     });
 
     closeTlRef.current = tl;
@@ -129,7 +136,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === backdropRef.current) {
-      handleClose();
+      handleContinue();
     }
   };
 
@@ -177,17 +184,17 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
               Your gift is ready!
             </p>
             <p className="font-pixel text-sm text-deep-black/70">
-              Check your SMS for the gift card code
+              Now let&apos;s make a birthday mix CD!
             </p>
           </div>
         </div>
 
         <button
           ref={buttonRef}
-          onClick={handleClose}
+          onClick={handleContinue}
           className="modal-btn-focus w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-hard"
         >
-          Awesome!
+          Continue to CD Mix! 💿
         </button>
 
         <div className="mt-4 text-center">

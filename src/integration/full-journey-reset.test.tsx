@@ -10,6 +10,7 @@ import { DEFAULT_MILESTONES } from '../lib/progressConstants';
 describe('FR-029: Full Journey Reset - Integration Tests', () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
   });
 
   function renderWithAllProviders() {
@@ -91,8 +92,8 @@ describe('FR-029: Full Journey Reset - Integration Tests', () => {
 
       expect(localStorage.getItem('birthday-session-progress')).toBeTruthy();
       expect(localStorage.getItem('birthday-os-charms')).toBeTruthy();
-      expect(localStorage.getItem('birthday-os-bonus-points')).toBeTruthy();
-      expect(localStorage.getItem('birthday-redeemed')).toBeTruthy();
+      expect(sessionStorage.getItem('birthday-os-bonus-points')).toBeTruthy();
+      expect(sessionStorage.getItem('birthday-redeemed')).toBeTruthy();
 
       act(() => {
         result.current.progress.resetProgress();
