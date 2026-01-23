@@ -61,7 +61,9 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
     return new Set(stored);
   });
 
-  const previousCharmIds = useRef(new Set<string>());
+  // Initialize with current charm IDs to prevent false-positive "new charm" detection on mount
+  const [initialCharmIds] = useState(() => new Set(charms.map((c) => c.id)));
+  const previousCharmIds = useRef<Set<string>>(initialCharmIds);
 
   const charmPoints = charms.reduce((sum, charm) => sum + charm.points, 0);
   const totalPoints = charmPoints + bonusPoints;

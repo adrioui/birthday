@@ -7,15 +7,17 @@ import { TransitionProvider } from './context/TransitionContext'
 import { CharmProvider } from './context/CharmContext'
 import { AudioProvider } from './context/AudioContext'
 import { ProgressProvider } from './context/ProgressContext'
+import { EasterEggProvider } from './context/EasterEggContext'
 import './index.css'
 
 function App() {
   return (
     <ErrorBoundary>
-      <ProgressProvider>
-        <TransitionProvider>
-          <CharmProvider>
-            <AudioProvider>
+      <EasterEggProvider>
+        <ProgressProvider>
+          <TransitionProvider>
+            <CharmProvider>
+              <AudioProvider>
             <div className="relative min-h-dvh w-full overflow-hidden bg-periwinkle">
               {/* Background gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-periwinkle-light via-[#abc1ff] to-periwinkle-dark z-0" />
@@ -29,10 +31,11 @@ function App() {
                 <RouterProvider router={router} />
               </main>
             </div>
-          </AudioProvider>
-        </CharmProvider>
-      </TransitionProvider>
-    </ProgressProvider>
+            </AudioProvider>
+          </CharmProvider>
+        </TransitionProvider>
+      </ProgressProvider>
+    </EasterEggProvider>
     </ErrorBoundary>
   )
 }
