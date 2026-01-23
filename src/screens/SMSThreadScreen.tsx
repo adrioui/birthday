@@ -55,7 +55,7 @@ export function SMSThreadScreen() {
         <SMSHeader />
 
         {/* Messages Area */}
-        <div className="flex-1 bg-gray-50 p-4 space-y-5 overflow-y-auto relative font-pixel text-lg">
+        <div className="flex-1 bg-gray-50 p-4 space-y-5 overflow-y-auto relative font-pixel text-lg no-scrollbar">
           {/* Grid pattern background */}
           <div
             className="absolute inset-0 opacity-5 pointer-events-none"
