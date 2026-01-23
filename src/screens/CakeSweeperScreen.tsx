@@ -17,6 +17,33 @@ export function CakeSweeperScreen() {
   const [gameStarted, setGameStarted] = useState(false);
   const [time, setTime] = useState(0);
   const [remainingCandles, setRemainingCandles] = useState(10);
+  const [loading, setLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
+  useEffect(() => {
+    let loadingInterval: number | undefined;
+    if (loading) {
+      loadingInterval = window.setInterval(() => {
+        setLoadingProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(loadingInterval);
+            return 100;
+          }
+          return prev + Math.floor(Math.random() * 15) + 5;
+        });
+      }, 200);
+
+      const loadTimeout = window.setTimeout(() => {
+        setLoading(false);
+        if (loadingInterval) clearInterval(loadingInterval);
+      }, 2500);
+
+      return () => {
+        if (loadingInterval) clearInterval(loadingInterval);
+        clearTimeout(loadTimeout);
+      };
+    }
+  }, [loading]);
 
   useEffect(() => {
     return () => {
@@ -24,6 +51,8 @@ export function CakeSweeperScreen() {
       setMilestoneCompleted(false);
       setGameStarted(false);
       setTime(0);
+      setLoading(true);
+      setLoadingProgress(0);
     };
   }, []);
 
@@ -82,6 +111,62 @@ export function CakeSweeperScreen() {
     },
     [calculateRemainingCandles]
   );
+
+  if (loading) {
+    return (
+      <CardBackground variant="cake">
+        <div className="flex min-h-dvh flex-col items-center justify-center bg-periwinkle-dark p-6">
+          <div className="w-full max-w-md">
+            <div className="bg-system-grey border-4 border-white shadow-hard mb-6">
+              <div className="bg-deep-black px-3 py-1 flex items-center justify-between">
+                <span className="font-pixel text-lime text-xs">CAKE_SWEEPER.EXE</span>
+                <div className="flex gap-1">
+                  <div className="w-3 h-3 bg-system-grey rounded-sm"></div>
+                  <div className="w-3 h-3 bg-system-grey rounded-sm"></div>
+                  <div className="w-3 h-3 bg-system-grey rounded-sm"></div>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="font-pixel text-deep-black text-lg mb-6 text-center">
+                  LOADING CAKE_SWEEPER.EXE
+                </div>
+                <div className="bg-white border-2 border-deep-black p-2 mb-4">
+                  <div className="bg-deep-black h-6 relative overflow-hidden">
+                    <div
+                      className="bg-lime h-full transition-all duration-200 ease-out"
+                      style={{ width: `${Math.min(loadingProgress, 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="font-pixel text-deep-black text-sm">
+                    {loadingProgress < 100 ? (
+                      <>
+                        <span className="animate-blink">_</span> Loading files...
+                      </>
+                    ) : (
+                      'Ready!'
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-deep-black rounded-full animate-pulse"></div>
+                    <div
+                      className="w-2 h-2 bg-deep-black rounded-full animate-pulse"
+                      style={{ animationDelay: '0.2s' }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-deep-black rounded-full animate-pulse"
+                      style={{ animationDelay: '0.4s' }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardBackground>
+    );
+  }
 
   return (
     <CardBackground variant="cake">
