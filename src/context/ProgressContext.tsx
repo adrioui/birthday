@@ -4,10 +4,9 @@ import type { MilestoneId } from '../types/progress';
 import { getItem, setItem } from '../lib/storage';
 import { DEFAULT_MILESTONES } from '../lib/progressConstants';
 import { ProgressContext } from './ProgressContext.base';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 export { ProgressContext } from './ProgressContext.base';
-
-const STORAGE_KEY = 'birthday-session-progress';
 
 interface ProgressProviderProps {
   children: ReactNode;
@@ -33,11 +32,13 @@ function validateProgress(data: unknown): boolean {
 export function ProgressProvider({ children }: ProgressProviderProps) {
   const [milestones, setMilestones] = useState(() => {
     const hasStoredData =
-      typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY) !== null;
+      typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEYS.SESSION_PROGRESS) !== null;
     if (!hasStoredData) {
       return DEFAULT_MILESTONES;
     }
-    const stored = getItem<SessionProgressState>(STORAGE_KEY, { milestones: DEFAULT_MILESTONES });
+    const stored = getItem<SessionProgressState>(STORAGE_KEYS.SESSION_PROGRESS, {
+      milestones: DEFAULT_MILESTONES,
+    });
     if (validateProgress(stored)) {
       return stored.milestones;
     }
@@ -45,7 +46,7 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
   });
 
   useEffect(() => {
-    setItem(STORAGE_KEY, { milestones });
+    setItem(STORAGE_KEYS.SESSION_PROGRESS, { milestones });
   }, [milestones]);
 
   const completeMilestone = useCallback((id: MilestoneId) => {
