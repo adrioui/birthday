@@ -75,6 +75,7 @@ export function CDMixMakerScreen() {
             <div className="relative mt-8">
               <CardBackground variant="default" className="overflow-hidden">
                 <button
+                  data-testid="burn-button"
                   onClick={startBurn}
                   disabled={selectedTracks.length === 0}
                   className="relative w-full py-6 text-2xl font-black text-deep-black transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider font-display"
@@ -93,7 +94,11 @@ export function CDMixMakerScreen() {
             </div>
           </>
         ) : (
-          <BurnProgressView progress={burnProgress} onComplete={handleBurnComplete} />
+          <BurnProgressView
+            progress={burnProgress}
+            onComplete={handleBurnComplete}
+            onProgressUpdate={setBurnProgress}
+          />
         )}
       </div>
     </div>

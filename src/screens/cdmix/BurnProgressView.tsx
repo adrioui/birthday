@@ -1,19 +1,24 @@
-import { useEffect } from 'react'
-import type { BurnProgress } from '../../types/track'
+import { useEffect } from 'react';
+import type { BurnProgress } from '../../types/track';
 
 interface BurnProgressViewProps {
-  progress: BurnProgress
-  onComplete: () => void
+  progress: BurnProgress;
+  onComplete: () => void;
+  onProgressUpdate: (progress: BurnProgress) => void;
 }
 
-export function BurnProgressView({ progress, onComplete }: BurnProgressViewProps) {
+export function BurnProgressView({
+  progress,
+  onComplete,
+  onProgressUpdate,
+}: BurnProgressViewProps) {
   useEffect(() => {
     if (progress.stage === 'idle' || progress.stage === 'complete') {
-      return
+      return;
     }
 
-    const stages = ['reading', 'writing', 'finalizing', 'complete']
-    const currentIndex = stages.indexOf(progress.stage)
+    const stages = ['reading', 'writing', 'finalizing', 'complete'];
+    const currentIndex = stages.indexOf(progress.stage);
 
     if (currentIndex < stages.length - 1) {
       const timer = setTimeout(() => {
@@ -22,53 +27,52 @@ export function BurnProgressView({ progress, onComplete }: BurnProgressViewProps
           progress: Math.min(progress.progress + 33, 100),
           currentTrack: progress.currentTrack,
           totalTracks: progress.totalTracks,
-        }
-        
+        };
+        onProgressUpdate(nextProgress);
+
         if (nextProgress.stage === 'complete') {
           setTimeout(() => {
-            onComplete()
-          }, 2000)
+            onComplete();
+          }, 2000);
         }
-      }, 1500)
+      }, 1500);
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [progress, onComplete])
+  }, [progress, onComplete, onProgressUpdate]);
 
   const getStageText = () => {
     switch (progress.stage) {
       case 'reading':
-        return 'READING TRACKS...'
+        return 'READING TRACKS...';
       case 'writing':
-        return 'BURNING TO CD...'
+        return 'BURNING TO CD...';
       case 'finalizing':
-        return 'FINALIZING...'
+        return 'FINALIZING...';
       case 'complete':
-        return 'COMPLETE! 🎉'
+        return 'COMPLETE! 🎉';
       case 'error':
-        return 'ERROR - BURN FAILED'
+        return 'ERROR - BURN FAILED';
       default:
-        return 'PREPARING...'
+        return 'PREPARING...';
     }
-  }
+  };
 
   const getProgressColor = () => {
     switch (progress.stage) {
       case 'complete':
-        return 'bg-lime'
+        return 'bg-lime';
       case 'error':
-        return 'bg-hot-pink'
+        return 'bg-hot-pink';
       default:
-        return 'bg-lime'
+        return 'bg-lime';
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center py-12">
       <div className="mb-8 text-center">
-        <h2 className="chrome-text mb-4 text-4xl font-black italic">
-          {getStageText()}
-        </h2>
+        <h2 className="chrome-text mb-4 text-4xl font-black italic">{getStageText()}</h2>
         <p className="text-deep-black/70 font-pixel text-xl">
           {progress.stage !== 'complete' && progress.stage !== 'error' && (
             <>
@@ -106,5 +110,5 @@ export function BurnProgressView({ progress, onComplete }: BurnProgressViewProps
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import type { Track } from '../../types/track'
-import { formatDuration } from '../../data/tracks'
+import type { Track } from '../../types/track';
+import { formatDuration } from '../../data/tracks';
 
 interface TrackSelectorProps {
-  availableTracks: Track[]
-  selectedTrackIds: string[]
-  onToggleTrack: (track: Track) => void
+  availableTracks: Track[];
+  selectedTrackIds: string[];
+  onToggleTrack: (track: Track) => void;
 }
 
 export function TrackSelector({
@@ -14,17 +14,16 @@ export function TrackSelector({
 }: TrackSelectorProps) {
   return (
     <div className="mt-8">
-      <h3 className="mb-4 text-xl font-bold text-deep-black">
-        AVAILABLE TRACKS
-      </h3>
+      <h3 className="mb-4 text-xl font-bold text-deep-black">AVAILABLE TRACKS</h3>
 
       <div className="space-y-2">
         {availableTracks.map((track) => {
-          const isSelected = selectedTrackIds.includes(track.id)
+          const isSelected = selectedTrackIds.includes(track.id);
 
           return (
             <button
               key={track.id}
+              data-testid={`track-${track.id}`}
               onClick={() => onToggleTrack(track)}
               className={`w-full rounded-lg p-4 text-left transition-all ${
                 isSelected
@@ -47,9 +46,9 @@ export function TrackSelector({
                 </div>
               </div>
             </button>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
