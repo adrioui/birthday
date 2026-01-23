@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { useEasterEggs } from '../hooks/useEasterEggs';
+import { useEasterEggs, useReducedMotion } from '../hooks';
 import { Confetti } from './effects/Confetti';
 import { ScreenShake } from './effects/ScreenShake';
-import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function EasterEggOverlay() {
   const { showOverlay, currentEgg, dismissOverlay } = useEasterEggs();

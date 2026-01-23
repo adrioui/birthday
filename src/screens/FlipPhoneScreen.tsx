@@ -1,7 +1,7 @@
 import { FlipPhone } from '../components/FlipPhone';
 import { CardBackground } from '../components/CardBackground';
 import { Sticker } from '../components/effects/Sticker';
-import { useEasterEggTrigger } from '../hooks/useEasterEggTrigger';
+import { useEasterEggTrigger } from '../hooks';
 
 export function FlipPhoneScreen() {
   const bLetterTrigger = useEasterEggTrigger('chrome-b', { trigger: 'doubleTap' });

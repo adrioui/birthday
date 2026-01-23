@@ -6,7 +6,7 @@ import { CharmCard } from '../components/wallet/CharmCard';
 import { WalletHeader } from '../components/wallet/WalletHeader';
 import { WalletFooter } from '../components/wallet/WalletFooter';
 import { WalletEmptyState } from '../components/wallet/WalletEmptyState';
-import { useCharmFlip } from '../hooks/useCharmFlip';
+import { useCharmFlip } from '../hooks';
 import { Sticker } from '../components/effects/Sticker';
 
 interface TapeBitProps {

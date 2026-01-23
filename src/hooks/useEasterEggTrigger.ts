@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from 'react';
-import { useEasterEggs } from '../hooks/useEasterEggs';
+import { useEasterEggs } from './useEasterEggs';
 import type { EasterEggId } from '../data/easterEggs';
 
 export function useEasterEggTrigger(

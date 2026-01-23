@@ -1,11 +1,9 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
-import { useAudio } from '../hooks/useAudio';
-import { useEasterEggTrigger } from '../hooks/useEasterEggTrigger';
+import { useAudio, useEasterEggTrigger, useReducedMotion } from '../hooks';
 import { trackEvent } from '../lib/telemetry';
 import { useTransition } from '../context/TransitionContext';
 import { useProgress } from '../context/useProgress';
-import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function FlipPhone() {
   const phoneRef = useRef<HTMLDivElement>(null);

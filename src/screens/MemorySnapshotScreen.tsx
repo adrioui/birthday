@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useCharms } from '../context/CharmContext';
-import { useAudio } from '../hooks/useAudio';
+import { useAudio } from '../hooks';
 import { STORAGE_KEYS } from '../lib/storageKeys';
 
 export function MemorySnapshotScreen() {

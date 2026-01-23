@@ -1,8 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { useCamera } from '../hooks/useCamera';
-import { useCapture } from '../hooks/useCapture';
-import { useAudio } from '../hooks/useAudio';
+import { useCamera, useCapture, useAudio } from '../hooks';
 import { useCharms } from '../context/CharmContext';
 import { useProgress } from '../context/useProgress';
 import { PLACEHOLDER_CHARMS } from '../types/charm';

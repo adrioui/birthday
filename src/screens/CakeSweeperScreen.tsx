@@ -4,7 +4,7 @@ import { ScreenShake } from '../components/effects/ScreenShake';
 import { GlitchOverlay } from '../components/effects/GlitchOverlay';
 import { SystemReboot } from '../components/effects/SystemReboot';
 import { Confetti } from '../components/effects/Confetti';
-import { useCakeSweeper, type GameStatus } from '../hooks/useCakeSweeper';
+import { useCakeSweeper, type GameStatus } from '../hooks';
 import { CardBackground } from '../components/CardBackground';
 import { CakeSweeperGrid } from '../components/cake-sweeper/CakeSweeperGrid';
 
