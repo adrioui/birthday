@@ -1,21 +1,35 @@
-import type { Track } from '../../types/track'
-import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useState, useEffect } from 'react';
+import type { Track } from '../../types/track';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface RotatingCDProps {
-  selectedTracks: Track[]
-  isBurning: boolean
+  selectedTracks: Track[];
+  isBurning: boolean;
 }
 
 export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
-  const prefersReduced = useReducedMotion()
-  const hasTracks = selectedTracks.length > 0
-  const rotationSpeed = isBurning ? '2s' : '8s'
+  const prefersReduced = useReducedMotion();
+  const [isVisible, setIsVisible] = useState(true);
+  const hasTracks = selectedTracks.length > 0;
+  const rotationSpeed = isBurning ? '2s' : '8s';
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsVisible(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <div className="relative flex h-48 w-48 items-center justify-center">
       <div
         className={`relative h-full w-full rounded-full ${
-          hasTracks && !prefersReduced ? 'animate-spin' : ''
+          hasTracks && !prefersReduced && isVisible ? 'animate-spin' : ''
         }`}
         style={{
           animationDuration: rotationSpeed,
@@ -50,11 +64,7 @@ export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
             }}
           >
             <div className="flex h-full w-full items-center justify-center">
-              <div
-                className={`h-3 w-3 rounded-full ${
-                  hasTracks ? 'bg-white' : 'bg-gray-400'
-                }`}
-              />
+              <div className={`h-3 w-3 rounded-full ${hasTracks ? 'bg-white' : 'bg-gray-400'}`} />
             </div>
           </div>
         </div>
@@ -77,5 +87,5 @@ export function RotatingCD({ selectedTracks, isBurning }: RotatingCDProps) {
         <div className="absolute inset-0 animate-pulse rounded-full border-2 border-lime shadow-[0_0_20px_rgba(204,255,0,0.5)]" />
       )}
     </div>
-  )
+  );
 }
