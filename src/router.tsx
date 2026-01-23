@@ -88,6 +88,12 @@ const cakeSweeperRoute = createRoute({
 const memorySnapshotRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/memory-snapshot',
+  beforeLoad: () => {
+    const lastCapture = localStorage.getItem('last-captured-photo');
+    if (!lastCapture) {
+      throw new Error('No photo captured');
+    }
+  },
   component: () => (
     <RouteErrorBoundary>
       <MemorySnapshotScreen />

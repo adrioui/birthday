@@ -143,23 +143,42 @@ export function MemorySnapshotScreen() {
 
   if (error) {
     return (
-      <div className="flex min-h-dvh flex-col bg-deep-black items-center justify-center p-4">
-        <div className="text-bg-plate-dark px-6 py-4 rounded-xl mb-4">
-          <div className="font-pixel text-xl text-pink">ERROR</div>
-          <div className="font-pixel text-sm text-white/80 mt-2">{error}</div>
+      <div className="flex min-h-dvh flex-col bg-deep-black items-center justify-center p-4 scanlines">
+        <div className="relative max-w-md w-full">
+          <div className="text-bg-plate-dark px-8 py-6 rounded-2xl border-4 border-lime shadow-hard-lime mb-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-hot-pink flex items-center justify-center shadow-hard-pink-sm">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </div>
+              <div>
+                <div className="font-pixel text-2xl text-lime tracking-wide">NO PHOTO</div>
+                <div className="font-pixel text-sm text-white/60">CAPTURED</div>
+              </div>
+            </div>
+            <div className="font-display text-white/90 text-sm leading-relaxed">
+              Snap a photo first to generate your Memory Snapshot!
+            </div>
+          </div>
+          <button
+            onClick={handleGoBack}
+            className="modal-btn-focus w-full flex items-center justify-center gap-2 rounded-lg bg-lime py-3 px-8 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 shadow-button-black font-display"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+            </svg>
+            GO TO CAMCORDER
+          </button>
+          <div className="mt-4 text-center">
+            <button
+              onClick={handleGoBack}
+              className="modal-btn-focus text-white/40 hover:text-white transition-colors font-pixel text-sm underline decoration-dashed underline-offset-4"
+            >
+              BACK
+            </button>
+          </div>
         </div>
-        <button
-          onClick={handleGoBack}
-          className="modal-btn-focus flex items-center justify-center gap-2 rounded-sm bg-lime py-2 px-6 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95"
-        >
-          GO BACK
-        </button>
-        <button
-          onClick={handleGoBack}
-          className="modal-btn-focus mt-4 text-white/60 hover:text-white transition-colors font-pixel text-sm"
-        >
-          GO BACK
-        </button>
       </div>
     );
   }
