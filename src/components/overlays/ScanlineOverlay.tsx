@@ -1,6 +1,7 @@
 export function ScanlineOverlay() {
   return (
-    <div 
+    <div
+      data-testid="scanline-overlay"
       className="pointer-events-none fixed inset-0 z-50 opacity-[0.03]"
       style={{
         background: `repeating-linear-gradient(
@@ -14,5 +15,5 @@ export function ScanlineOverlay() {
       }}
       aria-hidden="true"
     />
-  )
+  );
 }

@@ -8,10 +8,22 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: 'https://localhost:5173',
+    ignoreHTTPSErrors: true,
     trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
+    screenshot: 'on', // Always capture for agent verification
     video: 'retain-on-failure',
+  },
+
+  // Output directory for test artifacts
+  outputDir: './test-results',
+
+  // Snapshot settings for visual regression
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: 100, // Allow small pixel differences
+      animations: 'disabled',
+    },
   },
 
   projects: [
@@ -30,9 +42,10 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'VITE_TEST_MODE=true npm run dev',
-    url: 'http://localhost:5173',
+    command: 'VITE_TEST_MODE=true npm run dev -- --port 5173 --strictPort',
+    url: 'https://localhost:5173',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    ignoreHTTPSErrors: true,
   },
 });

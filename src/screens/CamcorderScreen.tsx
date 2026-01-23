@@ -137,7 +137,7 @@ export function CamcorderScreen() {
               </div>
             )}
 
-            {hasError && (
+            {hasError && !isTestMode && (
               <CameraFallback
                 reason={state === 'denied' ? 'denied' : 'error'}
                 errorMessage={error || undefined}
@@ -165,7 +165,7 @@ export function CamcorderScreen() {
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 z-0 pointer-events-none" />
 
-            {state === 'active' && <ViewfinderOverlay isRecording />}
+            {(state === 'active' || isTestMode) && <ViewfinderOverlay isRecording />}
           </div>
         </div>
       </main>
