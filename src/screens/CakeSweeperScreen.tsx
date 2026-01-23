@@ -6,7 +6,7 @@ import { SystemReboot } from '../components/effects/SystemReboot';
 import { Confetti } from '../components/effects/Confetti';
 import { useCakeSweeper, type GameStatus } from '../hooks';
 import { CardBackground } from '../components/CardBackground';
-import { CakeSweeperGrid } from '../components/cake-sweeper/CakeSweeperGrid';
+import { CakeSweeperGrid } from '../components/cake-sweeper';
 
 export function CakeSweeperScreen() {
   const [previousStatus, setPreviousStatus] = useState<GameStatus>('playing');
