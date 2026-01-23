@@ -8,6 +8,7 @@ import { CDMixMakerScreen } from './screens/CDMixMakerScreen';
 import { CakeSweeperScreen } from './screens/CakeSweeperScreen';
 import { MemorySnapshotScreen } from './screens/MemorySnapshotScreen';
 import { CelebrationScreen } from './screens/CelebrationScreen';
+import { NotFoundScreen } from './screens/NotFoundScreen';
 import { RootRoute } from './components/RootRoute';
 import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary';
 
@@ -111,6 +112,16 @@ const celebrationRoute = createRoute({
   ),
 });
 
+const notFoundRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '*',
+  component: () => (
+    <RouteErrorBoundary>
+      <NotFoundScreen />
+    </RouteErrorBoundary>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   smsRoute,
@@ -121,6 +132,7 @@ const routeTree = rootRoute.addChildren([
   cakeSweeperRoute,
   memorySnapshotRoute,
   celebrationRoute,
+  notFoundRoute,
 ]);
 
 export const router = createRouter({ routeTree });
