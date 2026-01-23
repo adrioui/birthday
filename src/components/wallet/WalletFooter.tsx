@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { RedeemConfirmModal } from './RedeemConfirmModal';
 import { RedeemSuccessModal } from './RedeemSuccessModal';
 import { useCharms } from '../../context/CharmContext';
+import { REDEEM_THRESHOLD } from '../../config';
 
 interface WalletFooterProps {
   totalPoints: number;
@@ -15,7 +16,7 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleRedeem = useCallback(() => {
-    if (totalPoints > 0) {
+    if (totalPoints >= REDEEM_THRESHOLD) {
       setShowConfirmModal(true);
     }
   }, [totalPoints]);
@@ -49,7 +50,7 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
       <button
         onClick={handleRedeem}
         className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-hard-lime active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={totalPoints === 0 || isRedeemed}
+        disabled={totalPoints < REDEEM_THRESHOLD || isRedeemed}
         aria-label="Redeem gift"
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
@@ -63,6 +64,12 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
           </span>
         </div>
       </button>
+
+      {totalPoints < REDEEM_THRESHOLD && !isRedeemed && (
+        <p className="text-center text-deep-black/60 text-[10px] font-bold mt-2 font-display uppercase tracking-widest">
+          Collect {REDEEM_THRESHOLD - totalPoints} more points to redeem
+        </p>
+      )}
 
       <RedeemConfirmModal
         isOpen={showConfirmModal}
