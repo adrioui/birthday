@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import { gsap } from 'gsap';
 import { type Charm } from '../../types';
 import { trackEvent } from '../../lib/telemetry';
@@ -12,7 +12,7 @@ interface CharmCardProps {
   className?: string;
 }
 
-export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCardProps) {
+function CharmCardComponent({ charm, isFlipped, onFlip, className = '' }: CharmCardProps) {
   const prefersReduced = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
@@ -147,3 +147,18 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
     </button>
   );
 }
+
+export const CharmCard = memo(CharmCardComponent, (prev, next) => {
+  return (
+    prev.isFlipped === next.isFlipped &&
+    prev.onFlip === next.onFlip &&
+    prev.className === next.className &&
+    prev.charm.id === next.charm.id &&
+    prev.charm.name === next.charm.name &&
+    prev.charm.icon === next.charm.icon &&
+    prev.charm.iconBgColor === next.charm.iconBgColor &&
+    prev.charm.iconColor === next.charm.iconColor
+  );
+});
+
+CharmCard.displayName = 'CharmCard';
