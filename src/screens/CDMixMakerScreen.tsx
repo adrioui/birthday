@@ -78,7 +78,7 @@ export function CDMixMakerScreen() {
                   data-testid="burn-button"
                   onClick={startBurn}
                   disabled={selectedTracks.length === 0}
-                  className="relative w-full py-6 text-2xl font-black text-deep-black transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider font-display"
+                  className="relative w-full bg-lime border-4 border-deep-black py-6 text-2xl font-black text-deep-black transition-all hover:scale-[1.02] hover:shadow-hard active:scale-95 active:border-b-2 active:border-r-2 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider font-display shadow-hard"
                 >
                   {selectedTracks.length === 0
                     ? 'ADD TRACKS FIRST'

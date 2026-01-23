@@ -25,10 +25,10 @@ export function TrackSelector({
               key={track.id}
               data-testid={`track-${track.id}`}
               onClick={() => onToggleTrack(track)}
-              className={`w-full rounded-lg p-4 text-left transition-all ${
+              className={`w-full border-4 border-deep-black rounded-lg p-4 text-left transition-all ${
                 isSelected
-                  ? 'bg-lime text-deep-black shadow-lg'
-                  : 'bg-white/80 text-deep-black/70 hover:bg-white'
+                  ? 'bg-lime text-deep-black shadow-hard hover:shadow-hard-lg active:border-b-2 active:border-r-2'
+                  : 'bg-white text-deep-black hover:bg-white/90 active:border-b-2 active:border-r-2'
               }`}
             >
               <div className="flex items-center justify-between">
