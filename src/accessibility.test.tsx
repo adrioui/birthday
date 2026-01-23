@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from './test/render';
 import { testCharm } from './test/fixtures';
 
-import { SoundToggle } from './components/ui/SoundToggle';
+import { SoundToggle } from './components/ui';
 import { CharmUnlockModal } from './components/wallet/CharmUnlockModal';
 import { RedeemConfirmModal } from './components/wallet/RedeemConfirmModal';
 import { RedeemSuccessModal } from './components/wallet/RedeemSuccessModal';

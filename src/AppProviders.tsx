@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { ErrorBoundary } from './components/ui';
 import {
   TransitionProvider,
   CharmProvider,

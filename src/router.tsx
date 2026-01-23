@@ -4,7 +4,7 @@ import { createRouter, createRootRoute, createRoute } from '@tanstack/react-rout
 
 /* eslint-disable react-refresh/only-export-components */
 import { RootRoute } from './components/RootRoute';
-import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary';
+import { RouteErrorBoundary } from './components/ui';
 import { STORAGE_KEYS } from './lib';
 
 const FlipPhoneScreen = lazy(() =>
