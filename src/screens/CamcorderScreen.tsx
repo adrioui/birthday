@@ -13,6 +13,7 @@ import { CardBackground } from '../components/CardBackground';
 import { FloatingChromeText } from '../components/effects/FloatingChromeText';
 import { Badge } from '../components/effects/Badge';
 import { trackEvent } from '../lib/telemetry';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 export function CamcorderScreen() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export function CamcorderScreen() {
 
     if (result) {
       setCapturedImageUrl(result.dataUrl);
-      localStorage.setItem('last-captured-photo', result.dataUrl);
+      localStorage.setItem(STORAGE_KEYS.LAST_CAPTURED_PHOTO, result.dataUrl);
       trackEvent('snap_taken');
       completeMilestone('photo-snapped');
       addBonusPoints(25, 'snap-capture');
