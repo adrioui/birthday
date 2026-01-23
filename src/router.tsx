@@ -1,17 +1,59 @@
+import { lazy, Suspense } from 'react';
+import type { ReactNode } from 'react';
 import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router';
-import { FlipPhoneScreen } from './screens/FlipPhoneScreen';
-import { SMSThreadScreen } from './screens/SMSThreadScreen';
-import { CamcorderScreen } from './screens/CamcorderScreen';
-import { WalletScreen } from './screens/WalletScreen';
-import { CharmCardTestScreen } from './screens/CharmCardTestScreen';
-import { CDMixMakerScreen } from './screens/CDMixMakerScreen';
-import { CakeSweeperScreen } from './screens/CakeSweeperScreen';
-import { MemorySnapshotScreen } from './screens/MemorySnapshotScreen';
-import { CelebrationScreen } from './screens/CelebrationScreen';
-import { NotFoundScreen } from './screens/NotFoundScreen';
+
+/* eslint-disable react-refresh/only-export-components */
 import { RootRoute } from './components/RootRoute';
 import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary';
 import { STORAGE_KEYS } from './lib/storageKeys';
+
+const FlipPhoneScreen = lazy(() =>
+  import('./screens/FlipPhoneScreen').then((m) => ({ default: m.FlipPhoneScreen }))
+);
+const SMSThreadScreen = lazy(() =>
+  import('./screens/SMSThreadScreen').then((m) => ({ default: m.SMSThreadScreen }))
+);
+const CamcorderScreen = lazy(() =>
+  import('./screens/CamcorderScreen').then((m) => ({ default: m.CamcorderScreen }))
+);
+const WalletScreen = lazy(() =>
+  import('./screens/WalletScreen').then((m) => ({ default: m.WalletScreen }))
+);
+const CharmCardTestScreen = lazy(() =>
+  import('./screens/CharmCardTestScreen').then((m) => ({ default: m.CharmCardTestScreen }))
+);
+const CDMixMakerScreen = lazy(() =>
+  import('./screens/CDMixMakerScreen').then((m) => ({ default: m.CDMixMakerScreen }))
+);
+const CakeSweeperScreen = lazy(() =>
+  import('./screens/CakeSweeperScreen').then((m) => ({ default: m.CakeSweeperScreen }))
+);
+const MemorySnapshotScreen = lazy(() =>
+  import('./screens/MemorySnapshotScreen').then((m) => ({ default: m.MemorySnapshotScreen }))
+);
+const CelebrationScreen = lazy(() =>
+  import('./screens/CelebrationScreen').then((m) => ({ default: m.CelebrationScreen }))
+);
+const NotFoundScreen = lazy(() =>
+  import('./screens/NotFoundScreen').then((m) => ({ default: m.NotFoundScreen }))
+);
+
+export const RouteLoading = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+    <div className="text-center">
+      <div className="text-2xl font-bold mb-2">Loading...</div>
+      <div className="text-sm text-gray-400">Preparing your experience</div>
+    </div>
+  </div>
+);
+
+export const withSuspense = (Component: () => ReactNode) => {
+  return () => (
+    <Suspense fallback={<RouteLoading />}>
+      <Component />
+    </Suspense>
+  );
+};
 
 const rootRoute = createRootRoute({
   component: RootRoute,
