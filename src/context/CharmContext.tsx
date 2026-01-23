@@ -17,6 +17,7 @@ import {
   setSessionItem,
   removeSessionItem,
 } from '../lib/storage';
+import { registerStateGetter } from '../agent/registry';
 
 /* eslint-disable react-refresh/only-export-components */
 
@@ -214,6 +215,13 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
       setRedeemed,
     ]
   );
+
+  registerStateGetter(() => ({
+    route: window.location.pathname,
+    charms: charms.map((c) => ({ id: c.id, name: c.name, points: c.points })),
+    totalPoints,
+    isRedeemed,
+  }));
 
   return <CharmContext.Provider value={value}>{children}</CharmContext.Provider>;
 }
