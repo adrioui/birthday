@@ -9,6 +9,9 @@ import { PLACEHOLDER_CHARMS } from '../types/charm';
 import { ViewfinderOverlay } from '../components/camcorder/ViewfinderOverlay';
 import { CameraFallback } from '../components/camcorder/CameraFallback';
 import { SnapButton, FlashOverlay, CaptureConfirmation } from '../components/camcorder';
+import { CardBackground } from '../components/CardBackground';
+import { FloatingChromeText } from '../components/effects/FloatingChromeText';
+import { Badge } from '../components/effects/Badge';
 import { trackEvent } from '../lib/telemetry';
 
 export function CamcorderScreen() {
@@ -73,7 +76,17 @@ export function CamcorderScreen() {
   const hasError = state === 'denied' || state === 'error';
 
   return (
-    <div className="relative flex min-h-dvh flex-col bg-deep-black overflow-hidden">
+    <CardBackground
+      variant="camcorder"
+      className="relative flex min-h-dvh flex-col bg-deep-black overflow-hidden"
+    >
+      <FloatingChromeText
+        text="BDAY"
+        position={{ top: '100px', left: '-20px' }}
+        rotation={-12}
+        size="text-9xl"
+      />
+      <Badge text="NEW" variant="lime" position={{ top: '180px', left: '40px' }} rotation={15} />
       <div className="relative z-50 flex items-center justify-between px-6 py-8">
         <button
           className="modal-btn-focus flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white/40 transition-colors"
@@ -177,7 +190,7 @@ export function CamcorderScreen() {
       {showConfirmation && capturedImageUrl && (
         <CaptureConfirmation imageUrl={capturedImageUrl} onDismiss={handleConfirmationDismiss} />
       )}
-    </div>
+    </CardBackground>
   );
 }
 
