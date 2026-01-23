@@ -32,6 +32,11 @@ function validateProgress(data: unknown): boolean {
 
 export function ProgressProvider({ children }: ProgressProviderProps) {
   const [milestones, setMilestones] = useState(() => {
+    const hasStoredData =
+      typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY) !== null;
+    if (!hasStoredData) {
+      return DEFAULT_MILESTONES;
+    }
     const stored = getItem<SessionProgressState>(STORAGE_KEY, { milestones: DEFAULT_MILESTONES });
     if (validateProgress(stored)) {
       return stored.milestones;
