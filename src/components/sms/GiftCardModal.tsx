@@ -1,11 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { Confetti } from '../effects/Confetti';
-import { useAudio } from '../../hooks/useAudio';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useAudio, useReducedMotion, useFocusTrap } from '../../hooks';
 import { useTransition } from '../../context/TransitionContext';
 import { useCharms } from '../../context/CharmContext';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface GiftCardModalProps {
   onClose: () => void;

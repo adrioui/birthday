@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useReducedMotion } from '../../hooks';
 
 interface CaptureConfirmationProps {
   imageUrl: string;

@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { type Charm } from '../../types';
 import { trackEvent } from '../../lib/telemetry';
 import { useCharms } from '../../context/CharmContext';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useReducedMotion } from '../../hooks';
 
 interface CharmCardProps {
   charm: Charm;

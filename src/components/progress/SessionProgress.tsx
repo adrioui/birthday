@@ -3,7 +3,7 @@ import { useProgress } from '../../context/useProgress';
 import { gsap } from 'gsap';
 import type { Milestone } from '../../types';
 import { useNavigate } from '@tanstack/react-router';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useReducedMotion } from '../../hooks';
 
 export function SessionProgress() {
   const { milestones } = useProgress();

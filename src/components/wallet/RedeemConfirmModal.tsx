@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Confetti } from '../effects/Confetti';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useFocusTrap, useReducedMotion } from '../../hooks';
 
 interface RedeemConfirmModalProps {
   isOpen: boolean;

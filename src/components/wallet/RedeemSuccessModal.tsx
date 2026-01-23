@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { gsap } from 'gsap';
 import { Confetti } from '../effects/Confetti';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useFocusTrap, useReducedMotion } from '../../hooks';
 import { getCopy, type CopyConfig } from '../../config';
 
 interface RedeemSuccessModalProps {

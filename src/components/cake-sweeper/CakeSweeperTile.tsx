@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { type Tile as TileType } from '../../hooks/useCakeSweeper';
+import { type Tile as TileType } from '../../hooks';
 
 interface CakeSweeperTileProps {
   tile: TileType;

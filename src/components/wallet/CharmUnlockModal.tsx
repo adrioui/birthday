@@ -3,11 +3,8 @@ import { gsap } from 'gsap';
 import { useNavigate } from '@tanstack/react-router';
 import { type Charm } from '../../types';
 import { CharmCard } from './CharmCard';
-import { useCharmFlip } from '../../hooks/useCharmFlip';
+import { useCharmFlip, useAudio, useFocusTrap, useReducedMotion } from '../../hooks';
 import { Confetti } from '../effects/Confetti';
-import { useAudio } from '../../hooks/useAudio';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface CharmUnlockModalProps {
   charm: Charm;

@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { useCakeSweeper } from '../../hooks/useCakeSweeper';
-import { type GameStatus } from '../../hooks/useCakeSweeper';
+import { useCakeSweeper, type GameStatus } from '../../hooks';
 import { CakeSweeperTile } from './CakeSweeperTile';
 import { Win95Window } from './Win95Window';
 import { CounterDisplay } from './CounterDisplay';
