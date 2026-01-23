@@ -1,17 +1,24 @@
-import type { Message } from '../../data/messages'
-import { GiftCardAttachment } from './GiftCardAttachment'
+import type { Message } from '../../data/messages';
+import { GiftCardAttachment } from './GiftCardAttachment';
+import { memo } from 'react';
 
 interface MessageBubbleProps {
-  message: Message
-  onGiftCardClick?: () => void
-  isGiftCardUnlocked?: boolean
+  message: Message;
+  onGiftCardClick?: () => void;
+  isGiftCardUnlocked?: boolean;
 }
 
-export function MessageBubble({ message, onGiftCardClick, isGiftCardUnlocked }: MessageBubbleProps) {
-  const isBestie = message.sender === 'bestie'
+export const MessageBubble = memo(function MessageBubble({
+  message,
+  onGiftCardClick,
+  isGiftCardUnlocked,
+}: MessageBubbleProps) {
+  const isBestie = message.sender === 'bestie';
 
   return (
-    <div className={`flex flex-col ${isBestie ? 'items-start' : 'items-end self-end ml-auto'} max-w-[85%] group`}>
+    <div
+      className={`flex flex-col ${isBestie ? 'items-start' : 'items-end self-end ml-auto'} max-w-[85%] group`}
+    >
       <div
         className={`
           border-2 border-deep-black p-3 rounded-2xl
@@ -20,15 +27,10 @@ export function MessageBubble({ message, onGiftCardClick, isGiftCardUnlocked }: 
           transition-transform hover:scale-[1.02]
         `}
       >
-        <p className="font-pixel text-lg text-deep-black leading-tight">
-          {message.text}
-        </p>
+        <p className="font-pixel text-lg text-deep-black leading-tight">{message.text}</p>
 
         {message.hasGiftCard && (
-          <GiftCardAttachment
-            onClick={onGiftCardClick}
-            isUnlocked={isGiftCardUnlocked}
-          />
+          <GiftCardAttachment onClick={onGiftCardClick} isUnlocked={isGiftCardUnlocked} />
         )}
       </div>
 
@@ -38,5 +40,6 @@ export function MessageBubble({ message, onGiftCardClick, isGiftCardUnlocked }: 
         </span>
       )}
     </div>
-  )
-}
+  );
+});
+MessageBubble.displayName = 'MessageBubble';
