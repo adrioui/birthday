@@ -1,67 +1,67 @@
-import { useRef, useEffect } from 'react'
-import { gsap } from 'gsap'
-import { type Charm } from '../../types/charm'
-import { trackEvent } from '../../lib/telemetry'
-import { useCharms } from '../../context/CharmContext'
-import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { type Charm } from '../../types/charm';
+import { trackEvent } from '../../lib/telemetry';
+import { useCharms } from '../../context/CharmContext';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface CharmCardProps {
-  charm: Charm
-  isFlipped: boolean
-  onFlip: (id: string | null) => void
-  className?: string
+  charm: Charm;
+  isFlipped: boolean;
+  onFlip: (id: string | null) => void;
+  className?: string;
 }
 
 export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCardProps) {
-  const prefersReduced = useReducedMotion()
-  const cardRef = useRef<HTMLDivElement>(null)
-  const isAnimating = useRef(false)
-  const hasAwardedBonus = useRef(false)
-  const { addBonusPoints } = useCharms()
-  const tweenRef = useRef<gsap.core.Tween | null>(null)
+  const prefersReduced = useReducedMotion();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isAnimating = useRef(false);
+  const hasAwardedBonus = useRef(false);
+  const { addBonusPoints } = useCharms();
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    if (!cardRef.current || isAnimating.current) return
+    if (!cardRef.current || isAnimating.current) return;
 
-    isAnimating.current = true
+    isAnimating.current = true;
 
-    tweenRef.current?.kill()
+    tweenRef.current?.kill();
 
-    const duration = prefersReduced ? 0 : 0.6
+    const duration = prefersReduced ? 0 : 0.6;
 
     const tween = gsap.to(cardRef.current, {
       rotateY: isFlipped ? 180 : 0,
       duration,
       ease: 'power2.inOut',
       onComplete: () => {
-        isAnimating.current = false
+        isAnimating.current = false;
       },
-    })
+    });
 
-    tweenRef.current = tween
+    tweenRef.current = tween;
 
     if (isFlipped) {
-      trackEvent('charm_viewed', { charmId: charm.id, charmName: charm.name })
+      trackEvent('charm_viewed', { charmId: charm.id, charmName: charm.name });
 
       if (!hasAwardedBonus.current) {
-        addBonusPoints(10, 'charm-inspect')
-        hasAwardedBonus.current = true
+        addBonusPoints(10, 'charm-inspect');
+        hasAwardedBonus.current = true;
       }
     }
 
     return () => {
-      tweenRef.current?.kill()
-    }
-  }, [isFlipped, charm.id, charm.name, addBonusPoints, prefersReduced])
+      tweenRef.current?.kill();
+    };
+  }, [isFlipped, charm.id, charm.name, addBonusPoints, prefersReduced]);
 
   const handleClick = () => {
-    if (isAnimating.current) return
-    onFlip(isFlipped ? null : charm.id)
-  }
+    if (isAnimating.current) return;
+    onFlip(isFlipped ? null : charm.id);
+  };
 
-  const iconBgColor = charm.iconBgColor || 'bg-gradient-to-b from-gray-100 to-gray-300'
-  const iconColor = charm.iconColor || 'text-gray-400'
-  const isCustomBg = charm.iconBgColor?.startsWith('#')
+  const iconBgColor = charm.iconBgColor || 'bg-gradient-to-b from-gray-100 to-gray-300';
+  const iconColor = charm.iconColor || 'text-gray-400';
+  const isCustomBg = charm.iconBgColor?.startsWith('#');
 
   return (
     <button
@@ -71,6 +71,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
       aria-pressed={isFlipped}
       aria-label={`${charm.name} charm card. ${isFlipped ? 'Showing power: ' + charm.power : 'Tap to reveal power'}`}
       type="button"
+      data-testid={`charm-card-${charm.id}`}
     >
       <div
         ref={cardRef}
@@ -81,13 +82,13 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
           className="absolute inset-0 w-full bg-white rounded-xl border-[3px] border-lime p-1.5 sticker-shadow-hard"
           style={{ backfaceVisibility: 'hidden' }}
         >
-          <div 
+          <div
             className={`rounded-lg h-28 flex items-center justify-center border border-black/10 overflow-hidden relative ${!isCustomBg ? iconBgColor : ''}`}
             style={isCustomBg ? { backgroundColor: charm.iconBgColor } : undefined}
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-            
-            <span 
+
+            <span
               className={`material-symbols-outlined text-7xl chrome-text ${iconColor}`}
               style={charm.iconColor?.startsWith('#') ? { color: charm.iconColor } : undefined}
             >
@@ -123,9 +124,7 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
             />
           </div>
           <div className="relative h-full flex flex-col items-center justify-center p-4 text-center">
-            <div className="text-4xl mb-3">
-              {charm.icon.length <= 2 ? charm.icon : '✨'}
-            </div>
+            <div className="text-4xl mb-3">{charm.icon.length <= 2 ? charm.icon : '✨'}</div>
             <h3 className="font-display font-black uppercase text-base leading-none text-lime mb-3">
               {charm.name}
             </h3>
@@ -134,12 +133,10 @@ export function CharmCard({ charm, isFlipped, onFlip, className = '' }: CharmCar
                 PWR: {charm.power}
               </p>
             </div>
-            <p className="font-pixel text-xs text-lime/60 mt-3 uppercase">
-              Tap to close
-            </p>
+            <p className="font-pixel text-xs text-lime/60 mt-3 uppercase">Tap to close</p>
           </div>
         </div>
       </div>
     </button>
-  )
+  );
 }

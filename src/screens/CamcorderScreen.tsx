@@ -24,6 +24,7 @@ export function CamcorderScreen() {
   const [showFlash, setShowFlash] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [capturedImageUrl, setCapturedImageUrl] = useState<string | null>(null);
+  const isTestMode = import.meta.env.VITE_TEST_MODE === 'true';
 
   useEffect(() => {
     startCamera();
@@ -35,7 +36,15 @@ export function CamcorderScreen() {
     setShowFlash(true);
     playShutterSound();
 
-    const result = captureFrame(videoRef.current);
+    let result = captureFrame(videoRef.current);
+
+    if (!result && isTestMode) {
+      result = {
+        dataUrl:
+          'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23CCFF00" width="100" height="100"/></svg>',
+        timestamp: Date.now(),
+      };
+    }
 
     if (result) {
       setCapturedImageUrl(result.dataUrl);
@@ -58,6 +67,7 @@ export function CamcorderScreen() {
     addCharm,
     addBonusPoints,
     completeMilestone,
+    isTestMode,
   ]);
 
   const handleFlashComplete = useCallback(() => {
@@ -173,7 +183,7 @@ export function CamcorderScreen() {
 
           <SnapButton
             onClick={handleSnap}
-            disabled={state !== 'active' || isCapturing || showFlash}
+            disabled={(!isTestMode && state !== 'active') || isCapturing || showFlash}
           />
 
           <button

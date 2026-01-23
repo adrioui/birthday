@@ -76,6 +76,7 @@ export function CaptureConfirmation({
       onClick={handleDismiss}
       aria-live="polite"
       type="button"
+      data-testid="capture-confirmation"
     >
       <div className="flex items-center gap-3 bg-deep-black/90 backdrop-blur-sm border-2 border-[#CCFF00] rounded-none shadow-hard-lime-sm p-3 ring-2 ring-black/50">
         <div className="w-16 h-16 rounded-none border-2 border-white/20 flex-shrink-0 bg-black">
