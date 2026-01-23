@@ -7,8 +7,7 @@ import { ViewfinderOverlay } from '../components/camcorder/ViewfinderOverlay';
 import { CameraFallback } from '../components/camcorder/CameraFallback';
 import { SnapButton, FlashOverlay, CaptureConfirmation } from '../components/camcorder';
 import { CardBackground } from '../components/CardBackground';
-import { FloatingChromeText } from '../components/effects/FloatingChromeText';
-import { Badge } from '../components/effects/Badge';
+import { FloatingChromeText, Badge } from '../components/effects';
 import { trackEvent } from '../lib/telemetry';
 import { STORAGE_KEYS } from '../lib';
 

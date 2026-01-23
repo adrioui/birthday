@@ -4,3 +4,4 @@ export { ScreenShake } from './ScreenShake';
 export { SystemReboot } from './SystemReboot';
 export { Sticker } from './Sticker';
 export { Badge } from './Badge';
+export { FloatingChromeText } from './FloatingChromeText';

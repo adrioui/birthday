@@ -6,7 +6,7 @@ import { WalletHeader } from '../components/wallet/WalletHeader';
 import { WalletFooter } from '../components/wallet/WalletFooter';
 import { WalletEmptyState } from '../components/wallet/WalletEmptyState';
 import { useCharmFlip } from '../hooks';
-import { Sticker } from '../components/effects/Sticker';
+import { Sticker } from '../components/effects';
 
 interface TapeBitProps {
   position: { top?: string; right?: string; bottom?: string; left?: string };

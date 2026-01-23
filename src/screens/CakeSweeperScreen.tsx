@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useProgress } from '../context';
-import { ScreenShake } from '../components/effects/ScreenShake';
-import { GlitchOverlay } from '../components/effects/GlitchOverlay';
-import { SystemReboot } from '../components/effects/SystemReboot';
-import { Confetti } from '../components/effects/Confetti';
+import { ScreenShake, GlitchOverlay, SystemReboot, Confetti } from '../components/effects';
 import { useCakeSweeper, type GameStatus } from '../hooks';
 import { CardBackground } from '../components/CardBackground';
 import { CakeSweeperGrid } from '../components/cake-sweeper';

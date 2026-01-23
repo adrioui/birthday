@@ -7,7 +7,7 @@ import { TrackSelector } from './cdmix/TrackSelector';
 import { PlaylistBuilder } from './cdmix/PlaylistBuilder';
 import { BurnProgressView } from './cdmix/BurnProgressView';
 import { CardBackground } from '../components/CardBackground';
-import { Sticker } from '../components/effects/Sticker';
+import { Sticker } from '../components/effects';
 
 export function CDMixMakerScreen() {
   const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);

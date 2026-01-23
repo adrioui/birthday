@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useProgress, useCharms } from '../context';
-import { Confetti } from '../components/effects/Confetti';
+import { Confetti } from '../components/effects';
 import { useNavigate } from '@tanstack/react-router';
 
 type ScreenState = 'loading' | 'celebration' | 'resetting' | 'error';

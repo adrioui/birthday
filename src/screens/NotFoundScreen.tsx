@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { CardBackground } from '../components/CardBackground';
-import { Sticker } from '../components/effects/Sticker';
+import { Sticker } from '../components/effects';
 
 export function NotFoundScreen() {
   return (

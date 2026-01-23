@@ -1,6 +1,6 @@
 import { FlipPhone } from '../components/FlipPhone';
 import { CardBackground } from '../components/CardBackground';
-import { Sticker } from '../components/effects/Sticker';
+import { Sticker } from '../components/effects';
 import { useEasterEggTrigger } from '../hooks';
 
 export function FlipPhoneScreen() {
