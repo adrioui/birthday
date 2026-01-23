@@ -3,6 +3,7 @@ import { useProgress } from '../../context/useProgress';
 import { gsap } from 'gsap';
 import type { Milestone } from '../../types/progress';
 import { useNavigate } from '@tanstack/react-router';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export function SessionProgress() {
   const { milestones } = useProgress();
@@ -10,16 +11,19 @@ export function SessionProgress() {
   const completedCount = milestones.filter((m: Milestone) => m.completed).length;
   const containerRef = useRef<HTMLDivElement>(null);
   const hasNavigated = useRef(false);
+  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
     if (!containerRef.current || completedCount === 0) return;
+
+    if (prefersReduced) return;
 
     gsap.fromTo(
       containerRef.current,
       { opacity: 0, y: -10 },
       { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
     );
-  }, [completedCount]);
+  }, [completedCount, prefersReduced]);
 
   useEffect(() => {
     const allCompleted = completedCount === milestones.length;

@@ -1,107 +1,118 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { useNavigate } from '@tanstack/react-router'
-import { type Charm } from '../../types/charm'
-import { CharmCard } from './CharmCard'
-import { useCharmFlip } from '../../hooks/useCharmFlip'
-import { Confetti } from '../effects/Confetti'
-import { useAudio } from '../../hooks/useAudio'
-import { useFocusTrap } from '../../hooks/useFocusTrap'
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { useNavigate } from '@tanstack/react-router';
+import { type Charm } from '../../types/charm';
+import { CharmCard } from './CharmCard';
+import { useCharmFlip } from '../../hooks/useCharmFlip';
+import { Confetti } from '../effects/Confetti';
+import { useAudio } from '../../hooks/useAudio';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface CharmUnlockModalProps {
-  charm: Charm
-  onDismiss: () => void
+  charm: Charm;
+  onDismiss: () => void;
 }
 
 export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
-  const backdropRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { handleFlip, isFlipped } = useCharmFlip()
-  const { playGiftRevealSound } = useAudio()
-  const navigate = useNavigate()
-  const openTlRef = useRef<gsap.core.Timeline | null>(null)
-  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
-  const restoreFocus = useFocusTrap(true, containerRef)
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { handleFlip, isFlipped } = useCharmFlip();
+  const { playGiftRevealSound } = useAudio();
+  const navigate = useNavigate();
+  const openTlRef = useRef<gsap.core.Timeline | null>(null);
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null);
+  const restoreFocus = useFocusTrap(true, containerRef);
+  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
-    if (!backdropRef.current || !containerRef.current) return
+    if (!backdropRef.current || !containerRef.current) return;
 
-    playGiftRevealSound()
+    playGiftRevealSound();
 
-    const tl = gsap.timeline()
+    const duration = prefersReduced ? 0 : 0.3;
 
-    tl.to(backdropRef.current, { opacity: 1, duration: 0.3 })
+    const tl = gsap.timeline();
 
-    tl.fromTo(containerRef.current,
+    tl.to(backdropRef.current, { opacity: 1, duration });
+
+    tl.fromTo(
+      containerRef.current,
       { scale: 0.5, opacity: 0, rotation: -10 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.5)' }
-    )
+      {
+        scale: 1,
+        opacity: 1,
+        rotation: 0,
+        duration: prefersReduced ? 0 : 0.6,
+        ease: 'back.out(1.5)',
+      }
+    );
 
-    openTlRef.current = tl
+    openTlRef.current = tl;
 
     return () => {
-      openTlRef.current?.kill()
-      closeTlRef.current?.kill()
-    }
-  }, [playGiftRevealSound])
+      openTlRef.current?.kill();
+      closeTlRef.current?.kill();
+    };
+  }, [playGiftRevealSound, prefersReduced]);
 
   const handleClose = () => {
-    restoreFocus()
+    restoreFocus();
     if (!backdropRef.current || !containerRef.current) {
-      onDismiss()
-      navigate({ to: '/wallet' })
-      return
+      onDismiss();
+      navigate({ to: '/wallet' });
+      return;
     }
 
-    closeTlRef.current?.kill()
+    closeTlRef.current?.kill();
 
-    const tl = gsap.timeline()
+    const duration = prefersReduced ? 0 : 0.3;
+
+    const tl = gsap.timeline();
     tl.to(containerRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 50,
-      duration: 0.3,
-      ease: 'power2.in'
-    })
+      duration,
+      ease: 'power2.in',
+    });
 
     tl.to(backdropRef.current, {
       opacity: 0,
-      duration: 0.3,
+      duration,
       onComplete: () => {
-        onDismiss()
-        navigate({ to: '/wallet' })
-      }
-    })
+        onDismiss();
+        navigate({ to: '/wallet' });
+      },
+    });
 
-    closeTlRef.current = tl
-  }
+    closeTlRef.current = tl;
+  };
 
   return (
-    <div 
+    <div
       ref={backdropRef}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 opacity-0"
       onClick={handleClose}
     >
-      <div 
+      <div
         ref={containerRef}
         className="relative flex flex-col items-center max-w-sm w-full"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="text-center mb-8 relative">
-          <h2 className="chrome-text text-4xl font-black italic transform -rotate-2">
-            NEW CHARM!
-          </h2>
+          <h2 className="chrome-text text-4xl font-black italic transform -rotate-2">NEW CHARM!</h2>
           <div className="absolute -top-4 -right-8 text-4xl animate-bounce">✨</div>
           <div className="absolute -bottom-2 -left-8 text-3xl animate-pulse">✦</div>
         </div>
 
         <div className="w-64 h-80 mb-8 transform rotate-3 transition-transform hover:scale-105">
-           <CharmCard 
-             charm={charm} 
-             isFlipped={isFlipped(charm.id)} 
-             onFlip={handleFlip}
-             className="w-full h-full shadow-[0_0_30px_rgba(204,255,0,0.3)]"
-           />
+          <CharmCard
+            charm={charm}
+            isFlipped={isFlipped(charm.id)}
+            onFlip={handleFlip}
+            className="w-full h-full shadow-[0_0_30px_rgba(204,255,0,0.3)]"
+          />
         </div>
 
         <button
@@ -111,8 +122,8 @@ export function CharmUnlockModal({ charm, onDismiss }: CharmUnlockModalProps) {
           Awesome!
         </button>
       </div>
-      
+
       <Confetti trigger={true} />
     </div>
-  )
+  );
 }

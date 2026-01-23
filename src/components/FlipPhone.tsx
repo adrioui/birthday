@@ -5,6 +5,7 @@ import { useEasterEggTrigger } from '../hooks/useEasterEggTrigger';
 import { trackEvent } from '../lib/telemetry';
 import { useTransition } from '../context/TransitionContext';
 import { useProgress } from '../context/useProgress';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function FlipPhone() {
   const phoneRef = useRef<HTMLDivElement>(null);
@@ -14,6 +15,7 @@ export function FlipPhone() {
   const { playConnectionSound } = useAudio();
   const { startTransition } = useTransition();
   const { completeMilestone } = useProgress();
+  const prefersReduced = useReducedMotion();
 
   const logoTrigger = useEasterEggTrigger('brand-logo', { trigger: 'longPress' });
   const heartTrigger = useEasterEggTrigger('heart-charm', {
@@ -23,6 +25,16 @@ export function FlipPhone() {
 
   useEffect(() => {
     if (!topHalfRef.current || !phoneRef.current) return;
+
+    if (prefersReduced) {
+      gsap.set(topHalfRef.current, {
+        rotateX: 0,
+        transformOrigin: 'bottom center',
+        transformPerspective: 1000,
+      });
+      requestAnimationFrame(() => setIsAnimating(false));
+      return;
+    }
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -57,7 +69,7 @@ export function FlipPhone() {
     return () => {
       tl.kill();
     };
-  }, []);
+  }, [prefersReduced]);
 
   const handlePickUp = useCallback(async () => {
     if (isAnimating) return;
