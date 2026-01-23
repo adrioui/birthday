@@ -3,6 +3,7 @@ import { useProgress } from '../context/useProgress';
 import { ScreenShake } from '../components/effects/ScreenShake';
 import { GlitchOverlay } from '../components/effects/GlitchOverlay';
 import { SystemReboot } from '../components/effects/SystemReboot';
+import { Confetti } from '../components/effects/Confetti';
 import { useCakeSweeper, type GameStatus } from '../hooks/useCakeSweeper';
 import { CardBackground } from '../components/CardBackground';
 import { CakeSweeperGrid } from '../components/cake-sweeper/CakeSweeperGrid';
@@ -12,6 +13,10 @@ export function CakeSweeperScreen() {
   const [triggerShake, setTriggerShake] = useState(false);
   const [triggerGlitch, setTriggerGlitch] = useState(false);
   const [triggerReboot, setTriggerReboot] = useState(false);
+
+  const handleSkipGlitch = () => {
+    setTriggerGlitch(false);
+  };
   const { completeMilestone } = useProgress();
   const [milestoneCompleted, setMilestoneCompleted] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -19,6 +24,7 @@ export function CakeSweeperScreen() {
   const [remainingCandles, setRemainingCandles] = useState(10);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [triggerConfetti, setTriggerConfetti] = useState(false);
 
   useEffect(() => {
     let loadingInterval: number | undefined;
@@ -112,6 +118,16 @@ export function CakeSweeperScreen() {
     [calculateRemainingCandles]
   );
 
+  const handleTileReveal = useCallback(
+    (isCandle: boolean) => {
+      if (!isCandle && previousStatus === 'playing') {
+        setTriggerConfetti(true);
+        setTimeout(() => setTriggerConfetti(false), 100);
+      }
+    },
+    [previousStatus]
+  );
+
   if (loading) {
     return (
       <CardBackground variant="cake">
@@ -189,6 +205,7 @@ export function CakeSweeperScreen() {
               time={time}
               onStatusChange={handleStatusChange}
               onFlagToggle={handleFlagToggle}
+              onTileReveal={handleTileReveal}
             />
           </div>
         </div>
@@ -202,8 +219,10 @@ export function CakeSweeperScreen() {
           trigger={triggerGlitch}
           duration={0.6}
           onComplete={() => setTriggerGlitch(false)}
+          onSkip={handleSkipGlitch}
         />
         <SystemReboot trigger={triggerReboot} onComplete={() => setTriggerReboot(false)} />
+        <Confetti trigger={triggerConfetti} />
       </div>
     </CardBackground>
   );

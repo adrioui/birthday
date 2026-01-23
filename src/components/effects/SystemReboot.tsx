@@ -10,8 +10,13 @@ interface SystemRebootProps {
 export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const hasAnimated = useRef(false);
   const prefersReduced = useReducedMotion();
+
+  const handleReboot = () => {
+    onComplete?.();
+  };
 
   useEffect(() => {
     if (!trigger) {
@@ -30,6 +35,7 @@ export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
 
     const overlay = overlayRef.current;
     const text = textRef.current;
+    const button = buttonRef.current;
     const tl = gsap.timeline({
       onComplete: () => {
         onComplete?.();
@@ -58,12 +64,6 @@ export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
       repeat: 1,
     });
 
-    tl.to(overlay, {
-      backgroundColor: '#000',
-      duration: 0.2,
-      ease: 'power2.in',
-    });
-
     tl.to(text, {
       opacity: 1,
       color: '#CCFF00',
@@ -74,6 +74,10 @@ export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
       text: 'REBOOT COMPLETE',
       duration: 0.05,
     });
+
+    if (button) {
+      tl.fromTo(button, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' }, '-=0.1');
+    }
 
     tl.to(overlay, {
       opacity: 0,
@@ -92,17 +96,25 @@ export function SystemReboot({ trigger, onComplete }: SystemRebootProps) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[80] flex items-center justify-center pointer-events-none bg-[#C3C7CB]"
+      className="fixed inset-0 z-[80] flex flex-col items-center justify-center pointer-events-none bg-black"
       style={{ opacity: 0 }}
-      aria-hidden="true"
     >
       <div
         ref={textRef}
-        className="font-mono text-2xl font-bold text-[#33FF33]"
+        className="font-mono text-2xl font-bold text-[#33FF33] mb-8"
         style={{ opacity: 0 }}
       >
         SYSTEM SHUTDOWN...
       </div>
+      <button
+        ref={buttonRef}
+        onClick={handleReboot}
+        className="pointer-events-auto px-8 py-4 bg-lime text-deep-black font-pixel text-base border-4 border-deep-black shadow-hard hover:bg-lime/90 active:border-t-2 active:border-l-2"
+        style={{ opacity: 0 }}
+        aria-label="Reboot system"
+      >
+        REBOOT SYSTEM
+      </button>
     </div>
   );
 }

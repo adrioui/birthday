@@ -12,6 +12,7 @@ interface CakeSweeperGridProps {
   time?: number;
   onStatusChange?: (status: GameStatus) => void;
   onFlagToggle?: (grid: ReturnType<typeof useCakeSweeper>['grid'], candleCount: number) => void;
+  onTileReveal?: (isCandle: boolean) => void;
 }
 
 export function CakeSweeperGrid({
@@ -21,6 +22,7 @@ export function CakeSweeperGrid({
   time,
   onStatusChange,
   onFlagToggle,
+  onTileReveal,
 }: CakeSweeperGridProps) {
   const { grid, status, revealTile, toggleFlag, restart } = useCakeSweeper(gridSize, candleCount);
 
@@ -32,7 +34,12 @@ export function CakeSweeperGrid({
   };
 
   const handleReveal = (row: number, col: number) => {
+    const tile = grid[row][col];
+    const wasHidden = tile.state === 'hidden';
     revealTile(row, col);
+    if (wasHidden && onTileReveal) {
+      onTileReveal(tile.isCandle);
+    }
   };
 
   const handleRestart = () => {
