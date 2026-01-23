@@ -1,6 +1,6 @@
 export function WalletHeader() {
   return (
-    <div className="relative z-50 flex items-center justify-between p-4 pt-6">
+    <div className="relative z-50 flex items-center justify-between px-4 py-4 sm:px-6 sm:pt-6">
       <button
         className="flex size-10 items-center justify-center rounded-full bg-white/40 backdrop-blur-sm border-2 border-white/60 text-deep-black hover:bg-white/60 transition-colors shadow-sm"
         aria-label="Go back"
@@ -26,5 +26,5 @@ export function WalletHeader() {
         <span className="material-symbols-outlined">wallet</span>
       </button>
     </div>
-  )
+  );
 }

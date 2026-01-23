@@ -1,140 +1,140 @@
-import { useRef, useEffect, useState } from 'react'
-import { gsap } from 'gsap'
-import { Confetti } from '../effects/Confetti'
-import { useAudio } from '../../hooks/useAudio'
-import { useReducedMotion } from '../../hooks/useReducedMotion'
-import { useTransition } from '../../context/TransitionContext'
-import { useCharms } from '../../context/CharmContext'
-import { useFocusTrap } from '../../hooks/useFocusTrap'
+import { useRef, useEffect, useState } from 'react';
+import { gsap } from 'gsap';
+import { Confetti } from '../effects/Confetti';
+import { useAudio } from '../../hooks/useAudio';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useTransition } from '../../context/TransitionContext';
+import { useCharms } from '../../context/CharmContext';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface GiftCardModalProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export function GiftCardModal({ onClose }: GiftCardModalProps) {
-  const { playGiftRevealSound } = useAudio()
-  const { startTransition } = useTransition()
-  const { addBonusPoints } = useCharms()
-  const prefersReduced = useReducedMotion()
-  const backdropRef = useRef<HTMLDivElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
-  const wrappedRef = useRef<HTMLDivElement>(null)
-  const revealedRef = useRef<HTMLDivElement>(null)
-  const captureButtonRef = useRef<HTMLButtonElement>(null)
-  const [isRevealed, setIsRevealed] = useState(false)
-  const openTlRef = useRef<gsap.core.Timeline | null>(null)
-  const revealTlRef = useRef<gsap.core.Timeline | null>(null)
-  const closeTlRef = useRef<gsap.core.Timeline | null>(null)
-  const restoreFocus = useFocusTrap(true, cardRef)
+  const { playGiftRevealSound } = useAudio();
+  const { startTransition } = useTransition();
+  const { addBonusPoints } = useCharms();
+  const prefersReduced = useReducedMotion();
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const wrappedRef = useRef<HTMLDivElement>(null);
+  const revealedRef = useRef<HTMLDivElement>(null);
+  const captureButtonRef = useRef<HTMLButtonElement>(null);
+  const [isRevealed, setIsRevealed] = useState(false);
+  const openTlRef = useRef<gsap.core.Timeline | null>(null);
+  const revealTlRef = useRef<gsap.core.Timeline | null>(null);
+  const closeTlRef = useRef<gsap.core.Timeline | null>(null);
+  const restoreFocus = useFocusTrap(true, cardRef);
 
   useEffect(() => {
-    if (!backdropRef.current || !cardRef.current) return
+    if (!backdropRef.current || !cardRef.current) return;
 
-    const duration = prefersReduced ? 0 : 0.3
-    const cardDuration = prefersReduced ? 0 : 0.5
+    const duration = prefersReduced ? 0 : 0.3;
+    const cardDuration = prefersReduced ? 0 : 0.5;
 
-    const tl = gsap.timeline()
-    tl.to(backdropRef.current,
-      { opacity: 1, duration }
-    )
+    const tl = gsap.timeline();
+    tl.to(backdropRef.current, { opacity: 1, duration });
 
-    tl.fromTo(cardRef.current,
+    tl.fromTo(
+      cardRef.current,
       { scale: 0.5, opacity: 0, y: 50 },
       { scale: 1, opacity: 1, y: 0, duration: cardDuration, ease: 'back.out(1.7)' }
-    )
+    );
 
-    openTlRef.current = tl
+    openTlRef.current = tl;
 
     return () => {
-      openTlRef.current?.kill()
-      revealTlRef.current?.kill()
-      closeTlRef.current?.kill()
-    }
-  }, [prefersReduced])
+      openTlRef.current?.kill();
+      revealTlRef.current?.kill();
+      closeTlRef.current?.kill();
+    };
+  }, [prefersReduced]);
 
   const handleReveal = () => {
-    if (isRevealed || !wrappedRef.current || !revealedRef.current) return
+    if (isRevealed || !wrappedRef.current || !revealedRef.current) return;
 
-    setIsRevealed(true)
-    playGiftRevealSound()
-    addBonusPoints(50, 'gift-card-reveal')
+    setIsRevealed(true);
+    playGiftRevealSound();
+    addBonusPoints(50, 'gift-card-reveal');
 
-    revealTlRef.current?.kill()
+    revealTlRef.current?.kill();
 
-    const shakeDuration = prefersReduced ? 0 : 0.1
-    const scaleDuration = prefersReduced ? 0 : 0.2
-    const fadeDuration = prefersReduced ? 0 : 0.3
-    const revealDuration = prefersReduced ? 0 : 0.5
+    const shakeDuration = prefersReduced ? 0 : 0.1;
+    const scaleDuration = prefersReduced ? 0 : 0.2;
+    const fadeDuration = prefersReduced ? 0 : 0.3;
+    const revealDuration = prefersReduced ? 0 : 0.5;
 
-    const tl = gsap.timeline()
+    const tl = gsap.timeline();
 
     tl.to(wrappedRef.current, {
       rotation: -5,
       duration: shakeDuration,
-    })
+    });
     tl.to(wrappedRef.current, {
       rotation: 5,
       duration: shakeDuration,
-    })
+    });
     tl.to(wrappedRef.current, {
       rotation: -5,
       duration: shakeDuration,
-    })
+    });
     tl.to(wrappedRef.current, {
       rotation: 0,
       scale: 1.2,
       duration: scaleDuration,
-    })
+    });
 
     tl.to(wrappedRef.current, {
       scale: 0,
       opacity: 0,
       duration: fadeDuration,
       ease: 'power2.in',
-    })
-    tl.fromTo(revealedRef.current,
+    });
+    tl.fromTo(
+      revealedRef.current,
       { scale: 0, opacity: 0, rotation: -10 },
       { scale: 1, opacity: 1, rotation: 0, duration: revealDuration, ease: 'back.out(1.7)' },
       '-=0.1'
-    )
+    );
 
-    revealTlRef.current = tl
-  }
+    revealTlRef.current = tl;
+  };
 
   const handleClose = () => {
-    restoreFocus()
+    restoreFocus();
     if (!backdropRef.current || !cardRef.current) {
-      onClose()
-      return
+      onClose();
+      return;
     }
 
-    closeTlRef.current?.kill()
+    closeTlRef.current?.kill();
 
-    const duration = prefersReduced ? 0 : 0.3
+    const duration = prefersReduced ? 0 : 0.3;
 
-    const tl = gsap.timeline()
+    const tl = gsap.timeline();
     tl.to(cardRef.current, {
       scale: 0.8,
       opacity: 0,
       y: 30,
       duration,
       ease: 'power2.in',
-    })
+    });
     tl.to(backdropRef.current, {
       opacity: 0,
       duration,
       onComplete: onClose,
-    })
+    });
 
-    closeTlRef.current = tl
-  }
+    closeTlRef.current = tl;
+  };
 
   const handleCaptureClick = () => {
     if (captureButtonRef.current) {
-      const rect = captureButtonRef.current.getBoundingClientRect()
-      startTransition('gift-to-camcorder', rect)
+      const rect = captureButtonRef.current.getBoundingClientRect();
+      startTransition('gift-to-camcorder', rect);
     }
-  }
+  };
 
   return (
     <div
@@ -144,7 +144,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
     >
       <div
         ref={cardRef}
-        className="relative w-full max-w-sm bg-white rounded-2xl border-4 border-deep-black shadow-[8px_8px_0px_#131315] p-6 overflow-hidden"
+        className="relative w-full max-w-sm bg-white rounded-2xl border-4 border-deep-black shadow-hard-xl p-6 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Decorative corner ribbons */}
@@ -153,9 +153,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
         {/* Header */}
         <div className="text-center mb-6">
-          <h2 className="font-pixel text-3xl text-deep-black mb-2">
-            GIFT CARD
-          </h2>
+          <h2 className="font-pixel text-3xl text-deep-black mb-2">GIFT CARD</h2>
           <p className="font-display text-sm text-gray-500">
             {isRevealed ? 'Happy Birthday!' : 'Tap to unwrap your gift'}
           </p>
@@ -191,7 +189,12 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
               </div>
               {/* Sparkles */}
               <div className="absolute -top-2 -right-2 text-2xl animate-pulse">✨</div>
-              <div className="absolute -bottom-1 -left-2 text-xl animate-pulse" style={{ animationDelay: '0.5s' }}>✨</div>
+              <div
+                className="absolute -bottom-1 -left-2 text-xl animate-pulse"
+                style={{ animationDelay: '0.5s' }}
+              >
+                ✨
+              </div>
             </div>
           </div>
 
@@ -201,19 +204,15 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
             className={`absolute text-center ${isRevealed ? '' : 'opacity-0 pointer-events-none'}`}
           >
             <div className="text-6xl mb-4">🎂</div>
-            <div className="font-pixel text-2xl text-deep-black mb-2">
-              HAPPY BIRTHDAY!
-            </div>
-            <div className="font-display text-lg text-hot-pink font-bold">
-              You're the best!
-            </div>
+            <div className="font-pixel text-2xl text-deep-black mb-2">HAPPY BIRTHDAY!</div>
+            <div className="font-display text-lg text-hot-pink font-bold">You're the best!</div>
             <div className="mt-4 px-4 py-2 bg-lime border-2 border-deep-black rounded font-pixel text-lg">
               Enjoy your special day!
             </div>
             <button
               ref={captureButtonRef}
               onClick={handleCaptureClick}
-              className="modal-btn-focus mt-4 w-full px-4 py-3 bg-hot-pink border-2 border-deep-black rounded-lg font-display font-bold text-white uppercase tracking-wider shadow-[4px_4px_0px_#131315] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#131315] active:translate-y-0 active:shadow-[2px_2px_0px_#131315] transition-all flex items-center justify-center gap-2"
+              className="modal-btn-focus mt-4 w-full px-4 py-3 bg-hot-pink border-2 border-deep-black rounded-lg font-display font-bold text-white uppercase tracking-wider shadow-hard hover:-translate-y-1 hover:shadow-hard-lg active:translate-y-0 active:shadow-none transition-all flex items-center justify-center gap-2"
             >
               <CameraIcon className="w-5 h-5" />
               Capture the Moment!
@@ -240,13 +239,13 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
 
       {isRevealed && <Confetti trigger={isRevealed} />}
     </div>
-  )
+  );
 }
 
 function CameraIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 15.2c1.77 0 3.2-1.43 3.2-3.2S13.77 8.8 12 8.8 8.8 10.23 8.8 12s1.43 3.2 3.2 3.2zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+      <path d="M12 15.2c1.77 0 3.2-1.43 3.2-3.2S13.77 8.8 12 8.8 8.8 10.23 8.8 12s1.43 3.2 3.2 3.2zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
     </svg>
-  )
+  );
 }

@@ -42,7 +42,7 @@ export function SessionProgress() {
   return (
     <div
       ref={containerRef}
-      className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white/95 border-[2px] border-deep-black rounded-lg shadow-[4px_4px_0px_#131315] px-3 py-2"
+      className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white/95 border-[2px] border-deep-black rounded-lg shadow-hard px-3 py-2"
       role="progressbar"
       aria-label={`Session progress: ${completedCount} of ${milestones.length} milestones completed`}
     >

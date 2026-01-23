@@ -20,7 +20,7 @@ export function FlipPhoneScreen() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-black/10 z-0 pointer-events-none" />
 
       {/* Top Navigation */}
-      <div className="relative z-50 flex items-center justify-between p-4 pt-6">
+      <div className="relative z-50 flex items-center justify-between px-4 py-4 sm:px-6 sm:pt-6">
         <button
           className="flex size-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-deep-black hover:bg-white/40 transition-colors"
           aria-label="Go back"
@@ -41,7 +41,7 @@ export function FlipPhoneScreen() {
       </div>
 
       {/* Main Composition Area */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-md mx-auto px-6 py-4">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-md mx-auto px-4 py-4 sm:px-6">
         {/* 3D Chrome Floating Letters */}
         <div className="pointer-events-none absolute left-6 top-[10%] z-20 animate-bounce select-none">
           <h1 className="chrome-text text-8xl font-black italic transform -rotate-12">H</h1>
@@ -88,11 +88,8 @@ export function FlipPhoneScreen() {
       </main>
 
       {/* Bottom Action Area */}
-      <div className="relative z-50 w-full p-6 pb-10 bg-gradient-to-t from-periwinkle-dark to-transparent">
-        <button
-          className="group relative w-full overflow-hidden rounded-xl bg-lime border-2 border-deep-black sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 active:translate-y-1 active:shadow-none"
-          style={{ boxShadow: '8px 8px 0 rgba(0,0,0,0.8)' }}
-        >
+      <div className="relative z-50 w-full px-4 py-6 pb-8 sm:px-6 sm:pb-10 bg-gradient-to-t from-periwinkle-dark to-transparent">
+        <button className="group relative w-full overflow-hidden rounded-xl bg-lime border-2 border-deep-black shadow-hard-xl h-16 flex items-center justify-center transition-all hover:-translate-y-1 active:translate-y-1 active:shadow-none">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-20" />
           <div className="flex items-center gap-3 relative z-10">
             <div className="bg-deep-black rounded-full p-1 text-lime">

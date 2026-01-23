@@ -43,6 +43,99 @@
   box-shadow: 6px 6px 0 #131315;
 }
 
+/* Hard shadow utilities for neo-brutalist style */
+.shadow-hard {
+  box-shadow: 4px 4px 0 #131315;
+}
+
+.shadow-hard-lg {
+  box-shadow: 6px 6px 0 #131315;
+}
+
+.shadow-hard-xl {
+  box-shadow: 8px 8px 0 #131315;
+}
+
+.shadow-hard-pink {
+  box-shadow: 8px 8px 0 #ff0099;
+}
+
+.shadow-hard-pink-sm {
+  box-shadow: 4px 4px 0 #ff0099;
+}
+
+.shadow-hard-lime {
+  box-shadow: 8px 8px 0 #ccff00;
+}
+
+.shadow-hard-lime-sm {
+  box-shadow: 4px 4px 0 #ccff00;
+}
+
+.shadow-button-black {
+  box-shadow: 0 4px 0 #000000;
+}
+
+.shadow-hard-lg {
+  box-shadow: 6px 6px 0 #131315;
+}
+
+.shadow-hard-xl {
+  box-shadow: 8px 8px 0 #131315;
+}
+
+.shadow-hard-pink {
+  box-shadow: 8px 8px 0 #ff0099;
+}
+
+.shadow-hard-pink-sm {
+  box-shadow: 4px 4px 0 #ff0099;
+}
+
+.shadow-hard-lime {
+  box-shadow: 8px 8px 0 #ccff00;
+}
+
+.shadow-button-black {
+  box-shadow: 0 4px 0 #000000;
+}
+
+.shadow-hard-lg {
+  box-shadow: 6px 6px 0 #131315;
+}
+
+.shadow-hard-xl {
+  box-shadow: 8px 8px 0 #131315;
+}
+
+.shadow-hard-pink {
+  box-shadow: 8px 8px 0 #ff0099;
+}
+
+.shadow-hard-pink-sm {
+  box-shadow: 4px 4px 0 #ff0099;
+}
+
+.shadow-hard-lime {
+  box-shadow: 8px 8px 0 #ccff00;
+}
+
+.shadow-hard-lg {
+  box-shadow: 6px 6px 0 #131315;
+}
+
+.shadow-hard-xl {
+  box-shadow: 8px 8px 0 #131315;
+}
+
+.shadow-hard-pink {
+  box-shadow: 8px 8px 0 #ff0099;
+}
+
+.shadow-hard-lime {
+  box-shadow: 8px 8px 0 #ccff00;
+}
+
 /* Phone charm swing animation */
 @keyframes swing {
   0%,
@@ -52,6 +145,15 @@
   50% {
     transform: rotate(3deg);
   }
+}
+
+/* Z-index layering */
+.z-overlay {
+  z-index: 50;
+}
+
+.z-modal {
+  z-index: 100;
 }
 
 /* Scanline animation */
@@ -75,7 +177,7 @@
   background-size: 100% 4px;
   animation: scanline 10s linear infinite;
   pointer-events: none;
-  z-index: 10;
+  z-index: 50;
 }
 
 body {

@@ -83,7 +83,7 @@ export function CelebrationScreen() {
           <p className="text-xl font-pixel text-deep-black/80">Thank you for celebrating!</p>
         </div>
 
-        <div className="bg-white/95 border-[3px] border-deep-black rounded-xl shadow-[6px_6px_0px_#131315] p-6 mb-8">
+        <div className="bg-white/95 border-[3px] border-deep-black rounded-xl shadow-hard-lg p-6 mb-8">
           <h2 className="text-lg font-display font-bold text-deep-black mb-4 uppercase tracking-wider">
             Journey Complete
           </h2>
@@ -114,7 +114,7 @@ export function CelebrationScreen() {
         <div className="text-center">
           <button
             onClick={handleRestart}
-            className="bg-lime hover:bg-[#b8e600] active:scale-95 px-8 py-4 rounded-xl font-display font-bold text-deep-black transition-all shadow-[4px_4px_0px_#131315] text-lg"
+            className="bg-lime hover:bg-[#b8e600] active:scale-95 px-8 py-4 rounded-xl font-display font-bold text-deep-black transition-all shadow-hard text-lg"
           >
             Start Again
           </button>

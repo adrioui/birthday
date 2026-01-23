@@ -142,7 +142,7 @@ export function RedeemConfirmModal({
     >
       <div
         ref={containerRef}
-        className="relative w-full max-w-sm bg-white rounded-2xl border-4 border-deep-black shadow-[8px_8px_0px_#131315] p-6 overflow-hidden"
+        className="relative w-full max-w-sm bg-white rounded-2xl border-4 border-deep-black shadow-hard-xl p-6 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute -top-3 -right-3 w-20 h-20 bg-lime transform rotate-45 translate-x-[50%] translate-y-[-50%]" />
@@ -186,7 +186,7 @@ export function RedeemConfirmModal({
           <button
             ref={confirmButtonRef}
             onClick={handleConfirm}
-            className="modal-btn-focus flex-1 px-4 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#FF0099]"
+            className="modal-btn-focus flex-1 px-4 py-3 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black uppercase tracking-wider hover:-translate-y-1 hover:border-b-[5px] hover:border-r-[5px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-hard-pink-sm"
           >
             Confirm
           </button>

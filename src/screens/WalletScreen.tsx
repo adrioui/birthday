@@ -95,9 +95,9 @@ export function WalletScreen() {
 
       <WalletHeader />
 
-      <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-6 py-8">
+      <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-4 py-6 sm:px-6 sm:py-8">
         <div className="relative w-full h-32 mb-4 flex items-center justify-center z-20">
-          <div className="text-bg-plate inline-block px-6 py-3 rounded-xl">
+          <div className="text-bg-plate inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-xl">
             <h2 className="chrome-text text-6xl font-black italic transform -rotate-2 text-center leading-[0.8]">
               CHARM
               <br />

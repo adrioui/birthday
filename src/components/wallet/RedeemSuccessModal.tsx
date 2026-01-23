@@ -143,7 +143,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
     >
       <div
         ref={containerRef}
-        className="relative w-full max-w-sm bg-gradient-to-br from-periwinkle-light to-periwinkle rounded-2xl border-4 border-deep-black shadow-[8px_8px_0px_#FF0099] p-6 overflow-hidden"
+        className="relative w-full max-w-sm bg-gradient-to-br from-periwinkle-light to-periwinkle rounded-2xl border-4 border-deep-black shadow-hard-pink p-6 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute -top-4 -right-4 w-24 h-24 bg-lime transform rotate-45 translate-x-[50%] translate-y-[-50%]" />
@@ -185,7 +185,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
         <button
           ref={buttonRef}
           onClick={handleClose}
-          className="modal-btn-focus w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-[4px_4px_0px_#131315]"
+          className="modal-btn-focus w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-hard"
         >
           Awesome!
         </button>

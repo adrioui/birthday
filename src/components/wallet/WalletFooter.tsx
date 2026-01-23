@@ -1,40 +1,40 @@
-import { useState, useCallback } from 'react'
-import { RedeemConfirmModal } from './RedeemConfirmModal'
-import { RedeemSuccessModal } from './RedeemSuccessModal'
-import { useCharms } from '../../context/CharmContext'
+import { useState, useCallback } from 'react';
+import { RedeemConfirmModal } from './RedeemConfirmModal';
+import { RedeemSuccessModal } from './RedeemSuccessModal';
+import { useCharms } from '../../context/CharmContext';
 
 interface WalletFooterProps {
-  totalPoints: number
-  collectedCount: number
-  maxCount: number
+  totalPoints: number;
+  collectedCount: number;
+  maxCount: number;
 }
 
 export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFooterProps) {
-  const { isRedeemed, setRedeemed } = useCharms()
-  const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const { isRedeemed, setRedeemed } = useCharms();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleRedeem = useCallback(() => {
     if (totalPoints > 0) {
-      setShowConfirmModal(true)
+      setShowConfirmModal(true);
     }
-  }, [totalPoints])
+  }, [totalPoints]);
 
   const handleConfirmRedeem = () => {
-    setRedeemed(true)
-    setShowSuccessModal(true)
-  }
+    setRedeemed(true);
+    setShowSuccessModal(true);
+  };
 
   const handleCloseConfirm = () => {
-    setShowConfirmModal(false)
-  }
+    setShowConfirmModal(false);
+  };
 
   const handleCloseSuccess = () => {
-    setShowSuccessModal(false)
-  }
+    setShowSuccessModal(false);
+  };
 
   return (
-    <div className="relative z-50 w-full px-6 pb-8 pt-4 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
+    <div className="relative z-50 w-full px-4 pb-6 pt-4 sm:px-6 sm:pb-8 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
       <div className="flex justify-between items-end mb-4 px-2">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-deep-black/60 mb-1">
@@ -59,14 +59,16 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
 
       <button
         onClick={handleRedeem}
-        className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-[8px_8px_0px_#CCFF00] active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
+        className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-hard-lime active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={totalPoints === 0 || isRedeemed}
         aria-label="Redeem gift"
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
 
         <div className="flex items-center gap-3 relative z-10">
-          <span className="material-symbols-outlined text-lime animate-pulse">{isRedeemed ? 'check_circle' : 'redeem'}</span>
+          <span className="material-symbols-outlined text-lime animate-pulse">
+            {isRedeemed ? 'check_circle' : 'redeem'}
+          </span>
           <span className="text-white text-xl font-bold font-display uppercase tracking-wider">
             {isRedeemed ? 'Redeemed!' : 'Redeem Gift'}
           </span>
@@ -80,14 +82,11 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
         onCancel={handleCloseConfirm}
       />
 
-      <RedeemSuccessModal
-        isOpen={showSuccessModal}
-        onClose={handleCloseSuccess}
-      />
+      <RedeemSuccessModal isOpen={showSuccessModal} onClose={handleCloseSuccess} />
 
       <p className="text-center text-deep-black/50 text-[10px] font-bold mt-3 font-display uppercase tracking-widest">
         Tap a charm to reveal power
       </p>
     </div>
-  )
+  );
 }

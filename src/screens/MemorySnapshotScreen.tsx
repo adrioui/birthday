@@ -197,7 +197,7 @@ export function MemorySnapshotScreen() {
           <button
             onClick={handleDownload}
             disabled={isGenerating}
-            className="modal-btn-focus flex items-center justify-center gap-2 rounded-sm bg-lime py-3 px-8 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_0_#000]"
+            className="modal-btn-focus flex items-center justify-center gap-2 rounded-sm bg-lime py-3 px-8 text-lg font-bold text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-button-black"
           >
             <DownloadIcon className="w-5 h-5" />
             DOWNLOAD SNAPSHOT
