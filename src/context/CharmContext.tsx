@@ -16,9 +16,9 @@ import {
   getSessionItem,
   setSessionItem,
   removeSessionItem,
-} from '../lib/storage';
+  STORAGE_KEYS,
+} from '../lib';
 import { registerStateGetter } from '../agent/registry';
-import { STORAGE_KEYS } from '../lib/storageKeys';
 
 /* eslint-disable react-refresh/only-export-components */
 

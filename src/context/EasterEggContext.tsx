@@ -1,7 +1,7 @@
 import { createContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
 import { EASTER_EGGS, type EasterEgg } from '../data/easterEggs';
 import type { EasterEggId } from '../data/easterEggs';
-import { STORAGE_KEYS } from '../lib/storageKeys';
+import { STORAGE_KEYS } from '../lib';
 
 interface EasterEggState {
   discoveredEggs: Set<EasterEggId>;

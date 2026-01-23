@@ -10,7 +10,7 @@ import { CardBackground } from '../components/CardBackground';
 import { FloatingChromeText } from '../components/effects/FloatingChromeText';
 import { Badge } from '../components/effects/Badge';
 import { trackEvent } from '../lib/telemetry';
-import { STORAGE_KEYS } from '../lib/storageKeys';
+import { STORAGE_KEYS } from '../lib';
 
 export function CamcorderScreen() {
   const navigate = useNavigate();

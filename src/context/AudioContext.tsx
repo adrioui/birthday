@@ -7,7 +7,7 @@ import {
   useMemo,
   type ReactNode,
 } from 'react';
-import { STORAGE_KEYS } from '../lib/storageKeys';
+import { STORAGE_KEYS } from '../lib';
 
 /* eslint-disable react-refresh/only-export-components */
 
