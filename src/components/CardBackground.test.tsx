@@ -32,7 +32,11 @@ describe('CardBackground', () => {
     );
 
     const gradientLayer = container.querySelector('.bg-gradient-to-br');
-    expect(gradientLayer).toHaveClass('from-pink-50', 'via-pink-100', 'to-white');
+    expect(gradientLayer).toHaveClass(
+      'from-periwinkle-light',
+      'via-periwinkle',
+      'to-periwinkle-dark'
+    );
   });
 
   it('applies correct gradient for wallet variant', () => {
