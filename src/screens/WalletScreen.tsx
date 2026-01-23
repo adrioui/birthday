@@ -37,7 +37,7 @@ function CharmWrapper({
 }) {
   return (
     <div
-      className="absolute transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer"
+      className="absolute transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-110 group cursor-pointer w-40"
       style={{ ...position, transform: `rotate(${rotation}deg)`, zIndex: 30 + index }}
     >
       {children}

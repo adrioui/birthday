@@ -22,7 +22,9 @@ test.describe('BirthdayOS - Camcorder Snap + Charm Unlock', () => {
     await page.waitForTimeout(1000);
 
     await expect(page.getByTestId('charm-card-digi-pet').first()).toBeVisible();
-    await expect(page.getByText('Digi-Pet')).toBeVisible();
+    await expect(
+      page.getByTestId('charm-card-digi-pet').getByText('Digi-Pet').first()
+    ).toBeVisible();
   });
 
   test('charm persists after page reload', async ({ page }) => {
