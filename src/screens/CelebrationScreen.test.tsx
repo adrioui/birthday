@@ -15,9 +15,10 @@ vi.mock('gsap', () => ({
 }));
 
 vi.mock('../components/effects/Confetti', () => ({
-  Confetti: vi.fn(({ trigger }: { trigger: boolean }) =>
-    trigger ? <div data-testid="confetti">Confetti</div> : null
-  ),
+  Confetti: vi.fn(({ trigger }: { trigger: boolean }) => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    return trigger && !mq.matches ? <div data-testid="confetti">Confetti</div> : null;
+  }),
 }));
 
 describe('CelebrationScreen', () => {
@@ -68,5 +69,26 @@ describe('CelebrationScreen', () => {
       vi.advanceTimersByTime(500);
     });
     expect(screen.getByText(/Start Again/i)).toBeInTheDocument();
+  });
+
+  it('skips confetti when reduced motion is preferred', () => {
+    const mockMediaQuery = {
+      matches: true,
+      media: '',
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    } as MediaQueryList;
+
+    vi.spyOn(window, 'matchMedia').mockReturnValue(mockMediaQuery);
+
+    renderWithProviders(<CelebrationScreen />);
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+    expect(screen.queryByTestId('confetti')).not.toBeInTheDocument();
   });
 });
