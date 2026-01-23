@@ -28,12 +28,12 @@ src/
 
 ## Design System
 
-| Aspect | Value |
-|--------|-------|
-| Style | Y2K Cyber-Pop & Neo-Brutalist Hybrid |
+| Aspect  | Value                                                    |
+| ------- | -------------------------------------------------------- |
+| Style   | Y2K Cyber-Pop & Neo-Brutalist Hybrid                     |
 | Primary | Lime `#CCFF00`, Hot Pink `#FF0099`, Periwinkle `#CCCCFF` |
-| System | Win95 Grey `#C3C7CB`, Terminal Green `#33FF33` |
-| Effects | Chrome gradients, CRT scanlines, halftone patterns |
+| System  | Win95 Grey `#C3C7CB`, Terminal Green `#33FF33`           |
+| Effects | Chrome gradients, CRT scanlines, halftone patterns       |
 
 See `style.json` for complete design tokens.
 
@@ -43,9 +43,11 @@ See `style.json` for complete design tokens.
 npm run dev       # Development server
 npm run build     # Production build (tsc + vite)
 npm run lint      # ESLint
+npm run test      # Vitest watch mode
+npm run test:run  # Single test run
 ```
 
-**Testing**: No testing framework configured yet. Will be added.
+**Testing**: Vitest + @testing-library/react. See `agent_docs/testing.md` for patterns.
 
 ## Agent Workflow
 
@@ -58,6 +60,7 @@ Use focused threads. When context grows large or task shifts, use handoff:
 ```
 
 Examples:
+
 - `/handoff now implement the wallet screen animations`
 - `/handoff execute phase one of the plan`
 - `/handoff check the rest of the codebase for similar patterns`
@@ -66,9 +69,12 @@ Examples:
 
 Read relevant docs from `agent_docs/` before starting work:
 
-| Document | Purpose |
-|----------|---------|
-| `agent_docs/beads-workflow.md` | Issue tracking with beads |
+| Document                                           | Purpose                                                                |
+| -------------------------------------------------- | ---------------------------------------------------------------------- |
+| `agent_docs/beads-workflow.md`                     | Issue tracking with beads                                              |
+| `agent_docs/react-side-effects-and-persistence.md` | SSR-safe storage, state updater purity, timer cleanup, data validation |
+| `agent_docs/animations-and-accessibility.md`       | GSAP lifecycle, reduced-motion, a11y patterns                          |
+| `agent_docs/testing.md`                            | Vitest patterns, mocks, a11y testing, coverage guardrails              |
 
 ## Issue Tracking
 
@@ -102,7 +108,71 @@ bd sync && git push                   # Always push at session end
 7. **Hand off** - Provide context for next session
 
 **CRITICAL RULES:**
+
 - Work is NOT complete until `git push` succeeds
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+
+<!-- bv-agent-instructions-v1 -->
+
+---
+
+## Beads Workflow Integration
+
+This project uses [beads_viewer](https://github.com/Dicklesworthstone/beads_viewer) for issue tracking. Issues are stored in `.beads/` and tracked in git.
+
+### Essential Commands
+
+```bash
+# View issues (launches TUI - avoid in automated sessions)
+bv
+
+# CLI commands for agents (use these instead)
+bd ready              # Show issues ready to work (no blockers)
+bd list --status=open # All open issues
+bd show <id>          # Full issue details with dependencies
+bd create --title="..." --type=task --priority=2
+bd update <id> --status=in_progress
+bd close <id> --reason="Completed"
+bd close <id1> <id2>  # Close multiple issues at once
+bd sync               # Commit and push changes
+```
+
+### Workflow Pattern
+
+1. **Start**: Run `bd ready` to find actionable work
+2. **Claim**: Use `bd update <id> --status=in_progress`
+3. **Work**: Implement the task
+4. **Complete**: Use `bd close <id>`
+5. **Sync**: Always run `bd sync` at session end
+
+### Key Concepts
+
+- **Dependencies**: Issues can block other issues. `bd ready` shows only unblocked work.
+- **Priority**: P0=critical, P1=high, P2=medium, P3=low, P4=backlog (use numbers, not words)
+- **Types**: task, bug, feature, epic, question, docs
+- **Blocking**: `bd dep add <issue> <depends-on>` to add dependencies
+
+### Session Protocol
+
+**Before ending any session, run this checklist:**
+
+```bash
+git status              # Check what changed
+git add <files>         # Stage code changes
+bd sync                 # Commit beads changes
+git commit -m "..."     # Commit code
+bd sync                 # Commit any new beads changes
+git push                # Push to remote
+```
+
+### Best Practices
+
+- Check `bd ready` at session start to find available work
+- Update status as you work (in_progress → closed)
+- Create new issues with `bd create` when you discover tasks
+- Use descriptive titles and set appropriate priority/type
+- Always `bd sync` before ending session
+
+<!-- end-bv-agent-instructions -->

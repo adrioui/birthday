@@ -18,13 +18,24 @@ BirthdayOS - Y2K/retro birthday celebration web app. Features flip phone interfa
 
 ## Landing the Plane
 
-```bash
-bd close <id>
-git add .
-git commit -m "<descriptive message>"
-bd sync
-git push
-```
+1. Close beads issue: `bd close <id>`
+2. Commit: Stage explicitly (`git add <file1> <file2>`, never `git add .`), then commit using Conventional Commits:
+
+   **Format:** `<type>(<scope>): <subject>`
+   - `scope` optional (e.g., `sms`, `camcorder`, `charm`, `wallet`, `ui`, `build`)
+   - Subject: imperative, present tense, no trailing period
+
+   **Types:** `feat` | `fix` | `refactor` | `perf` | `test` | `docs` | `style` | `build` | `chore`
+
+   **Examples:**
+   - `feat(sms): add unread badge to thread list`
+   - `fix(camcorder): prevent crash when permission denied`
+   - `refactor(ui): extract flip-phone keypad component`
+   - `chore: update beads workflow instructions`
+
+3. Sync + push: `bd sync && git push`
+
+**No AI attribution** - no "Generated with AI", no `Co-Authored-By` lines.
 
 ## Completion Signal
 
