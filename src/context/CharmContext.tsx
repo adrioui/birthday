@@ -18,6 +18,7 @@ import {
   removeSessionItem,
 } from '../lib/storage';
 import { registerStateGetter } from '../agent/registry';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 /* eslint-disable react-refresh/only-export-components */
 
@@ -43,16 +44,10 @@ interface CharmProviderProps {
   initialCharms?: Charm[];
 }
 
-const STORAGE_KEY = 'birthday-os-charms';
-
-const BONUS_POINTS_KEY = 'birthday-os-bonus-points';
-const REDEEMED_KEY = 'birthday-redeemed';
-const AWARDED_REASONS_KEY = 'birthday-os-awarded-bonuses';
-
 export function CharmProvider({ children, initialCharms = [] }: CharmProviderProps) {
   const [charms, setCharms] = useState<Charm[]>(() => {
     try {
-      return getValidatedCharms<Charm[]>(STORAGE_KEY, initialCharms);
+      return getValidatedCharms<Charm[]>(STORAGE_KEYS.CHARMS, initialCharms);
     } catch (error) {
       console.error('Failed to load charms:', error);
       return [];
@@ -61,7 +56,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   const [bonusPoints, setBonusPoints] = useState<number>(() => {
     try {
-      return getSessionItem<number>(BONUS_POINTS_KEY, 0);
+      return getSessionItem<number>(STORAGE_KEYS.BONUS_POINTS, 0);
     } catch (error) {
       console.error('Failed to load bonus points:', error);
       return 0;
@@ -72,7 +67,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   const [isRedeemed, setIsRedeemed] = useState<boolean>(() => {
     try {
-      return getSessionItem<boolean>(REDEEMED_KEY, false);
+      return getSessionItem<boolean>(STORAGE_KEYS.REDEEMED, false);
     } catch (error) {
       console.error('Failed to load redeemed state:', error);
       return false;
@@ -81,7 +76,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   const [awardedReasons, setAwardedReasons] = useState<Set<string>>(() => {
     try {
-      const stored = getSessionItem<string[]>(AWARDED_REASONS_KEY, []);
+      const stored = getSessionItem<string[]>(STORAGE_KEYS.AWARDED_BONUSES, []);
       return new Set(stored);
     } catch (error) {
       console.error('Failed to load awarded reasons:', error);
@@ -98,17 +93,17 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   // Persist to localStorage whenever charms change
   useEffect(() => {
-    setItem(STORAGE_KEY, charms);
+    setItem(STORAGE_KEYS.CHARMS, charms);
   }, [charms]);
 
   // Persist bonusPoints to sessionStorage
   useEffect(() => {
-    setSessionItem(BONUS_POINTS_KEY, bonusPoints);
+    setSessionItem(STORAGE_KEYS.BONUS_POINTS, bonusPoints);
   }, [bonusPoints]);
 
   // Persist isRedeemed to sessionStorage
   useEffect(() => {
-    setSessionItem(REDEEMED_KEY, isRedeemed);
+    setSessionItem(STORAGE_KEYS.REDEEMED, isRedeemed);
   }, [isRedeemed]);
 
   // Set newly unlocked charm when a new charm is added
@@ -136,7 +131,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
 
   const clearCharms = useCallback(() => {
     setCharms([]);
-    removeItem(STORAGE_KEY);
+    removeItem(STORAGE_KEYS.CHARMS);
   }, []);
 
   const resetAll = useCallback(() => {
@@ -145,10 +140,10 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
       setBonusPoints(0);
       setIsRedeemed(false);
       setAwardedReasons(new Set());
-      removeItem(STORAGE_KEY);
-      removeSessionItem(BONUS_POINTS_KEY);
-      removeSessionItem(REDEEMED_KEY);
-      removeSessionItem(AWARDED_REASONS_KEY);
+      removeItem(STORAGE_KEYS.CHARMS);
+      removeSessionItem(STORAGE_KEYS.BONUS_POINTS);
+      removeSessionItem(STORAGE_KEYS.REDEEMED);
+      removeSessionItem(STORAGE_KEYS.AWARDED_BONUSES);
       console.log('Points counter reset due to storage failure');
     } catch (error) {
       console.error('Failed to reset:', error);
@@ -174,7 +169,7 @@ export function CharmProvider({ children, initialCharms = [] }: CharmProviderPro
   }, []);
 
   useEffect(() => {
-    setSessionItem(AWARDED_REASONS_KEY, Array.from(awardedReasons));
+    setSessionItem(STORAGE_KEYS.AWARDED_BONUSES, Array.from(awardedReasons));
   }, [awardedReasons]);
 
   const dismissUnlockModal = useCallback(() => {
