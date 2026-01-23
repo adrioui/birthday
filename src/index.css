@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&family=VT323&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-lime: #CCFF00;
-  --color-hot-pink: #FF0099;
-  --color-periwinkle: #CCCCFF;
+  --color-lime: #b2ff00;
+  --color-hot-pink: #ff0099;
+  --color-periwinkle: #ccccff;
   --color-periwinkle-light: #dce8ff;
   --color-periwinkle-dark: #8c9eff;
-  --color-system-grey: #C3C7CB;
+  --color-system-grey: #c3c7cb;
   --color-deep-black: #131315;
-  
-  --font-family-display: "Space Grotesk", sans-serif;
-  --font-family-pixel: "VT323", monospace;
+
+  --font-family-display: 'Space Grotesk', sans-serif;
+  --font-family-pixel: 'VT323', monospace;
 }
 
 /* Utility classes */
@@ -45,8 +45,13 @@
 
 /* Phone charm swing animation */
 @keyframes swing {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
 }
 
 /* Scanline animation */
@@ -111,43 +116,43 @@ body {
 
 /* Charm card focus styles */
 .charm-card-focus:focus-visible {
-  outline: 3px solid #CCFF00;
+  outline: 3px solid var(--color-lime);
   outline-offset: 2px;
 }
 
 /* Focus state for all interactive elements */
 button:focus-visible {
-  outline: 3px solid #CCFF00;
+  outline: 3px solid var(--color-lime);
   outline-offset: 2px;
 }
 
 /* Flip phone button focus state */
 .flip-btn-focus:focus-visible {
-  outline: 3px solid #CCFF00;
+  outline: 3px solid var(--color-lime);
   outline-offset: 3px;
 }
 
 /* Gift card focus state */
 .gift-card-focus:focus-visible {
-  outline: 3px solid #FF0099;
+  outline: 3px solid #ff0099;
   outline-offset: 2px;
 }
 
 /* Snap button focus state */
 .snap-btn-focus:focus-visible {
-  outline: 4px solid #CCFF00;
+  outline: 4px solid var(--color-lime);
   outline-offset: 3px;
 }
 
 /* Modal buttons focus state */
 .modal-btn-focus:focus-visible {
-  outline: 3px solid #CCFF00;
+  outline: 3px solid var(--color-lime);
   outline-offset: 2px;
 }
 
 /* Tile focus state for CakeSweeper */
 .tile-focus:focus-visible {
-  outline: 3px solid #CCFF00;
+  outline: 3px solid var(--color-lime);
   outline-offset: 1px;
   outline-style: dashed;
 }
@@ -155,14 +160,19 @@ button:focus-visible {
 /* Grid line pattern overlay */
 .grid-lines-pattern {
   background-image:
-    linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-blink {
