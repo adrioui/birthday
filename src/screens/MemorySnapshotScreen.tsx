@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useCharms } from '../context/CharmContext';
 import { useAudio } from '../hooks/useAudio';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 export function MemorySnapshotScreen() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export function MemorySnapshotScreen() {
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const lastCapture = localStorage.getItem('last-captured-photo');
+  const lastCapture = localStorage.getItem(STORAGE_KEYS.LAST_CAPTURED_PHOTO);
 
   useEffect(() => {
     if (!lastCapture) {
