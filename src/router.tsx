@@ -62,71 +62,71 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <FlipPhoneScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const smsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/sms',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <SMSThreadScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const camcorderRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/camcorder',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <CamcorderScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const walletRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/wallet',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <WalletScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const charmCardTestRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/charm-card-test',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <CharmCardTestScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const cdMixMakerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cd-mix-maker',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <CDMixMakerScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const cakeSweeperRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cake-sweeper',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <CakeSweeperScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const memorySnapshotRoute = createRoute({
@@ -138,31 +138,31 @@ const memorySnapshotRoute = createRoute({
       throw new Error('No photo captured');
     }
   },
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <MemorySnapshotScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const celebrationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/celebration',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <CelebrationScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const notFoundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '*',
-  component: () => (
+  component: withSuspense(() => (
     <RouteErrorBoundary>
       <NotFoundScreen />
     </RouteErrorBoundary>
-  ),
+  )),
 });
 
 const routeTree = rootRoute.addChildren([
