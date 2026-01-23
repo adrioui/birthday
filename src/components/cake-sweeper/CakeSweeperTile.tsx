@@ -55,9 +55,17 @@ export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTil
           data-testid={`tile-${tile.row}-${tile.col}`}
           data-state="revealed"
           data-candle="false"
-          className={`w-8 h-8 flex items-center justify-center border border-black/20 bg-white ${getNumberColor(tile.adjacentCandles)} font-bold text-sm`}
+          className="w-8 h-8 flex items-center justify-center border border-black/20 bg-white relative"
         >
-          {tile.adjacentCandles}
+          <span className="text-lg" role="img" aria-label="cake">
+            🎂
+          </span>
+          <span
+            className={`absolute top-0 right-0 text-xs font-bold leading-none px-0.5 rounded-full bg-white/80 ${getNumberColor(tile.adjacentCandles)}`}
+            aria-label={`${tile.adjacentCandles} adjacent candles`}
+          >
+            {tile.adjacentCandles}
+          </span>
         </div>
       );
     }
@@ -67,7 +75,11 @@ export function CakeSweeperTile({ tile, onReveal, onToggleFlag }: CakeSweeperTil
         data-state="revealed"
         data-candle="false"
         className="w-8 h-8 flex items-center justify-center border border-black/20 bg-white"
-      />
+      >
+        <span className="text-lg" role="img" aria-label="cake">
+          🎂
+        </span>
+      </div>
     );
   }
 
