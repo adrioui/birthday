@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useNavigate } from '@tanstack/react-router';
 import { useAudio } from '../../hooks/useAudio';
 import type { BurnProgress } from '../../types/track';
 
@@ -14,12 +13,10 @@ export function BurnProgressView({
   onComplete,
   onProgressUpdate,
 }: BurnProgressViewProps) {
-  const navigate = useNavigate();
   const { playBurnSuccessSound } = useAudio();
 
-  const handleContinue = () => {
+  const handleBurnAnother = () => {
     onComplete();
-    navigate({ to: '/cake-sweeper' });
   };
 
   useEffect(() => {
@@ -108,10 +105,11 @@ export function BurnProgressView({
 
       {progress.stage === 'complete' && (
         <button
-          onClick={handleContinue}
-          className="rounded-lg bg-lime px-8 py-4 text-xl font-black text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 sticker-shadow-hard"
+          data-testid="burn-another-button"
+          onClick={handleBurnAnother}
+          className="rounded-lg bg-lime border-4 border-deep-black px-8 py-4 text-xl font-black text-deep-black transition-all hover:bg-[#b8e600] active:scale-95 sticker-shadow-hard"
         >
-          PLAY CAKE SWEEPER 🎂
+          BURN ANOTHER CD
         </button>
       )}
 

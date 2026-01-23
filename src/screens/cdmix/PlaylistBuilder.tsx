@@ -23,7 +23,7 @@ export function PlaylistBuilder({ tracks, onRemoveTrack }: PlaylistBuilderProps)
 
       {isEmpty ? (
         <div className="rounded-lg border-2 border-dashed border-deep-black/20 bg-white/30 p-8 text-center">
-          <p className="text-lg font-bold text-deep-black/50">PLAYLIST.TXT is empty</p>
+          <p className="text-lg font-bold text-deep-black/50">NO TRACKS SELECTED YET</p>
           <p className="text-sm text-deep-black/40">Pick some songs from the list below</p>
         </div>
       ) : (
