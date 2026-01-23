@@ -1,34 +1,36 @@
-import { useEffect } from 'react'
-import { useCharms } from '../context/CharmContext'
-import { useProgress } from '../context/useProgress'
-import { MAX_CHARMS } from '../types/charm'
-import { CharmCard } from '../components/wallet/CharmCard'
-import { WalletHeader } from '../components/wallet/WalletHeader'
-import { WalletFooter } from '../components/wallet/WalletFooter'
-import { WalletEmptyState } from '../components/wallet/WalletEmptyState'
-import { useCharmFlip } from '../hooks/useCharmFlip'
+import { useEffect } from 'react';
+import { useCharms } from '../context/CharmContext';
+import { useProgress } from '../context/useProgress';
+import { MAX_CHARMS } from '../types/charm';
+import { CharmCard } from '../components/wallet/CharmCard';
+import { WalletHeader } from '../components/wallet/WalletHeader';
+import { WalletFooter } from '../components/wallet/WalletFooter';
+import { WalletEmptyState } from '../components/wallet/WalletEmptyState';
+import { useCharmFlip } from '../hooks/useCharmFlip';
 
 export function WalletScreen() {
-  const { charms, totalPoints } = useCharms()
-  const { handleFlip, isFlipped } = useCharmFlip()
-  const { completeMilestone } = useProgress()
-  const hasCharms = charms.length > 0
+  const { charms, totalPoints } = useCharms();
+  const { handleFlip, isFlipped } = useCharmFlip();
+  const { completeMilestone } = useProgress();
+  const hasCharms = charms.length > 0;
 
   useEffect(() => {
     if (hasCharms) {
-      completeMilestone('charm-collected')
+      completeMilestone('charm-collected');
     }
-  }, [hasCharms, completeMilestone])
+  }, [hasCharms, completeMilestone]);
 
   return (
     <div className="flex min-h-dvh flex-col">
       <WalletHeader />
 
-      <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-4 py-2">
+      <main className="relative z-10 flex-1 flex flex-col w-full items-center justify-start px-6 py-8">
         <div className="relative w-full h-28 mb-4 flex items-center justify-center">
           <div className="text-bg-plate inline-block px-6 py-3 rounded-xl">
             <h2 className="chrome-text text-5xl sm:text-6xl font-black italic transform -rotate-2 text-center leading-tight">
-              CHARM<br />COLLECTION
+              CHARM
+              <br />
+              COLLECTION
             </h2>
           </div>
           <span className="absolute top-2 right-8 text-3xl text-white animate-bounce">✦</span>
@@ -59,5 +61,5 @@ export function WalletScreen() {
         maxCount={MAX_CHARMS}
       />
     </div>
-  )
+  );
 }
