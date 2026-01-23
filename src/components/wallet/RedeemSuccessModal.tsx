@@ -4,14 +4,22 @@ import { gsap } from 'gsap';
 import { Confetti } from '../effects/Confetti';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { getCopy, type CopyConfig } from '../../config';
 
 interface RedeemSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   onContinue?: () => void;
+  customCopy?: Partial<CopyConfig>;
+  interpolationVars?: Record<string, string>;
 }
 
-export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps) {
+export function RedeemSuccessModal({
+  isOpen,
+  onClose,
+  customCopy,
+  interpolationVars,
+}: RedeemSuccessModalProps) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -25,6 +33,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
   const restoreFocus = useFocusTrap(isOpen, containerRef);
   const prefersReduced = useReducedMotion();
   const navigate = useNavigate();
+  const copy = getCopy(customCopy, interpolationVars);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -162,7 +171,7 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
               ref={titleRef}
               className="chrome-text text-5xl font-black italic transform -rotate-2"
             >
-              GIFT UNLOCKED!
+              {copy.redeemSuccess.title}
             </h2>
             <div ref={sparkle1Ref} className="absolute -top-6 -right-8 text-4xl">
               ✨
@@ -181,11 +190,9 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
           <div ref={messageRef} className="relative">
             <div className="text-6xl mb-4 animate-bounce">🎁</div>
             <p className="font-display text-lg text-deep-black font-bold mb-2">
-              Your gift is ready!
+              {copy.redeemSuccess.mainMessage}
             </p>
-            <p className="font-pixel text-sm text-deep-black/70">
-              Now let&apos;s make a birthday mix CD!
-            </p>
+            <p className="font-pixel text-sm text-deep-black/70">{copy.redeemSuccess.subMessage}</p>
           </div>
         </div>
 
@@ -194,12 +201,12 @@ export function RedeemSuccessModal({ isOpen, onClose }: RedeemSuccessModalProps)
           onClick={handleContinue}
           className="modal-btn-focus w-full px-6 py-4 bg-lime border-b-4 border-r-4 border-deep-black rounded-lg font-display font-bold text-deep-black text-xl uppercase tracking-wider hover:-translate-y-1 hover:border-b-[6px] hover:border-r-[6px] active:translate-y-0 active:border-b-4 active:border-r-4 transition-all shadow-hard"
         >
-          Continue to CD Mix! 💿
+          {copy.redeemSuccess.buttonText}
         </button>
 
         <div className="mt-4 text-center">
           <span className="font-pixel text-xs text-deep-black/40 uppercase tracking-widest">
-            Happy Birthday!
+            {copy.redeemSuccess.footerText}
           </span>
         </div>
       </div>
