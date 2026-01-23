@@ -18,10 +18,7 @@ vi.mock('gsap', () => ({
 }));
 
 // Import components after mocking
-import { FlipPhoneScreen } from '../screens/FlipPhoneScreen';
-import { SMSThreadScreen } from '../screens/SMSThreadScreen';
-import { CamcorderScreen } from '../screens/CamcorderScreen';
-import { WalletScreen } from '../screens/WalletScreen';
+import { FlipPhoneScreen, SMSThreadScreen, CamcorderScreen, WalletScreen } from '../screens';
 import { ScreenTransition } from '../components/transitions/ScreenTransition';
 import {
   TransitionProvider,
