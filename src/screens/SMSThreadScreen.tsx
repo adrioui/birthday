@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SMSHeader } from '../components/sms/SMSHeader';
-import { MessageBubbleMemo as MessageBubble } from '../components/sms/MessageBubble';
+import { MessageBubble } from '../components/sms/MessageBubble';
 import { SMSInputBar } from '../components/sms/SMSInputBar';
 import { HeartStickers } from '../components/sms/HeartStickers';
 import { GiftCardModal } from '../components/sms/GiftCardModal';
