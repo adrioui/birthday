@@ -1,57 +1,60 @@
-import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  type ReactNode,
+} from 'react';
+import { STORAGE_KEYS } from '../lib/storageKeys';
 
 /* eslint-disable react-refresh/only-export-components */
 
 interface AudioState {
-  isMuted: boolean
-  toggleMute: () => void
+  isMuted: boolean;
+  toggleMute: () => void;
 }
 
-const AudioContext = createContext<AudioState | null>(null)
-
-const STORAGE_KEY = 'birthday-os-audio-muted'
+const AudioContext = createContext<AudioState | null>(null);
 
 interface AudioProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function AudioProvider({ children }: AudioProviderProps) {
   const [isMuted, setIsMuted] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false
+    if (typeof window === 'undefined') return false;
     try {
-      const item = localStorage.getItem(STORAGE_KEY)
-      return item ? JSON.parse(item) : false
+      const item = localStorage.getItem(STORAGE_KEYS.AUDIO_MUTED);
+      return item ? JSON.parse(item) : false;
     } catch {
-      return false
+      return false;
     }
-  })
+  });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(isMuted))
+      localStorage.setItem(STORAGE_KEYS.AUDIO_MUTED, JSON.stringify(isMuted));
     } catch (e) {
-      console.error('Failed to persist audio state:', e)
+      console.error('Failed to persist audio state:', e);
     }
-  }, [isMuted])
+  }, [isMuted]);
 
   const toggleMute = useCallback(() => {
-    setIsMuted(prev => !prev)
-  }, [])
+    setIsMuted((prev) => !prev);
+  }, []);
 
-  const value = useMemo(() => ({ isMuted, toggleMute }), [isMuted, toggleMute])
+  const value = useMemo(() => ({ isMuted, toggleMute }), [isMuted, toggleMute]);
 
-  return (
-    <AudioContext.Provider value={value}>
-      {children}
-    </AudioContext.Provider>
-  )
+  return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;
 }
 
 export function useAudioState() {
-  const context = useContext(AudioContext)
+  const context = useContext(AudioContext);
   if (!context) {
-    throw new Error('useAudioState must be used within AudioProvider')
+    throw new Error('useAudioState must be used within AudioProvider');
   }
-  return context
+  return context;
 }
