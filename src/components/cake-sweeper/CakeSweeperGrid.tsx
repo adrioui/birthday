@@ -61,12 +61,13 @@ export function CakeSweeperGrid({
 
   return (
     <Win95Window title={getStatusText()}>
-      <div className="flex flex-col items-center gap-4">
+      <div data-testid="cake-sweeper" className="flex flex-col items-center gap-4">
         <div className="flex items-center justify-between gap-8 mb-2">
           <CounterDisplay value={remainingCandles ?? candleCount} label="Candles" labelIcon="🕯️" />
           <div className="flex flex-col items-center gap-1">
             <button
               onClick={handleRestart}
+              data-testid="restart-button"
               className="w-12 h-12 flex items-center justify-center border-t-4 border-l-4 border-white/90 border-b-4 border-r-4 border-black/30 bg-[#C3C7CB] text-2xl"
               aria-label="New Game"
             >
