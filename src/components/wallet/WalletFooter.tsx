@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 import { RedeemConfirmModal } from './RedeemConfirmModal';
 import { RedeemSuccessModal } from './RedeemSuccessModal';
+import { RedeemErrorModal } from './RedeemErrorModal';
+import { Tooltip } from '../ui/Tooltip';
 import { useCharms } from '../../context/CharmContext';
 import { REDEEM_THRESHOLD } from '../../config';
 
@@ -14,6 +16,8 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
   const { isRedeemed, setRedeemed } = useCharms();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isRedeeming, setIsRedeeming] = useState(false);
 
   const handleRedeem = useCallback(() => {
     if (totalPoints >= REDEEM_THRESHOLD) {
@@ -22,8 +26,23 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
   }, [totalPoints]);
 
   const handleConfirmRedeem = () => {
-    setRedeemed(true);
-    setShowSuccessModal(true);
+    setIsRedeeming(true);
+
+    setTimeout(() => {
+      try {
+        setRedeemed(true);
+        setIsRedeeming(false);
+        setShowSuccessModal(true);
+      } catch {
+        setIsRedeeming(false);
+        setShowErrorModal(true);
+      }
+    }, 1500);
+  };
+
+  const handleRetryRedeem = () => {
+    setShowErrorModal(false);
+    handleConfirmRedeem();
   };
 
   const handleCloseConfirm = () => {
@@ -33,6 +52,12 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
   const handleCloseSuccess = () => {
     setShowSuccessModal(false);
   };
+
+  const handleCloseError = () => {
+    setShowErrorModal(false);
+  };
+
+  const isBelowThreshold = totalPoints < REDEEM_THRESHOLD && !isRedeemed;
 
   return (
     <div className="relative z-50 w-full px-4 pb-6 pt-4 sm:px-6 sm:pb-8 bg-gradient-to-t from-periwinkle-dark via-periwinkle-light/80 to-transparent">
@@ -47,23 +72,29 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
         </div>
       </div>
 
-      <button
-        onClick={handleRedeem}
-        className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-hard-lime active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={totalPoints < REDEEM_THRESHOLD || isRedeemed}
-        aria-label="Redeem gift"
-      >
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
+      <Tooltip content="Collect more charms" show={isBelowThreshold}>
+        <button
+          onClick={handleRedeem}
+          className="group relative w-full overflow-hidden rounded-xl bg-deep-black text-white border-2 border-white/50 sticker-shadow-hard h-16 flex items-center justify-center transition-all hover:-translate-y-1 hover:shadow-hard-lime active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={totalPoints < REDEEM_THRESHOLD || isRedeemed}
+          aria-label="Redeem gift"
+        >
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
 
-        <div className="flex items-center gap-3 relative z-10">
-          <span className="material-symbols-outlined text-lime animate-pulse">
-            {isRedeemed ? 'check_circle' : 'redeem'}
-          </span>
-          <span className="text-white text-xl font-bold font-display uppercase tracking-wider">
-            {isRedeemed ? 'Redeemed!' : 'Redeem Gift'}
-          </span>
-        </div>
-      </button>
+          <div className="flex items-center gap-3 relative z-10">
+            {isRedeeming ? (
+              <span className="material-symbols-outlined text-lime animate-spin">refresh</span>
+            ) : (
+              <span className="material-symbols-outlined text-lime animate-pulse">
+                {isRedeemed ? 'check_circle' : 'redeem'}
+              </span>
+            )}
+            <span className="text-white text-xl font-bold font-display uppercase tracking-wider">
+              {isRedeeming ? 'Redeeming...' : isRedeemed ? 'Redeemed!' : 'Redeem Gift'}
+            </span>
+          </div>
+        </button>
+      </Tooltip>
 
       {totalPoints < REDEEM_THRESHOLD && !isRedeemed && (
         <p className="text-center text-deep-black/60 text-[10px] font-bold mt-2 font-display uppercase tracking-widest">
@@ -79,6 +110,12 @@ export function WalletFooter({ totalPoints, collectedCount, maxCount }: WalletFo
       />
 
       <RedeemSuccessModal isOpen={showSuccessModal} onClose={handleCloseSuccess} />
+
+      <RedeemErrorModal
+        isOpen={showErrorModal}
+        onRetry={handleRetryRedeem}
+        onCancel={handleCloseError}
+      />
 
       <p className="text-center text-deep-black/50 text-[10px] font-bold mt-3 font-display uppercase tracking-widest">
         Tap a charm to reveal power
