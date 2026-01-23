@@ -11,6 +11,7 @@ import { CelebrationScreen } from './screens/CelebrationScreen';
 import { NotFoundScreen } from './screens/NotFoundScreen';
 import { RootRoute } from './components/RootRoute';
 import { RouteErrorBoundary } from './components/ui/RouteErrorBoundary';
+import { STORAGE_KEYS } from './lib/storageKeys';
 
 const rootRoute = createRootRoute({
   component: RootRoute,
@@ -90,7 +91,7 @@ const memorySnapshotRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/memory-snapshot',
   beforeLoad: () => {
-    const lastCapture = localStorage.getItem('last-captured-photo');
+    const lastCapture = localStorage.getItem(STORAGE_KEYS.LAST_CAPTURED_PHOTO);
     if (!lastCapture) {
       throw new Error('No photo captured');
     }
