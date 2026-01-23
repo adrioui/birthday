@@ -146,6 +146,7 @@ export function GiftCardModal({ onClose }: GiftCardModalProps) {
         ref={cardRef}
         className="relative w-full max-w-sm bg-white rounded-2xl border-4 border-deep-black shadow-hard-xl p-6 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
+        data-testid="gift-modal"
       >
         {/* Decorative corner ribbons */}
         <div className="absolute -top-2 -left-2 w-16 h-16 bg-hot-pink transform -rotate-45 translate-x-[-50%] translate-y-[-50%]" />

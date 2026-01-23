@@ -1,4 +1,3 @@
-/// <reference path="./types.d.ts" />
 import { test, expect } from '@playwright/test';
 
 test.describe('BirthdayOS - Smoke Tests', () => {

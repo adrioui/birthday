@@ -21,11 +21,15 @@ export function CardBackground({
   children,
   variant = 'default',
   className = '',
-}: CardBackgroundProps) {
+  ...props
+}: CardBackgroundProps & Record<string, unknown>) {
   const gradientClass = gradientVariants[variant];
 
   return (
-    <div className={`relative border-[4px] border-deep-black sticker-shadow-hard ${className}`}>
+    <div
+      className={`relative border-[4px] border-deep-black sticker-shadow-hard ${className}`}
+      {...props}
+    >
       {/* Gradient base layer */}
       <div className={`absolute inset-0 ${gradientClass}`} />
 
