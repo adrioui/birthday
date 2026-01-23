@@ -5,7 +5,7 @@ import { TransitionProvider } from '../context/TransitionContext';
 import { AudioProvider } from '../context/AudioContext';
 import { ProgressProvider } from '../context/ProgressContext';
 import { EasterEggProvider } from '../context/EasterEggContext';
-import { type Charm } from '../types/charm';
+import { type Charm } from '../types';
 
 interface RenderOptions {
   initialCharms?: Charm[];

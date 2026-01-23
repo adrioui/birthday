@@ -1,10 +1,10 @@
-import { createContext } from 'react'
-import type { Milestone, MilestoneId } from '../types/progress'
+import { createContext } from 'react';
+import type { Milestone, MilestoneId } from '../types';
 
 export interface ProgressContextValue {
-  milestones: Milestone[]
-  completeMilestone: (id: MilestoneId) => void
-  resetProgress: () => void
+  milestones: Milestone[];
+  completeMilestone: (id: MilestoneId) => void;
+  resetProgress: () => void;
 }
 
-export const ProgressContext = createContext<ProgressContextValue | null>(null)
+export const ProgressContext = createContext<ProgressContextValue | null>(null);

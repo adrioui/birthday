@@ -1,4 +1,4 @@
-import { type Charm } from '../types/charm'
+import { type Charm } from '../types';
 
 export const testCharm: Charm = {
   id: 'test-charm-1',
@@ -6,7 +6,7 @@ export const testCharm: Charm = {
   icon: '⭐',
   power: 'Test power description',
   points: 10,
-}
+};
 
 export const testCharm2: Charm = {
   id: 'test-charm-2',
@@ -14,7 +14,7 @@ export const testCharm2: Charm = {
   icon: '🌟',
   power: 'Another power',
   points: 25,
-}
+};
 
 export const testCharmWithColors: Charm = {
   id: 'colored-charm',
@@ -24,4 +24,4 @@ export const testCharmWithColors: Charm = {
   points: 50,
   iconBgColor: '#FF0099',
   iconColor: '#CCFF00',
-}
+};

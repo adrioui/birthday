@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { useNavigate } from '@tanstack/react-router';
-import { type Charm } from '../../types/charm';
+import { type Charm } from '../../types';
 import { CharmCard } from './CharmCard';
 import { useCharmFlip } from '../../hooks/useCharmFlip';
 import { Confetti } from '../effects/Confetti';

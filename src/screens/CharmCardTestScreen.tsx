@@ -1,20 +1,22 @@
-import { useState } from 'react'
-import { CharmCard } from '../components/wallet'
-import { PLACEHOLDER_CHARMS } from '../types/charm'
+import { useState } from 'react';
+import { CharmCard } from '../components/wallet';
+import { PLACEHOLDER_CHARMS } from '../types';
 
 export function CharmCardTestScreen() {
-  const [flippedCharmId, setFlippedCharmId] = useState<string | null>(null)
+  const [flippedCharmId, setFlippedCharmId] = useState<string | null>(null);
 
   const handleFlip = (charmId: string | null) => {
-    setFlippedCharmId(charmId)
-  }
+    setFlippedCharmId(charmId);
+  };
 
-  const isFlipped = (id: string) => flippedCharmId === id
+  const isFlipped = (id: string) => flippedCharmId === id;
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
       <div className="w-full max-w-6xl">
-        <h1 className="text-3xl font-bold mb-4 text-center text-deep-black">CharmCard Flip Verification - FR-010</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center text-deep-black">
+          CharmCard Flip Verification - FR-010
+        </h1>
         <p className="text-center text-gray-600 mb-8">
           Testing charm card flip interaction with two-face structure and GSAP animation
         </p>
@@ -23,11 +25,7 @@ export function CharmCardTestScreen() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {PLACEHOLDER_CHARMS.map((charm) => (
               <div key={charm.id} className="w-full">
-                <CharmCard
-                  charm={charm}
-                  isFlipped={isFlipped(charm.id)}
-                  onFlip={handleFlip}
-                />
+                <CharmCard charm={charm} isFlipped={isFlipped(charm.id)} onFlip={handleFlip} />
               </div>
             ))}
           </div>
@@ -92,7 +90,9 @@ export function CharmCardTestScreen() {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-semibold text-deep-black mb-2">Phase 3 - Polish & Accessibility:</h4>
+              <h4 className="font-semibold text-deep-black mb-2">
+                Phase 3 - Polish & Accessibility:
+              </h4>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li className="flex items-start gap-2">
                   <input type="checkbox" className="mt-1" />
@@ -131,5 +131,5 @@ export function CharmCardTestScreen() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
-import type { SessionProgressState } from '../types/progress';
-import type { MilestoneId } from '../types/progress';
+import type { SessionProgressState, MilestoneId } from '../types';
 import { getItem, setItem } from '../lib/storage';
 import { DEFAULT_MILESTONES } from '../lib/progressConstants';
 import { ProgressContext } from './ProgressContext.base';

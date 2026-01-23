@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { tracks } from '../data/tracks';
-import type { Track, BurnProgress } from '../types/track';
+import type { Track, BurnProgress } from '../types';
 import { useProgress } from '../context/useProgress';
 import { RotatingCD } from './cdmix/RotatingCD';
 import { TrackSelector } from './cdmix/TrackSelector';

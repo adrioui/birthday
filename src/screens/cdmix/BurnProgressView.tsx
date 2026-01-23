@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAudio } from '../../hooks/useAudio';
-import type { BurnProgress } from '../../types/track';
+import type { BurnProgress } from '../../types';
 
 interface BurnProgressViewProps {
   progress: BurnProgress;

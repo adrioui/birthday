@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useCharms } from '../context/CharmContext';
 import { useProgress } from '../context/useProgress';
-import { MAX_CHARMS } from '../types/charm';
+import { MAX_CHARMS } from '../types';
 import { CharmCard } from '../components/wallet/CharmCard';
 import { WalletHeader } from '../components/wallet/WalletHeader';
 import { WalletFooter } from '../components/wallet/WalletFooter';

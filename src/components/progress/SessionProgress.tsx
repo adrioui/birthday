@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useProgress } from '../../context/useProgress';
 import { gsap } from 'gsap';
-import type { Milestone } from '../../types/progress';
+import type { Milestone } from '../../types';
 import { useNavigate } from '@tanstack/react-router';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 

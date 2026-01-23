@@ -1,4 +1,4 @@
-import type { Track } from '../types/track'
+import type { Track } from '../types';
 
 export const tracks: Track[] = [
   {
@@ -19,7 +19,7 @@ export const tracks: Track[] = [
   },
   {
     id: '3',
-    title: 'Party Like It\'s Y2K',
+    title: "Party Like It's Y2K",
     artist: 'The Millennium Crew',
     duration: 236,
     genre: 'Pop',
@@ -65,10 +65,10 @@ export const tracks: Track[] = [
     genre: 'Synthpop',
     year: 1999,
   },
-]
+];
 
 export const formatDuration = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60)
-  const secs = seconds % 60
-  return `${mins}:${secs.toString().padStart(2, '0')}`
-}
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};

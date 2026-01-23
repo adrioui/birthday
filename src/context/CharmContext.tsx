@@ -8,7 +8,7 @@ import {
   useRef,
   type ReactNode,
 } from 'react';
-import { type Charm } from '../types/charm';
+import { type Charm } from '../types';
 import {
   getValidatedCharms,
   setItem,

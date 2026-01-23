@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-import { type Charm } from '../../types/charm';
+import { type Charm } from '../../types';
 import { trackEvent } from '../../lib/telemetry';
 import { useCharms } from '../../context/CharmContext';
 import { useReducedMotion } from '../../hooks/useReducedMotion';

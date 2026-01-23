@@ -1,4 +1,4 @@
-import type { Track } from '../../types/track';
+import type { Track } from '../../types';
 import { formatDuration } from '../../data/tracks';
 
 interface PlaylistBuilderProps {

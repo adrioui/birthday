@@ -1,4 +1,4 @@
-import type { Milestone } from '../types/progress'
+import type { Milestone } from '../types';
 
 export const DEFAULT_MILESTONES: Milestone[] = [
   { id: 'call-answered', name: 'Call Answered', completed: false },
@@ -7,4 +7,4 @@ export const DEFAULT_MILESTONES: Milestone[] = [
   { id: 'charm-collected', name: 'Charm Collected', completed: false },
   { id: 'cd-burned', name: 'CD Burned', completed: false },
   { id: 'game-played', name: 'Game Played', completed: false },
-]
+];

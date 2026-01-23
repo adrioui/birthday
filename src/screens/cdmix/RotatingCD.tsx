@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Track } from '../../types/track';
+import type { Track } from '../../types';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface RotatingCDProps {
