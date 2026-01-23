@@ -159,5 +159,41 @@ export function useAudio() {
     }
   }, [isMuted]);
 
-  return { playConnectionSound, playGiftRevealSound, playShutterSound, playEasterEggSound };
+  const playBurnSuccessSound = useCallback(async () => {
+    if (isMuted) return;
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+      const ctx = audioContextRef.current;
+      const now = ctx.currentTime;
+
+      const frequencies = [523.25, 659.25, 783.99, 1046.5];
+
+      frequencies.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'triangle';
+
+        const startTime = now + i * 0.08;
+        gain.gain.setValueAtTime(0.25, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.4);
+        osc.start(startTime);
+        osc.stop(startTime + 0.4);
+      });
+    } catch (error) {
+      console.warn('Audio playback failed:', error);
+    }
+  }, [isMuted]);
+
+  return {
+    playConnectionSound,
+    playGiftRevealSound,
+    playShutterSound,
+    playEasterEggSound,
+    playBurnSuccessSound,
+  };
 }

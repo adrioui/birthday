@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { useAudio } from '../../hooks/useAudio';
 import type { BurnProgress } from '../../types/track';
 
 interface BurnProgressViewProps {
@@ -14,6 +15,7 @@ export function BurnProgressView({
   onProgressUpdate,
 }: BurnProgressViewProps) {
   const navigate = useNavigate();
+  const { playBurnSuccessSound } = useAudio();
 
   const handleContinue = () => {
     onComplete();
@@ -39,6 +41,7 @@ export function BurnProgressView({
         onProgressUpdate(nextProgress);
 
         if (nextProgress.stage === 'complete') {
+          playBurnSuccessSound();
           setTimeout(() => {
             onComplete();
           }, 2000);
@@ -47,7 +50,7 @@ export function BurnProgressView({
 
       return () => clearTimeout(timer);
     }
-  }, [progress, onComplete, onProgressUpdate]);
+  }, [progress, onComplete, onProgressUpdate, playBurnSuccessSound]);
 
   const getStageText = () => {
     switch (progress.stage) {
